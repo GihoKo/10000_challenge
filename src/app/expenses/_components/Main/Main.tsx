@@ -11,6 +11,7 @@ export default function Main() {
             <div className="flex justify-end mt-8">
                 <NavigateButtonButton
                     type="button"
+                    path="/expenses/add"
                     width="w-auto"
                     text="추가"
                 />
