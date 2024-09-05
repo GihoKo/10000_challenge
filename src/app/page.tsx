@@ -6,8 +6,8 @@ export default function Home() {
             <Link href={"/signIn"}>Sign In</Link>
             <Link href={"/signUp"}>Sign Up</Link>
             <Link href={"/dashboard"}>Dashboard</Link>
-            <Link href={"/transactions"}>Transactions</Link>
-            <Link href={"/transactions/detail"}>Detail</Link>
+            <Link href={"/expenses"}>Expenses</Link>
+            <Link href={"/expenses/detail"}>Detail</Link>
         </div>
     );
 }
