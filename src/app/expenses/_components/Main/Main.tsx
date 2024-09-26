@@ -4,7 +4,7 @@ import ExpenseContainer from "./ExpenseContainer";
 export default function Main() {
     return (
         <div>
-            <h3 className="text-xl mb-2">오늘 하루는 어땠나요?</h3>
+            <h3 className="text-lg mb-2">오늘 하루는 어땠나요?</h3>
 
             <ExpenseContainer />
 
