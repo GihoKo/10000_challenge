@@ -10,12 +10,14 @@ export default function Challenge({ challenge }: ChallengeProps) {
                 <div className="text-sm font-medium">{challenge.name}</div>
                 <div
                     className={`text-xs ${
-                        challenge.totalRemainingMoney < 0
-                            ? "text-red-500"
-                            : "text-green-500"
+                        challenge.totalRemainingMoney > 0
+                            ? "text-green-500"
+                            : "text-red-500"
                     }`}
                 >
-                    {challenge.totalRemainingMoney}
+                    {challenge.totalRemainingMoney > 0
+                        ? `+${challenge.totalRemainingMoney}`
+                        : challenge.totalRemainingMoney}
                 </div>
             </div>
             <div>

@@ -1,6 +1,7 @@
 import NavigateButtonButton from "@/components/button/NavigateButtonButton";
 import ChallengeContainer from "./_components/ChallengeContainer";
 
+// @ToDO 최근 소비에 대한 통계 구현
 export default function Dashboard() {
     return (
         <div className="flex flex-col gap-12">
@@ -18,11 +19,11 @@ export default function Dashboard() {
                 />
             </div>
 
-            <div>
+            {/* <div>
                 <h2 className="text-2xl font-bold mb-3.5">
                     최근 소비에 대한 통계에요.
                 </h2>
-            </div>
+            </div> */}
         </div>
     );
 }
