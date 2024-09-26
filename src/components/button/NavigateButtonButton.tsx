@@ -9,6 +9,10 @@ interface NavigateButtonButtonProps {
     rounded?: string;
     px?: string;
     py?: string;
+    mt?: string;
+    mb?: string;
+    ml?: string;
+    mr?: string;
     text?: string;
 }
 
@@ -19,6 +23,10 @@ export default function NavigateButtonButton({
     rounded = "rounded-lg",
     px = "px-4",
     py = "py-2",
+    mt = "mt-0",
+    mb = "mb-0",
+    ml = "ml-0",
+    mr = "mr-0",
     text = "확인",
 }: NavigateButtonButtonProps) {
     const router = useRouter();
@@ -29,8 +37,8 @@ export default function NavigateButtonButton({
 
     return (
         <button
-            className={`${width} ${rounded} ${px} ${py} bg-blue-600 flex justify-center items-center text-gray-100
-                hover:bg-blue-800 transition-colors duration-300
+            className={`${width} ${rounded} ${px} ${py} ${mt} ${mb} ${ml} ${mr} bg-blue-600 flex justify-center items-center text-gray-100
+                hover:bg-blue-800 transition-colors duration-300 
                 `}
             type={type}
             onClick={handleClick}
