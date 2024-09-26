@@ -5,13 +5,7 @@ import PageContentHeader from "@/components/Header/PageContentHeader";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import { useState } from "react";
-
-interface FormData {
-    name: string;
-    resolution: string;
-    dailyExpenseLimit: string;
-    challengeDuration: string;
-}
+import { FormData } from "./page.type";
 
 export default function Add() {
     const [formData, setFormData] = useState<FormData>({
