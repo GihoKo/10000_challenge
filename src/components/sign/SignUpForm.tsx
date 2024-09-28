@@ -3,33 +3,63 @@
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
+import useSignUpForm from "./SIgnUpForm.hook";
 
 export default function SignUpForm() {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("submit");
-    };
+    const {
+        value,
+        handleSignUp,
+        handleChangeUserName,
+        handleChangeEmail,
+        handleChangePassword,
+        handleChangePasswordConfirm,
+    } = useSignUpForm();
 
     return (
-        <form className="flex flex-col gap-6 p-6" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-6 p-6" onSubmit={handleSignUp}>
             <div className="flex flex-col gap-4">
-                <Label text="이메일">
-                    <Input type="email" placeholder="이메일을 입력해주세요." />
-                </Label>
-                <Label text="비밀번호">
+                <Label htmlFor="user_name" text="유저 이름">
                     <Input
-                        type="password"
-                        placeholder="비밀번호를 입력해주세요."
+                        name="user_name"
+                        type="text"
+                        placeholder="유저 이름을 입력해주세요."
+                        value={value.userName}
+                        onChange={handleChangeUserName}
                     />
                 </Label>
-                <Label text="비밀번호 확인">
+
+                <Label htmlFor="email" text="이메일">
                     <Input
+                        name="email"
+                        type="email"
+                        placeholder="이메일을 입력해주세요."
+                        value={value.email}
+                        onChange={handleChangeEmail}
+                    />
+                </Label>
+
+                <Label htmlFor="password" text="비밀번호">
+                    <Input
+                        name="password"
+                        type="password"
+                        placeholder="비밀번호를 입력해주세요."
+                        value={value.password}
+                        onChange={handleChangePassword}
+                    />
+                </Label>
+
+                <Label htmlFor="passwordConfirm" text="비밀번호 확인">
+                    <Input
+                        name="passwordConfirm"
                         type="password"
                         placeholder="비밀번호를 한번 더 입력해주세요."
+                        value={value.passwordConfirm}
+                        onChange={handleChangePasswordConfirm}
                     />
                 </Label>
             </div>
-            <Button type="submit" text="로그인" />
+
+            <Button type="submit" text="회원가입" />
         </form>
     );
 }
