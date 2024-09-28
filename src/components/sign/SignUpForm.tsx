@@ -1,71 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/supabaseClient";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
-
-interface SignUpFormValue {
-    email: string;
-    password: string;
-    passwordConfirm: string;
-    userName: string;
-}
+import useSignUpForm from "./SIgnUpForm.hook";
 
 export default function SignUpForm() {
-    const [value, setValue] = useState<SignUpFormValue>({
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        userName: "",
-    });
-
-    const router = useRouter();
-
-    const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, userName: e.target.value });
-    };
-
-    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, email: e.target.value });
-    };
-
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, password: e.target.value });
-    };
-
-    const handleChangePasswordConfirm = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setValue({ ...value, passwordConfirm: e.target.value });
-    };
-
-    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const userData = {
-            email: value.email,
-            password: value.password,
-            options: {
-                data: {
-                    user_name: value.userName,
-                },
-            },
-        };
-
-        const { data, error } = await supabaseClient.auth.signUp(userData);
-
-        if (error) {
-            console.log(`회원가입 실패: ${error.message}`);
-        }
-
-        if (data) {
-            console.log(`회원가입 성공: ${data.user?.id}`);
-            router.push("/dashboard");
-        }
-    };
+    const {
+        value,
+        handleSignUp,
+        handleChangeUserName,
+        handleChangeEmail,
+        handleChangePassword,
+        handleChangePasswordConfirm,
+    } = useSignUpForm();
 
     return (
         <form className="flex flex-col gap-6 p-6" onSubmit={handleSignUp}>
@@ -89,6 +37,7 @@ export default function SignUpForm() {
                         onChange={handleChangeEmail}
                     />
                 </Label>
+
                 <Label htmlFor="password" text="비밀번호">
                     <Input
                         name="password"
@@ -98,6 +47,7 @@ export default function SignUpForm() {
                         onChange={handleChangePassword}
                     />
                 </Label>
+
                 <Label htmlFor="passwordConfirm" text="비밀번호 확인">
                     <Input
                         name="passwordConfirm"
@@ -108,7 +58,8 @@ export default function SignUpForm() {
                     />
                 </Label>
             </div>
-            <Button type="submit" text="로그인" />
+
+            <Button type="submit" text="회원가입" />
         </form>
     );
 }

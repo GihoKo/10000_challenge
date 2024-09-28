@@ -62,6 +62,7 @@ export default function SignInForm() {
                         onChange={handleChangeEmail}
                     />
                 </Label>
+
                 <Label htmlFor="password" text="비밀번호">
                     <Input
                         name="password"
@@ -72,6 +73,7 @@ export default function SignInForm() {
                     />
                 </Label>
             </div>
+
             <Button type="submit" text="로그인" />
         </form>
     );
