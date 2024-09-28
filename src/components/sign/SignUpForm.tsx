@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import supabaseClient from "@/supabase/supabaseClient";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
@@ -9,6 +11,7 @@ interface SignUpFormValue {
     email: string;
     password: string;
     passwordConfirm: string;
+    userName: string;
 }
 
 export default function SignUpForm() {
@@ -16,7 +19,14 @@ export default function SignUpForm() {
         email: "",
         password: "",
         passwordConfirm: "",
+        userName: "",
     });
+
+    const router = useRouter();
+
+    const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValue({ ...value, userName: e.target.value });
+    };
 
     const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValue({ ...value, email: e.target.value });
@@ -32,14 +42,44 @@ export default function SignUpForm() {
         setValue({ ...value, passwordConfirm: e.target.value });
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("submit");
+
+        const userData = {
+            email: value.email,
+            password: value.password,
+            options: {
+                data: {
+                    user_name: value.userName,
+                },
+            },
+        };
+
+        const { data, error } = await supabaseClient.auth.signUp(userData);
+
+        if (error) {
+            console.log(`회원가입 실패: ${error.message}`);
+        }
+
+        if (data) {
+            console.log(`회원가입 성공: ${data.user?.id}`);
+            router.push("/dashboard");
+        }
     };
 
     return (
-        <form className="flex flex-col gap-6 p-6" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-6 p-6" onSubmit={handleSignUp}>
             <div className="flex flex-col gap-4">
+                <Label htmlFor="user_name" text="유저 이름">
+                    <Input
+                        name="user_name"
+                        type="text"
+                        placeholder="유저 이름을 입력해주세요."
+                        value={value.userName}
+                        onChange={handleChangeUserName}
+                    />
+                </Label>
+
                 <Label htmlFor="email" text="이메일">
                     <Input
                         name="email"
