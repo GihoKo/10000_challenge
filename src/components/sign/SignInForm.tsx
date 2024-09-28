@@ -1,54 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/supabaseClient";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
-
-interface SignInFormValue {
-    email: string;
-    password: string;
-}
+import useSignInForm from "./SignInForm.hook";
 
 export default function SignInForm() {
-    const [value, setValue] = useState<SignInFormValue>({
-        email: "",
-        password: "",
-    });
-
-    const router = useRouter();
-
-    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, email: e.target.value });
-    };
-
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, password: e.target.value });
-    };
-
-    const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const userData = {
-            email: value.email,
-            password: value.password,
-        };
-
-        const { data, error } = await supabaseClient.auth.signInWithPassword(
-            userData
-        );
-
-        if (error) {
-            console.log(`로그인 실패: ${error.message}`);
-        }
-
-        if (data) {
-            console.log(`로그인 성공: ${data.user?.id}`);
-            router.push("/dashboard");
-        }
-    };
+    const { value, handleSignIn, handleChangeEmail, handleChangePassword } =
+        useSignInForm();
 
     return (
         <form className="flex flex-col gap-6 p-6" onSubmit={handleSignIn}>
