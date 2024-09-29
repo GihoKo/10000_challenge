@@ -1,7 +1,7 @@
 import MONTH_NAMES from "@/constants/MONTH_NAMES";
 import { ExpenseProps } from "./Expense.type";
 
-export default function Expense({ expense }: ExpenseProps) {
+export default function Expense({ expense, onClick }: ExpenseProps) {
     const newDate = new Date(expense.created_at);
 
     const formattedDate = `${
@@ -10,8 +10,10 @@ export default function Expense({ expense }: ExpenseProps) {
 
     return (
         <li
+            data-id={expense.id}
             key={expense.id}
             className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg"
+            onClick={onClick}
         >
             <div className="flex flex-col">
                 <span className="text-sm font-medium">

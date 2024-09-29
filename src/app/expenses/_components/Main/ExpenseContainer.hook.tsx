@@ -1,11 +1,14 @@
 import supabaseClient from "@/supabase/supabaseClient";
 import { ExpenseData } from "@/types/expense";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function useExpenseContainer() {
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    const router = useRouter();
 
     const getExpenses = async () => {
         setIsLoading(true);
@@ -21,6 +24,14 @@ export default function useExpenseContainer() {
         return expenses;
     };
 
+    const handleClickExpense = (
+        event: React.MouseEvent<HTMLLIElement, MouseEvent>
+    ) => {
+        const expenseId = event.currentTarget.dataset.id;
+
+        router.push(`/expenses/detail/${expenseId}`);
+    };
+
     useEffect(() => {
         getExpenses()
             .then((expenses) => {
@@ -34,5 +45,5 @@ export default function useExpenseContainer() {
             });
     }, []);
 
-    return { expenses, isLoading, error };
+    return { expenses, isLoading, error, handleClickExpense };
 }
