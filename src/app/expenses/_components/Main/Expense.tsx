@@ -1,25 +1,11 @@
+import MONTH_NAMES from "@/constants/MONTH_NAMES";
 import { ExpenseProps } from "./Expense.type";
 
 export default function Expense({ expense }: ExpenseProps) {
     const newDate = new Date(expense.created_at);
 
-    const monthNames = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-    ];
-
     const formattedDate = `${
-        monthNames[newDate.getUTCMonth()]
+        MONTH_NAMES[newDate.getUTCMonth()]
     } ${newDate.getUTCDate()}`;
 
     return (
