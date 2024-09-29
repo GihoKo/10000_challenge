@@ -8,6 +8,7 @@ import dropDownArrow from "@/images/svg/dropdown-arrow.svg";
 import FocuseddropDownArrow from "@/images/svg/dropdown-arrow-focused.svg";
 import { useState } from "react";
 import supabaseClient from "@/supabase/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function Add() {
     const [isFocusedDropDown, setIsFocusedDropDown] = useState(false);
@@ -16,6 +17,8 @@ export default function Add() {
         description: "",
         amount: "",
     });
+
+    const router = useRouter();
 
     // 드롭다운 포커스 시
     const handleFocusDropDown = () => {
@@ -55,7 +58,15 @@ export default function Add() {
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        createExpense();
+        createExpense()
+            .then((response) => {
+                if (response.status === 201) {
+                    router.push("/expenses");
+                }
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const createExpense = async () => {
@@ -63,13 +74,16 @@ export default function Add() {
             category: values.category,
             description: values.description,
             amount: values.amount,
+            user_id: process.env.NEXT_PUBLIC_USER_ID,
         };
-
-        console.log(data);
 
         const response = await supabaseClient.from("expense").insert(data);
 
-        console.log(response);
+        if (response.error) {
+            throw new Error(response.error.message);
+        }
+
+        return response;
     };
 
     return (
