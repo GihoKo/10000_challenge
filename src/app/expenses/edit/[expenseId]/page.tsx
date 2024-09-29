@@ -1,7 +1,6 @@
 "use client";
 
 import ConfirmButton from "@/components/button/ConfirmButton";
-import NagativeButton from "@/components/button/NagativeButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ExpenseData } from "@/types/expense";
@@ -43,11 +42,6 @@ export default function Edit() {
             });
     }, [expenseId, getExpense]);
 
-    // 수정 버튼과 삭제 버튼추가
-    // 수정 버튼 클릭시 Form 형태로 변경 및 확인, 취소 버튼 추가
-    // 삭제 버튼 클릭시 삭제 시도
-    // 변경, 확인, 취소, 삭제 버튼 클릭시 모달로 확인 시도
-
     if (isLoading) {
         return <div>데이터를 불러오는 중 입니다...</div>;
     }
@@ -58,14 +52,10 @@ export default function Edit() {
 
     return (
         <div>
-            <PageContentHeader text="지출 상세 정보" />
+            <PageContentHeader text="지출 수정" />
 
-            <div>{expense?.description}</div>
-            <div>{expense?.amount}</div>
-
-            <div className="flex justify-end gap-2 pl-60 mt-8">
-                <ConfirmButton text="수정" type="button" />
-                <NagativeButton text="삭제" type="button" />
+            <div className="flex justify-end mt-8">
+                <ConfirmButton type="button" width="w-auto" />
             </div>
         </div>
     );
