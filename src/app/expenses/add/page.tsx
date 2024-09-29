@@ -7,12 +7,15 @@ import Image from "next/image";
 import dropDownArrow from "@/images/svg/dropdown-arrow.svg";
 import FocuseddropDownArrow from "@/images/svg/dropdown-arrow-focused.svg";
 import { useState } from "react";
+import supabaseClient from "@/supabase/supabaseClient";
 
 export default function Add() {
     const [isFocusedDropDown, setIsFocusedDropDown] = useState(false);
-    const [category, setCategory] = useState("");
-    const [description, setDescription] = useState("");
-    const [amount, setAmount] = useState("");
+    const [values, setValues] = useState({
+        category: "",
+        description: "",
+        amount: "",
+    });
 
     // 드롭다운 포커스 시
     const handleFocusDropDown = () => {
@@ -26,12 +29,12 @@ export default function Add() {
 
     // 드롭다운 값 선택 시
     const handleChangeDropDown = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setCategory(e.target.value);
+        setValues((prev) => ({ ...prev, category: e.target.value }));
     };
 
     // 드롭다운 이미지 반환 함수
     const returnDropDownImage = () => {
-        if (isFocusedDropDown || category !== "") {
+        if (isFocusedDropDown || values.category !== "") {
             return FocuseddropDownArrow;
         }
         return dropDownArrow;
@@ -41,24 +44,32 @@ export default function Add() {
     const handleChanegDescription = (
         e: React.ChangeEvent<HTMLInputElement>
     ) => {
-        setDescription(e.target.value);
+        setValues((prev) => ({ ...prev, description: e.target.value }));
     };
 
     // Amount 값 변경 시
     const handleChangeAmount = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setAmount(e.target.value);
+        setValues((prev) => ({ ...prev, amount: e.target.value }));
     };
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(
-            "카테고리: ",
-            category,
-            "설명: ",
-            description,
-            "금액: ",
-            amount
-        );
+
+        createExpense();
+    };
+
+    const createExpense = async () => {
+        const data = {
+            category: values.category,
+            description: values.description,
+            amount: values.amount,
+        };
+
+        console.log(data);
+
+        const response = await supabaseClient.from("expense").insert(data);
+
+        console.log(response);
     };
 
     return (
@@ -70,14 +81,14 @@ export default function Add() {
                         <select
                             id="category"
                             className={`w-full p-4 border-2 ${
-                                category !== ""
+                                values.category !== ""
                                     ? "border-blue-500"
                                     : "border-gray-300"
                             } rounded-md focus:outline-none appearance-none focus:border-blue-500 transition-all duration-300`}
                             onFocus={handleFocusDropDown}
                             onBlur={handleBlurDropDown}
                             onChange={handleChangeDropDown}
-                            value={category}
+                            value={values.category}
                         >
                             <option value="" disabled>
                                 선택해주세요
@@ -106,7 +117,7 @@ export default function Add() {
                             id="description"
                             type="text"
                             placeholder="지출 내용을 입력해주세요"
-                            value={description}
+                            value={values.description}
                             onChange={handleChanegDescription}
                         />
                     </Label>
@@ -118,7 +129,7 @@ export default function Add() {
                             id="amount"
                             type="text"
                             placeholder="지출 금액을 입력해주세요"
-                            value={amount}
+                            value={values.amount}
                             onChange={handleChangeAmount}
                         />
                     </Label>

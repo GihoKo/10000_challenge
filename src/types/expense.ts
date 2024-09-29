@@ -1,4 +1,4 @@
-export interface ExpenseResponse {
+export interface ExpenseData {
     id: string;
     created_at: string;
     category: string;

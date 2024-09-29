@@ -1,9 +1,9 @@
 import supabaseClient from "@/supabase/supabaseClient";
-import { ExpenseResponse } from "@/types/expense";
+import { ExpenseData } from "@/types/expense";
 import { useEffect, useState } from "react";
 
 export default function useExpenseContainer() {
-    const [expenses, setExpenses] = useState<ExpenseResponse[]>([]);
+    const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
