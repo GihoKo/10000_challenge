@@ -1,6 +1,27 @@
 import { ExpenseProps } from "./Expense.type";
 
 export default function Expense({ expense }: ExpenseProps) {
+    const newDate = new Date(expense.created_at);
+
+    const monthNames = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+    ];
+
+    const formattedDate = `${
+        monthNames[newDate.getUTCMonth()]
+    } ${newDate.getUTCDate()}`;
+
     return (
         <li
             key={expense.id}
@@ -14,7 +35,10 @@ export default function Expense({ expense }: ExpenseProps) {
                     {expense.category}
                 </span>
             </div>
-            <span className="text-sm font-medium">{expense.amount}</span>
+            <div className="flex flex-col">
+                <span className="text-sm font-medium">{expense.amount}</span>
+                <span className="text-xs text-gray-500">{formattedDate}</span>
+            </div>
         </li>
     );
 }
