@@ -1,8 +1,4 @@
-import { ExpenseResponse } from "@/types/expense";
-
-interface ExpenseProps {
-    expense: ExpenseResponse;
-}
+import { ExpenseProps } from "./Expense.type";
 
 export default function Expense({ expense }: ExpenseProps) {
     return (

@@ -1,32 +1,19 @@
 "use client";
 
-import supabaseClient from "@/supabase/supabaseClient";
-import { ExpenseResponse } from "@/types/expense";
-import { useEffect, useState } from "react";
+import useExpenseContainer from "./ExpenseContainer.hook";
 import Expense from "./Expense";
+import { ExpenseResponse } from "@/types/expense";
 
 export default function ExpenseContainer() {
-    const [expenses, setExpenses] = useState<ExpenseResponse[]>([]);
+    const { expenses, isLoading, error } = useExpenseContainer();
 
-    const getExpenses = async () => {
-        const { data: expenses, error } = await supabaseClient
-            .from("expense")
-            .select("*");
+    if (isLoading) {
+        return <div>데이터를 불러오는 중 입니다...</div>;
+    }
 
-        if (error) {
-            console.error(error);
-        }
-
-        return expenses;
-    };
-
-    useEffect(() => {
-        getExpenses().then((expenses) => {
-            if (!expenses) return;
-
-            setExpenses(expenses);
-        });
-    }, []);
+    if (error) {
+        return <div>데이터 가져오기를 실패했습니다. 재시도해주세요.</div>;
+    }
 
     return (
         <ul className="flex flex-col gap-2">
