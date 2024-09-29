@@ -1,10 +1,7 @@
+import { ExpenseResponse } from "@/types/expense";
+
 interface ExpenseProps {
-    expense: {
-        id: number;
-        category: string;
-        description: string;
-        amount: string;
-    };
+    expense: ExpenseResponse;
 }
 
 export default function Expense({ expense }: ExpenseProps) {
