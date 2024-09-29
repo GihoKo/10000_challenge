@@ -9,6 +9,7 @@ import FocuseddropDownArrow from "@/images/svg/dropdown-arrow-focused.svg";
 import { useState } from "react";
 import supabaseClient from "@/supabase/supabaseClient";
 import { useRouter } from "next/navigation";
+import Header from "../_components/Header/Header";
 
 export default function Add() {
     const [isFocusedDropDown, setIsFocusedDropDown] = useState(false);
@@ -88,6 +89,7 @@ export default function Add() {
 
     return (
         <div>
+            <Header />
             <div>새로운 지출을 추가할께요.</div>
             <form onSubmit={handleSubmit}>
                 <div className="mt-2">

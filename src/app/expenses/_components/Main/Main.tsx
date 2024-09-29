@@ -1,5 +1,6 @@
 import NavigateButtonButton from "@/components/button/NavigateButtonButton";
 import ExpenseContainer from "./ExpenseContainer";
+import Header from "../Header/Header";
 
 export default function Main() {
     return (

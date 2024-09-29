@@ -29,7 +29,7 @@ export default function useExpenseContainer() {
     ) => {
         const expenseId = event.currentTarget.dataset.id;
 
-        router.push(`/expenses/detail/${expenseId}`);
+        router.push(`/expenses/edit/${expenseId}`);
     };
 
     useEffect(() => {
