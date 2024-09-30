@@ -3,10 +3,18 @@
 import useExpenseContainer from "./ExpenseContainer.hook";
 import Expense from "./Expense";
 import { ExpenseData } from "@/types/expense";
+import EditExpenseModal from "./EditExpenseModal";
 
 export default function ExpenseContainer() {
-    const { expenses, isLoading, error, handleClickExpense } =
-        useExpenseContainer();
+    const {
+        expenses,
+        isLoading,
+        error,
+        isModalOpen,
+        modalExpenseId,
+        handleClickExpense,
+        handleModalClose,
+    } = useExpenseContainer();
 
     if (isLoading) {
         return <div>데이터를 불러오는 중 입니다...</div>;
@@ -17,14 +25,22 @@ export default function ExpenseContainer() {
     }
 
     return (
-        <ul className="flex flex-col gap-2">
-            {expenses.map((expense: ExpenseData) => (
-                <Expense
-                    key={expense.id}
-                    expense={expense}
-                    onClick={handleClickExpense}
+        <div>
+            <ul className="flex flex-col gap-2">
+                {expenses.map((expense: ExpenseData) => (
+                    <Expense
+                        key={expense.id}
+                        expense={expense}
+                        onClick={handleClickExpense}
+                    />
+                ))}
+            </ul>
+            {isModalOpen && (
+                <EditExpenseModal
+                    modalExpenseId={modalExpenseId}
+                    handleModalClose={handleModalClose}
                 />
-            ))}
-        </ul>
+            )}
+        </div>
     );
 }

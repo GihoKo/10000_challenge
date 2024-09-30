@@ -5,6 +5,7 @@ interface ConfirmButtonProps {
     px?: string;
     py?: string;
     text?: string;
+    onClick?: () => void;
 }
 
 export default function ConfirmButton({
@@ -14,11 +15,13 @@ export default function ConfirmButton({
     px = "px-4",
     py = "py-2",
     text = "확인",
+    onClick,
 }: ConfirmButtonProps) {
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} bg-blue-600 flex justify-center items-center text-gray-100`}
             type={type}
+            onClick={onClick}
         >
             {text}
         </button>

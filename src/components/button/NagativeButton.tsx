@@ -5,6 +5,7 @@ interface NagativeButtonProps {
     px?: string;
     py?: string;
     text?: string;
+    onClick?: () => void;
 }
 
 export default function NagativeButton({
@@ -14,11 +15,13 @@ export default function NagativeButton({
     px = "px-4",
     py = "py-2",
     text = "취소",
+    onClick,
 }: NagativeButtonProps) {
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} bg-red-600 flex justify-center items-center text-gray-100`}
             type={type}
+            onClick={onClick}
         >
             {text}
         </button>

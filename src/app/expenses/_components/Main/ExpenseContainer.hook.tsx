@@ -1,6 +1,5 @@
 import supabaseClient from "@/supabase/supabaseClient";
 import { ExpenseData } from "@/types/expense";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function useExpenseContainer() {
@@ -8,7 +7,8 @@ export default function useExpenseContainer() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
-    const router = useRouter();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalExpenseId, setModalExpenseId] = useState<string | null>(null);
 
     const getExpenses = async () => {
         setIsLoading(true);
@@ -24,12 +24,14 @@ export default function useExpenseContainer() {
         return expenses;
     };
 
-    const handleClickExpense = (
-        event: React.MouseEvent<HTMLLIElement, MouseEvent>
-    ) => {
-        const expenseId = event.currentTarget.dataset.id;
+    const handleClickExpense = (expenseId: string) => {
+        setModalExpenseId(expenseId);
+        setIsModalOpen(true);
+    };
 
-        router.push(`/expenses/edit/${expenseId}`);
+    const handleModalClose = () => {
+        setModalExpenseId(null);
+        setIsModalOpen(false);
     };
 
     useEffect(() => {
@@ -45,5 +47,13 @@ export default function useExpenseContainer() {
             });
     }, []);
 
-    return { expenses, isLoading, error, handleClickExpense };
+    return {
+        expenses,
+        isLoading,
+        error,
+        isModalOpen,
+        modalExpenseId,
+        handleClickExpense,
+        handleModalClose,
+    };
 }

@@ -8,12 +8,16 @@ export default function Expense({ expense, onClick }: ExpenseProps) {
         MONTH_NAMES[newDate.getUTCMonth()]
     } ${newDate.getUTCDate()}`;
 
+    const handleClick = () => {
+        onClick(expense.id);
+    };
+
     return (
         <li
             data-id={expense.id}
             key={expense.id}
             className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg"
-            onClick={onClick}
+            onClick={handleClick}
         >
             <div className="flex flex-col">
                 <span className="text-sm font-medium">
