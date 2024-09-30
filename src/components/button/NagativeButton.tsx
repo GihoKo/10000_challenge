@@ -5,7 +5,7 @@ interface NagativeButtonProps {
     px?: string;
     py?: string;
     text?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export default function NagativeButton({
@@ -15,7 +15,7 @@ export default function NagativeButton({
     px = "px-4",
     py = "py-2",
     text = "취소",
-    onClick,
+    onClick = () => {},
 }: NagativeButtonProps) {
     return (
         <button

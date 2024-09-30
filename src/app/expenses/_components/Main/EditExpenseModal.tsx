@@ -7,20 +7,28 @@ import supabaseClient from "@/supabase/supabaseClient";
 import { useCallback, useEffect, useState } from "react";
 import close from "@/images/svg/close.svg";
 import Image from "next/image";
+import { UpdatedExpense } from "./ExpenseContainer.hook";
 
 interface EditExpenseModalProps {
     modalExpenseId: string | null;
+    updateExpense: (
+        expenseId: string | null,
+        updatedExpense: UpdatedExpense
+    ) => void;
+    deleteExpense: (expenseId: string | null) => void;
     handleModalClose: () => void;
 }
 
 export default function EditExpenseModal({
     modalExpenseId,
+    updateExpense,
+    deleteExpense,
     handleModalClose,
 }: EditExpenseModalProps) {
     const [values, setValues] = useState({
         description: "",
         category: "",
-        amount: "",
+        amount: 0,
     });
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -39,11 +47,18 @@ export default function EditExpenseModal({
     };
 
     const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
-        updateExpense();
+        e.preventDefault();
+        updateExpense(modalExpenseId, {
+            description: values.description,
+            category: values.category,
+            amount: values.amount,
+        });
+        handleModalClose();
     };
 
-    const handleDelete = () => {
-        deleteExpense();
+    const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        deleteExpense(modalExpenseId);
         handleDeleteModalClose();
         handleModalClose();
     };
@@ -59,39 +74,6 @@ export default function EditExpenseModal({
         }
 
         return expense[0];
-    }, [modalExpenseId]);
-
-    const updateExpense = useCallback(async () => {
-        const updatedExpense = {
-            description: values.description,
-            category: values.category,
-            amount: values.amount,
-        };
-
-        const { data, error } = await supabaseClient
-            .from("expense")
-            .update(updatedExpense)
-            .eq("id", modalExpenseId)
-            .select();
-
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        return data;
-    }, [modalExpenseId, values]);
-
-    const deleteExpense = useCallback(async () => {
-        const { error } = await supabaseClient
-            .from("expense")
-            .delete()
-            .eq("id", modalExpenseId);
-
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        return null;
     }, [modalExpenseId]);
 
     const handleDeleteModalOpen = () => {
@@ -165,13 +147,26 @@ export default function EditExpenseModal({
                 </div>
             </form>
             {isDeleteModalOpen && (
-                <div>
-                    삭제하시겠습니까?
-                    <ConfirmButton
-                        type="button"
-                        text="삭제"
-                        onClick={handleDelete}
-                    />
+                <div className="flex justify-center items-center bg-black bg-opacity-30 fixed inset-0">
+                    <form
+                        className="flex flex-col gap-4 rounded-lg p-4 w-full bg-white mx-6 relative"
+                        onSubmit={handleDelete}
+                    >
+                        <div className="text-lg">정말 삭제하시겠습니까?</div>
+                        <NagativeButton type="submit" text="삭제" />
+                        <button
+                            type="button"
+                            onClick={handleDeleteModalClose}
+                            className="absolute top-3 right-3"
+                        >
+                            <Image
+                                src={close}
+                                alt="모달 닫기 아이콘"
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </form>
                 </div>
             )}
         </div>

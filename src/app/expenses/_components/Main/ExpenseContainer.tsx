@@ -12,6 +12,8 @@ export default function ExpenseContainer() {
         error,
         isModalOpen,
         modalExpenseId,
+        updateExpense,
+        deleteExpense,
         handleClickExpense,
         handleModalClose,
     } = useExpenseContainer();
@@ -38,6 +40,8 @@ export default function ExpenseContainer() {
             {isModalOpen && (
                 <EditExpenseModal
                     modalExpenseId={modalExpenseId}
+                    updateExpense={updateExpense}
+                    deleteExpense={deleteExpense}
                     handleModalClose={handleModalClose}
                 />
             )}
