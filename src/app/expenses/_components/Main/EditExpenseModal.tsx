@@ -5,6 +5,8 @@ import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import supabaseClient from "@/supabase/supabaseClient";
 import { useCallback, useEffect, useState } from "react";
+import close from "@/images/svg/close.svg";
+import Image from "next/image";
 
 interface EditExpenseModalProps {
     modalExpenseId: string | null;
@@ -20,6 +22,7 @@ export default function EditExpenseModal({
         category: "",
         amount: "",
     });
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValues({
@@ -35,8 +38,14 @@ export default function EditExpenseModal({
         });
     };
 
-    const handleEdit = () => {
+    const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
         updateExpense();
+    };
+
+    const handleDelete = () => {
+        deleteExpense();
+        handleDeleteModalClose();
+        handleModalClose();
     };
 
     const getExpenseById = useCallback(async () => {
@@ -72,6 +81,27 @@ export default function EditExpenseModal({
         return data;
     }, [modalExpenseId, values]);
 
+    const deleteExpense = useCallback(async () => {
+        const { error } = await supabaseClient
+            .from("expense")
+            .delete()
+            .eq("id", modalExpenseId);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+
+        return null;
+    }, [modalExpenseId]);
+
+    const handleDeleteModalOpen = () => {
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleDeleteModalClose = () => {
+        setIsDeleteModalOpen(false);
+    };
+
     useEffect(() => {
         getExpenseById().then((expense) => {
             setValues(() => expense);
@@ -82,7 +112,7 @@ export default function EditExpenseModal({
         <div className="flex justify-center items-center bg-black bg-opacity-30 fixed inset-0">
             <form
                 onSubmit={handleEdit}
-                className="flex flex-col gap-4 rounded-lg p-4 w-full bg-white mx-6"
+                className="flex flex-col gap-4 rounded-lg p-4 w-full bg-white mx-6 relative"
             >
                 <h3 className="text-lg">지출 수정</h3>
 
@@ -117,11 +147,33 @@ export default function EditExpenseModal({
                     <ConfirmButton type="submit" text="수정" />
                     <NagativeButton
                         type="button"
-                        text="취소"
-                        onClick={handleModalClose}
+                        text="삭제"
+                        onClick={handleDeleteModalOpen}
                     />
+                    <button
+                        type="button"
+                        onClick={handleModalClose}
+                        className="absolute top-3 right-3"
+                    >
+                        <Image
+                            src={close}
+                            alt="모달 닫기 아이콘"
+                            width={24}
+                            height={24}
+                        />
+                    </button>
                 </div>
             </form>
+            {isDeleteModalOpen && (
+                <div>
+                    삭제하시겠습니까?
+                    <ConfirmButton
+                        type="button"
+                        text="삭제"
+                        onClick={handleDelete}
+                    />
+                </div>
+            )}
         </div>
     );
 }
