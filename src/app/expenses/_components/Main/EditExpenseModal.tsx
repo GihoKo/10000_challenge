@@ -1,5 +1,6 @@
 import ConfirmButton from "@/components/button/ConfirmButton";
 import NagativeButton from "@/components/button/NagativeButton";
+import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import supabaseClient from "@/supabase/supabaseClient";
@@ -20,7 +21,14 @@ export default function EditExpenseModal({
         amount: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setValues({
+            ...values,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setValues({
             ...values,
             [e.target.name]: e.target.value,
@@ -28,7 +36,7 @@ export default function EditExpenseModal({
     };
 
     const handleEdit = () => {
-        console.log(values);
+        updateExpense();
     };
 
     const getExpenseById = useCallback(async () => {
@@ -44,7 +52,7 @@ export default function EditExpenseModal({
         return expense[0];
     }, [modalExpenseId]);
 
-    const handleUpdateExpense = useCallback(async () => {
+    const updateExpense = useCallback(async () => {
         const updatedExpense = {
             description: values.description,
             category: values.category,
@@ -54,13 +62,14 @@ export default function EditExpenseModal({
         const { data, error } = await supabaseClient
             .from("expense")
             .update(updatedExpense)
-            .eq("id", modalExpenseId);
+            .eq("id", modalExpenseId)
+            .select();
 
         if (error) {
             throw new Error(error.message);
         }
 
-        console.log(data);
+        return data;
     }, [modalExpenseId, values]);
 
     useEffect(() => {
@@ -84,20 +93,14 @@ export default function EditExpenseModal({
                         type="text"
                         placeholder="설명"
                         value={values.description}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                     />
                 </Label>
 
-                <Label text="카테고리" htmlFor="category">
-                    <Input
-                        id="category"
-                        name="category"
-                        type="text"
-                        placeholder="카테고리"
-                        value={values.category}
-                        onChange={handleChange}
-                    />
-                </Label>
+                <ExpenseCategorySelect
+                    value={values.category}
+                    onChange={handleSelectChange}
+                />
 
                 <Label text="금액" htmlFor="amount">
                     <Input
@@ -106,16 +109,12 @@ export default function EditExpenseModal({
                         type="text"
                         placeholder="금액"
                         value={values.amount}
-                        onChange={handleChange}
+                        onChange={handleInputChange}
                     />
                 </Label>
 
                 <div className="flex gap-2">
-                    <ConfirmButton
-                        type="button"
-                        text="수정"
-                        onClick={handleUpdateExpense}
-                    />
+                    <ConfirmButton type="submit" text="수정" />
                     <NagativeButton
                         type="button"
                         text="취소"
