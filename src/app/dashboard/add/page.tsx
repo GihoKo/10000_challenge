@@ -6,18 +6,23 @@ import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import { useState } from "react";
 import { Values } from "./page.type";
+import supabaseClient from "@/supabase/supabaseClient";
+import { useRouter } from "next/navigation";
 
 export default function Add() {
     const [values, setValues] = useState<Values>({
         name: "",
         resolution: "",
-        dailySaving: "",
-        goalDate: "",
+        dailySaving: 0,
+        goalDate: "YYYY-MM-DD",
     });
+
+    const router = useRouter();
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log("챌린지 추가");
+
+        addChallenge();
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,14 +30,51 @@ export default function Add() {
     };
 
     const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // DATE 자료형으로 저장 ex) YYYY-MM-DD
-        const date = new Date(e.target.value);
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, "0");
-        const day = String(date.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
+        const formattedDate = formatDate(e.target.value);
 
         setValues({ ...values, [e.target.name]: formattedDate });
+    };
+
+    const createStartDate = () => {
+        const startDate = new Date();
+        const year = startDate.getFullYear();
+        const month = String(startDate.getMonth() + 1).padStart(2, "0");
+        const day = String(startDate.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
+    };
+
+    const addChallenge = async () => {
+        const challenge = {
+            name: values.name,
+            resolution: values.resolution,
+            daily_saving: values.dailySaving,
+            start_date: createStartDate(),
+            goal_date: values.goalDate,
+        };
+
+        const { data, error } = await supabaseClient
+            .from("challenge")
+            .insert(challenge)
+            .select();
+
+        if (error) {
+            console.log(error);
+        }
+
+        router.push("/dashboard");
+    };
+
+    const formatDate = (date: string) => {
+        // DATE 자료형으로 저장 ex) YYYY-MM-DD
+        const newDate = new Date(date);
+
+        const year = newDate.getFullYear();
+        const month = String(newDate.getMonth() + 1).padStart(2, "0");
+        const day = String(newDate.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+
+        return formattedDate;
     };
 
     return (
