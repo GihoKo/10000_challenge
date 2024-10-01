@@ -1,9 +1,11 @@
-import PageContentHeader from "@/components/Header/PageContentHeader";
+import Header from "./_componenets/Header";
+import Main from "./_componenets/Main";
 
 export default function Challenge() {
     return (
         <div>
-            <PageContentHeader text="챌린지 상세 페이지" />
+            <Header />
+            <Main />
         </div>
     );
 }

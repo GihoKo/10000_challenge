@@ -1,7 +1,6 @@
 import { ChallengeResponse } from "@/types/challenge";
 
 export const cacultateDaysOfChallenge = (challenge: ChallengeResponse) => {
-    // 날짜 계산
     const nowDayMilliseconds = Number(new Date().getTime());
     const startDayMilliseconds = Number(
         new Date(challenge.start_date).getTime()
