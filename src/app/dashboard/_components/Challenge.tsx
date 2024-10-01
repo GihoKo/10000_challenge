@@ -1,6 +1,5 @@
 import { ChallengeProps } from "./Challenge.type";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
-import { calculateRemainingSaving } from "@/utils/calculateRemainingSaving";
 
 export default function Challenge({ challenge }: ChallengeProps) {
     const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
@@ -12,6 +11,9 @@ export default function Challenge({ challenge }: ChallengeProps) {
         >
             <div>
                 <div className="text-sm font-medium">{challenge.name}</div>
+                <div className={`text-xs text-gray-500`}>
+                    {challenge.resolution}
+                </div>
             </div>
             <div>
                 <span>
