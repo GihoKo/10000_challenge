@@ -5,6 +5,17 @@ import { ExpenseData } from "@/types/expense";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import {
+    Bar,
+    CartesianGrid,
+    ComposedChart,
+    Legend,
+    ReferenceLine,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 
 export default function Main() {
     const { challengeId } = useParams();
@@ -173,7 +184,28 @@ export default function Main() {
                 </div>
             </div>
 
-            <h3 className="text-xl font-bold mt-4">차트</h3>
+            <h3 className="text-xl font-bold mt-4">매일 지출</h3>
+
+            <ResponsiveContainer width="100%" height={300}>
+                <ComposedChart data={expenses}>
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <CartesianGrid stroke="#f5f5f5" />
+                    <Bar
+                        dataKey="amount"
+                        name="지출"
+                        barSize={20}
+                        fill="#3B82F6"
+                    />
+                    <ReferenceLine
+                        y={challenge?.daily_saving}
+                        label="목표 지출"
+                        stroke="red"
+                        strokeDasharray={"2"}
+                    />
+                </ComposedChart>
+            </ResponsiveContainer>
         </main>
     );
 }
