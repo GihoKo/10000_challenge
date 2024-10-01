@@ -1,10 +1,11 @@
 "use client";
 import Expense from "@/app/expenses/_components/Main/Expense";
+import NagativeButton from "@/components/button/NagativeButton";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import {
     Bar,
@@ -33,6 +34,7 @@ interface ExpensesByCategory {
 
 export default function Main() {
     const { challengeId } = useParams();
+    const router = useRouter();
 
     // 챌린지
     const [challenge, setChallenge] = useState<ChallengeResponse>();
@@ -55,6 +57,16 @@ export default function Main() {
         { name: "문화생활", amount: 0, fill: "#10B981" },
         { name: "기타", amount: 0, fill: "#EF4444" },
     ]);
+
+    const handleDeleteChallenge = () => {
+        deleteChallenge(challenge?.id)
+            .then(() => {
+                router.push("/dashboard");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    };
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -161,6 +173,20 @@ export default function Main() {
         return data;
     }, [challenge?.start_date, challenge?.goal_date]);
 
+    const deleteChallenge = async (challengeId: string | undefined) => {
+        const { error } = await supabaseClient
+            .from("challenge")
+            .delete()
+            .eq("id", challengeId)
+            .select();
+
+        if (error) {
+            throw error;
+        }
+
+        return null;
+    };
+
     // 데이터 가져오기
     useEffect(() => {
         setIsLoading(true);
@@ -211,7 +237,18 @@ export default function Main() {
 
     return (
         <main className="flex flex-col gap-2">
-            <h3 className="text-xl font-bold">{challenge?.name}</h3>
+            <div className="flex justify-between items-center">
+                <h3 className="text-xl font-bold">{challenge?.name}</h3>
+                <NagativeButton
+                    type="button"
+                    text="삭제"
+                    rounded="rounded-md"
+                    px="px-2"
+                    py="py-1"
+                    width="w-auto"
+                    onClick={handleDeleteChallenge}
+                />
+            </div>
 
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
@@ -222,7 +259,7 @@ export default function Main() {
                 </div>
                 <div className="h-2 w-full rounded-full bg-gray-300">
                     <div
-                        className="h-full rounded-full bg-black"
+                        className="h-full rounded-full bg-blue-500"
                         style={{ width: `${progressBarWidth}%` }}
                     ></div>
                 </div>
