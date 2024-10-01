@@ -20,24 +20,8 @@ export default function Add() {
         console.log("챌린지 추가");
     };
 
-    const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, name: e.target.value });
-    };
-
-    const handleChangeResolution = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, resolution: e.target.value });
-    };
-
-    const handleChangeDailyExpenseLimit = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormData({ ...formData, dailyExpenseLimit: e.target.value });
-    };
-
-    const handleChangeChallengeDuration = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormData({ ...formData, challengeDuration: e.target.value });
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     return (
@@ -53,7 +37,7 @@ export default function Add() {
                             type="text"
                             placeholder="챌린지 이름을 입력해주세요"
                             value={formData.name}
-                            onChange={handleChangeName}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
@@ -69,7 +53,7 @@ export default function Add() {
                             type="text"
                             placeholder="스스로의 다짐을 입력해주세요"
                             value={formData.resolution}
-                            onChange={handleChangeResolution}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
@@ -85,7 +69,7 @@ export default function Add() {
                             type="text"
                             placeholder="매일 목표로 할 지출 금액을 입력해주세요"
                             value={formData.dailyExpenseLimit}
-                            onChange={handleChangeDailyExpenseLimit}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
@@ -101,7 +85,7 @@ export default function Add() {
                             type="text"
                             placeholder="챌린지를 진행할 기간을 입력해주세요"
                             value={formData.challengeDuration}
-                            onChange={handleChangeChallengeDuration}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
