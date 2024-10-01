@@ -9,6 +9,7 @@ export default function Expense({ expense, onClick }: ExpenseProps) {
     } ${newDate.getUTCDate()}`;
 
     const handleClick = () => {
+        if (!onClick) return;
         onClick(expense.id);
     };
 

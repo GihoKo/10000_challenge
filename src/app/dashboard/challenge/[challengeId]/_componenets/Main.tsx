@@ -1,4 +1,5 @@
 "use client";
+import Expense from "@/app/expenses/_components/Main/Expense";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
@@ -116,8 +117,6 @@ export default function Main() {
 
         const groupedExpenses: ExpensesByCategory[] = [...expensesByCategory];
 
-        console.log(groupedExpenses);
-
         expenses.forEach((expense) => {
             const category = expense.category;
             const amount = expense.amount;
@@ -152,7 +151,8 @@ export default function Main() {
             .select()
             .eq("user_id", process.env.NEXT_PUBLIC_USER_ID)
             .gte("date", challenge?.start_date)
-            .lte("date", challenge?.goal_date);
+            .lte("date", challenge?.goal_date)
+            .order("date", { ascending: false });
 
         if (error) {
             throw error;
@@ -315,6 +315,12 @@ export default function Main() {
                     />
                 </PieChart>
             </ResponsiveContainer>
+
+            <h3 className="text-xl font-bold mt-4">최근 지출 목록</h3>
+
+            {expenses.map((expense) => (
+                <Expense key={expense.id} expense={expense} />
+            ))}
         </main>
     );
 }
