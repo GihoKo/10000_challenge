@@ -24,6 +24,17 @@ export default function Add() {
         setValues({ ...values, [e.target.name]: e.target.value });
     };
 
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // DATE 자료형으로 저장 ex) YYYY-MM-DD
+        const date = new Date(e.target.value);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const day = String(date.getDate()).padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+
+        setValues({ ...values, [e.target.name]: formattedDate });
+    };
+
     return (
         <div>
             <PageContentHeader text="챌린지를 추가할께요" />
@@ -82,10 +93,10 @@ export default function Add() {
                         <Input
                             id="goalDate"
                             name="goalDate"
-                            type="text"
+                            type="date"
                             placeholder="챌린지 목표 날짜를 입력해주세요"
                             value={values.goalDate}
-                            onChange={handleChange}
+                            onChange={handleDateChange}
                         />
                     </Label>
                 </div>
