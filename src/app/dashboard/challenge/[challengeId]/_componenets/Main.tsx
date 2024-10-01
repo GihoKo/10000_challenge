@@ -15,18 +15,39 @@ export default function Main() {
 
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [remainingSaving, setRemainingSaving] = useState(0);
+    const [remainingDays, setRemainingDays] = useState(0);
+    const [progressBarWidth, setProgressBarWidth] = useState(0);
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
         const { progressDays } = cacultateDaysOfChallenge(challenge);
 
-        // 남은 금액 계산
         const totalSaving = Number(challenge.daily_saving) * progressDays;
         const totalExpense = 10000;
 
         const remainingSaving = Number(totalSaving - totalExpense);
 
         return remainingSaving;
+    }, [challenge]);
+
+    const calculateRemainingDays = useCallback(() => {
+        if (!challenge) return 0;
+        const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
+
+        const remainingDays = Number(totalDays - progressDays);
+
+        return remainingDays;
+    }, [challenge]);
+
+    const calculateProgressBarWidth = useCallback(() => {
+        if (!challenge) return 0;
+        const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
+
+        const progressBarWidth = Math.floor((progressDays / totalDays) * 100);
+
+        console.log(progressBarWidth);
+
+        return progressBarWidth;
     }, [challenge]);
 
     const getChallengeById = useCallback(async () => {
@@ -81,10 +102,16 @@ export default function Main() {
             });
     }, [challengeId, getChallengeById, getExpensesByChallengeDuration]);
 
-    // 남은 금액 계산
     useEffect(() => {
         setRemainingSaving(calculateRemainingSaving());
-    }, [challenge, calculateRemainingSaving]);
+        setRemainingDays(calculateRemainingDays());
+        setProgressBarWidth(calculateProgressBarWidth());
+    }, [
+        challenge,
+        calculateRemainingSaving,
+        calculateRemainingDays,
+        calculateProgressBarWidth,
+    ]);
 
     if (isLoading) {
         return <div>데이터를 불러오는 중 입니다...</div>;
@@ -96,10 +123,56 @@ export default function Main() {
 
     return (
         <main className="flex flex-col gap-8">
-            <div>
+            <div className="flex flex-col gap-2 mt-4">
+                <div className="flex justify-between items-center">
+                    <span className="text-sm font-medium">진행도</span>
+                    <span className="text-sm font-medium">
+                        {progressBarWidth}%
+                    </span>
+                </div>
+                <div className="h-2 w-full rounded-full bg-gray-300">
+                    <div
+                        className="h-full rounded-full bg-black"
+                        style={{ width: `${progressBarWidth}%` }}
+                    ></div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+                <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium">현재 남은 돈</span>
+                    <span
+                        className={`text-2xl font-bold ${
+                            remainingSaving >= 0
+                                ? "text-blue-500"
+                                : "text-red-500"
+                        }`}
+                    >
+                        {remainingSaving}
+                    </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium">일일 목표 금액</span>
+                    <span className="text-2xl font-bold text-blue-500">
+                        {challenge?.daily_saving}
+                    </span>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium">남은 일수</span>
+                    <span className="text-2xl font-bold">{remainingDays}</span>
+                </div>
+                <div className="flex flex-col gap-1">
+                    <span className="text-sm font-medium">마감일</span>
+                    <span className="text-2xl font-bold">
+                        {challenge?.goal_date}
+                    </span>
+                </div>
+            </div>
+
+            {/* <div>
                 <h4 className="text-lg">{challenge?.name}</h4>
 
-                <div className="flex justify-between items-center">
+                <div className="border rounded-lg p-4 mt-2 flex justify-between items-center">
                     <span className="text-sm text-gray-500">다짐</span>
                     <span className="text-base font-medium">
                         {challenge?.resolution}
@@ -145,14 +218,19 @@ export default function Main() {
                     <span className="text-sm text-gray-500">진행률</span>
                     <span className="text-base font-medium"></span>
                 </div>
+            </div>
 
-                <div className="flex justify-between items-center">
+            <div>
+                <h4 className="text-lg">차트</h4>
+
+                <div className="flex flex-col">
                     <span className="text-sm text-gray-500">
                         일별 목표 차트
                     </span>
+
                     <span className="text-base font-medium"></span>
                 </div>
-            </div>
+            </div> */}
         </main>
     );
 }
