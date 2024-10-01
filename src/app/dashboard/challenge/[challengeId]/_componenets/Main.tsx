@@ -17,6 +17,11 @@ import {
     YAxis,
 } from "recharts";
 
+interface DailyExpense {
+    date: string;
+    amount: number;
+}
+
 export default function Main() {
     const { challengeId } = useParams();
 
@@ -30,6 +35,8 @@ export default function Main() {
     const [remainingSaving, setRemainingSaving] = useState(0);
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
+
+    const [dailyExpenses, setDailyExpenses] = useState<DailyExpense[]>([]);
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -63,6 +70,30 @@ export default function Main() {
         return progressBarWidth;
     }, [challenge]);
 
+    const groupExpensesByDate = useCallback(() => {
+        if (!expenses) return [];
+
+        const groupedExpenses: DailyExpense[] = [];
+
+        expenses.forEach((expense) => {
+            const date = expense.date;
+            const amount = expense.amount;
+
+            // 만약 groupedExpenses에 date가 존재하면 해당 객체에 amount를 더하기
+            if (groupedExpenses.some((item) => item.date === date)) {
+                const index = groupedExpenses.findIndex(
+                    (item) => item.date === date
+                );
+                groupedExpenses[index].amount += amount;
+            } else {
+                // 만약 groupedExpenses에 date가 없다면 해당 객체를 추가하기
+                groupedExpenses.push({ date, amount });
+            }
+        });
+
+        return groupedExpenses;
+    }, [expenses]);
+
     const getChallengeById = useCallback(async () => {
         const { data, error } = await supabaseClient
             .from("challenge")
@@ -82,7 +113,7 @@ export default function Main() {
             .from("expense")
             .select()
             .eq("user_id", process.env.NEXT_PUBLIC_USER_ID)
-            .eq("date", challenge?.start_date)
+            .gte("date", challenge?.start_date)
             .lte("date", challenge?.goal_date);
 
         if (error) {
@@ -101,10 +132,13 @@ export default function Main() {
                 setChallenge(challenge);
             })
             .then(() => {
-                getExpensesByChallengeDuration().then((expenses) => {
-                    console.log(expenses);
-                    setExpenses(expenses);
-                });
+                getExpensesByChallengeDuration()
+                    .then((expenses) => {
+                        setExpenses(expenses);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             })
             .catch((error) => {
                 setIsError(true);
@@ -119,8 +153,10 @@ export default function Main() {
         setRemainingSaving(calculateRemainingSaving());
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
+        setDailyExpenses(groupExpensesByDate());
     }, [
         challenge,
+        expenses,
         calculateRemainingSaving,
         calculateRemainingDays,
         calculateProgressBarWidth,
@@ -186,26 +222,41 @@ export default function Main() {
 
             <h3 className="text-xl font-bold mt-4">매일 지출</h3>
 
-            <ResponsiveContainer width="100%" height={300}>
-                <ComposedChart data={expenses}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <CartesianGrid stroke="#f5f5f5" />
-                    <Bar
-                        dataKey="amount"
-                        name="지출"
-                        barSize={20}
-                        fill="#3B82F6"
-                    />
-                    <ReferenceLine
-                        y={challenge?.daily_saving}
-                        label="목표 지출"
-                        stroke="red"
-                        strokeDasharray={"2"}
-                    />
-                </ComposedChart>
-            </ResponsiveContainer>
+            {dailyExpenses ? (
+                <ResponsiveContainer width="100%" height={300}>
+                    <ComposedChart data={dailyExpenses}>
+                        <XAxis dataKey="date" />
+                        <YAxis />
+                        <Tooltip />
+                        <Legend
+                            payload={[
+                                {
+                                    value: "지출",
+                                    type: "rect",
+                                    color: "#3B82F6",
+                                },
+                                {
+                                    value: "목표 지출",
+                                    type: "line",
+                                    color: "red",
+                                },
+                            ]}
+                        />
+                        <CartesianGrid stroke="#f5f5f5" />
+                        <Bar
+                            dataKey="amount"
+                            name="지출"
+                            barSize={20}
+                            fill="#3B82F6"
+                        />
+                        <ReferenceLine
+                            y={challenge?.daily_saving}
+                            name="목표 지출"
+                            stroke="red"
+                        />
+                    </ComposedChart>
+                </ResponsiveContainer>
+            ) : null}
         </main>
     );
 }
