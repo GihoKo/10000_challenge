@@ -1,6 +1,5 @@
 "use client";
 
-import { CHALLENGE_MOCKDATA } from "@/mocks";
 import Challenge from "./Challenge";
 import { ChallengeResponse } from "@/types/challenge";
 import { useEffect, useState } from "react";

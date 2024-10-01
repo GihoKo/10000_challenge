@@ -51,6 +51,7 @@ export default function Add() {
             daily_saving: values.dailySaving,
             start_date: createStartDate(),
             goal_date: values.goalDate,
+            user_id: process.env.NEXT_PUBLIC_USER_ID,
         };
 
         const { data, error } = await supabaseClient
