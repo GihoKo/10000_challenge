@@ -1,5 +1,5 @@
-import { ChallengeMock } from "@/mocks";
+import { ChallengeResponse } from "@/types/challenge";
 
 export interface ChallengeProps {
-    challenge: ChallengeMock;
+    challenge: ChallengeResponse;
 }
