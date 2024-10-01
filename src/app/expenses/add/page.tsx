@@ -59,6 +59,7 @@ export default function Add() {
             description: values.description,
             amount: values.amount,
             user_id: process.env.NEXT_PUBLIC_USER_ID,
+            date: createNowDate(),
         };
 
         const response = await supabaseClient.from("expense").insert(data);
@@ -68,6 +69,15 @@ export default function Add() {
         }
 
         return response;
+    };
+
+    const createNowDate = () => {
+        const Now = new Date();
+        const year = Now.getFullYear();
+        const month = String(Now.getMonth() + 1).padStart(2, "0");
+        const day = String(Now.getDate()).padStart(2, "0");
+
+        return `${year}-${month}-${day}`;
     };
 
     return (
