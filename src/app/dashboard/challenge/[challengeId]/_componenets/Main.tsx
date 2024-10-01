@@ -9,10 +9,12 @@ import { useCallback, useEffect, useState } from "react";
 export default function Main() {
     const { challengeId } = useParams();
 
+    // 챌린지
     const [challenge, setChallenge] = useState<ChallengeResponse>();
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
+    // 지출
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [remainingSaving, setRemainingSaving] = useState(0);
     const [remainingDays, setRemainingDays] = useState(0);
@@ -122,8 +124,10 @@ export default function Main() {
     }
 
     return (
-        <main className="flex flex-col gap-8">
-            <div className="flex flex-col gap-2 mt-4">
+        <main className="flex flex-col gap-2">
+            <h3 className="text-xl font-bold">{challenge?.name}</h3>
+
+            <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
                     <span className="text-sm font-medium">진행도</span>
                     <span className="text-sm font-medium">
@@ -169,68 +173,7 @@ export default function Main() {
                 </div>
             </div>
 
-            {/* <div>
-                <h4 className="text-lg">{challenge?.name}</h4>
-
-                <div className="border rounded-lg p-4 mt-2 flex justify-between items-center">
-                    <span className="text-sm text-gray-500">다짐</span>
-                    <span className="text-base font-medium">
-                        {challenge?.resolution}
-                    </span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">
-                        일일 목표 금액
-                    </span>
-                    <span className="text-base font-medium text-blue-500">
-                        {challenge?.daily_saving}
-                    </span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">기간</span>
-                    <span className="text-base font-medium">
-                        {challenge?.start_date} ~ {challenge?.goal_date}
-                    </span>
-                </div>
-            </div>
-
-            <div>
-                <h4 className="text-lg">진행 상황</h4>
-
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">남은 금액</span>
-                    <span
-                        className={`text-base font-medium ${
-                            remainingSaving >= 0
-                                ? "text-blue-500"
-                                : "text-red-500"
-                        }`}
-                    >
-                        {remainingSaving >= 0
-                            ? `+${remainingSaving}`
-                            : remainingSaving}
-                    </span>
-                </div>
-
-                <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500">진행률</span>
-                    <span className="text-base font-medium"></span>
-                </div>
-            </div>
-
-            <div>
-                <h4 className="text-lg">차트</h4>
-
-                <div className="flex flex-col">
-                    <span className="text-sm text-gray-500">
-                        일별 목표 차트
-                    </span>
-
-                    <span className="text-base font-medium"></span>
-                </div>
-            </div> */}
+            <h3 className="text-xl font-bold mt-4">차트</h3>
         </main>
     );
 }

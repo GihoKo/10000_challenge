@@ -1,10 +1,7 @@
 import { ChallengeResponse } from "@/types/challenge";
 import { cacultateDaysOfChallenge } from "./calculateDaysOfChallenge";
-import { ExpenseData } from "@/types/expense";
 
-export const calculateRemainingSaving = (
-    challenge: ChallengeResponse | undefined
-) => {
+export const calculateRemainingSaving = (challenge: ChallengeResponse) => {
     const { progressDays } = cacultateDaysOfChallenge(challenge);
 
     // 남은 금액 계산
