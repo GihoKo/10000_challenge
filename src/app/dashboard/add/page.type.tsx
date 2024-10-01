@@ -1,4 +1,4 @@
-export interface FormData {
+export interface Values {
     name: string;
     resolution: string;
     dailyExpenseLimit: string;

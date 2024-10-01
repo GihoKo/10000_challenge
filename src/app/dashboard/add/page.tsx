@@ -5,10 +5,10 @@ import PageContentHeader from "@/components/Header/PageContentHeader";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import { useState } from "react";
-import { FormData } from "./page.type";
+import { Values } from "./page.type";
 
 export default function Add() {
-    const [formData, setFormData] = useState<FormData>({
+    const [values, setValues] = useState<Values>({
         name: "",
         resolution: "",
         dailyExpenseLimit: "",
@@ -21,7 +21,7 @@ export default function Add() {
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
+        setValues({ ...values, [e.target.name]: e.target.value });
     };
 
     return (
@@ -36,7 +36,7 @@ export default function Add() {
                             name="name"
                             type="text"
                             placeholder="챌린지 이름을 입력해주세요"
-                            value={formData.name}
+                            value={values.name}
                             onChange={handleChange}
                         />
                     </Label>
@@ -52,7 +52,7 @@ export default function Add() {
                             name="resolution"
                             type="text"
                             placeholder="스스로의 다짐을 입력해주세요"
-                            value={formData.resolution}
+                            value={values.resolution}
                             onChange={handleChange}
                         />
                     </Label>
@@ -68,7 +68,7 @@ export default function Add() {
                             name="dailyExpenseLimit"
                             type="text"
                             placeholder="매일 목표로 할 지출 금액을 입력해주세요"
-                            value={formData.dailyExpenseLimit}
+                            value={values.dailyExpenseLimit}
                             onChange={handleChange}
                         />
                     </Label>
@@ -84,7 +84,7 @@ export default function Add() {
                             name="challengeDuration"
                             type="text"
                             placeholder="챌린지를 진행할 기간을 입력해주세요"
-                            value={formData.challengeDuration}
+                            value={values.challengeDuration}
                             onChange={handleChange}
                         />
                     </Label>
