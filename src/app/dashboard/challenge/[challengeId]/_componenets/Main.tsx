@@ -10,6 +10,8 @@ import {
     CartesianGrid,
     ComposedChart,
     Legend,
+    Pie,
+    PieChart,
     ReferenceLine,
     ResponsiveContainer,
     Tooltip,
@@ -20,6 +22,12 @@ import {
 interface DailyExpense {
     date: string;
     amount: number;
+}
+
+interface ExpensesByCategory {
+    name: "식비" | "교통비" | "문화생활" | "기타";
+    amount: number;
+    fill: "#3B82F6" | "#F59E0B" | "#10B981" | "#EF4444";
 }
 
 export default function Main() {
@@ -36,7 +44,16 @@ export default function Main() {
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
 
+    // 차트 데이터
     const [dailyExpenses, setDailyExpenses] = useState<DailyExpense[]>([]);
+    const [expensesByCategory, setExpensesByCategory] = useState<
+        ExpensesByCategory[]
+    >([
+        { name: "식비", amount: 0, fill: "#3B82F6" },
+        { name: "교통비", amount: 0, fill: "#F59E0B" },
+        { name: "문화생활", amount: 0, fill: "#10B981" },
+        { name: "기타", amount: 0, fill: "#EF4444" },
+    ]);
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -89,6 +106,27 @@ export default function Main() {
                 // 만약 groupedExpenses에 date가 없다면 해당 객체를 추가하기
                 groupedExpenses.push({ date, amount });
             }
+        });
+
+        return groupedExpenses;
+    }, [expenses]);
+
+    const groupExpensesByCategory = useCallback(() => {
+        if (!expenses) return [];
+
+        const groupedExpenses: ExpensesByCategory[] = [...expensesByCategory];
+
+        console.log(groupedExpenses);
+
+        expenses.forEach((expense) => {
+            const category = expense.category;
+            const amount = expense.amount;
+
+            // 해당 카테고리에 amount를 더하기
+            const index = groupedExpenses.findIndex(
+                (expense) => expense.name === category
+            );
+            groupedExpenses[index].amount += amount;
         });
 
         return groupedExpenses;
@@ -154,6 +192,7 @@ export default function Main() {
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
         setDailyExpenses(groupExpensesByDate());
+        setExpensesByCategory(groupExpensesByCategory());
     }, [
         challenge,
         expenses,
@@ -257,6 +296,25 @@ export default function Main() {
                     </ComposedChart>
                 </ResponsiveContainer>
             ) : null}
+
+            <h3 className="text-xl font-bold mt-4">카테고리 파이</h3>
+
+            <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                    <Legend />
+                    <Tooltip />
+                    <Pie
+                        data={expensesByCategory}
+                        dataKey="amount"
+                        nameKey="name"
+                        cx="50%"
+                        cy="50%"
+                        outerRadius={100}
+                        fill="#3B82F6"
+                        label
+                    />
+                </PieChart>
+            </ResponsiveContainer>
         </main>
     );
 }
