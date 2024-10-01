@@ -49,6 +49,7 @@ export default function Add() {
                     <Label htmlFor="name" text="챌린지 이름을 입력해주세요">
                         <Input
                             id="name"
+                            name="name"
                             type="text"
                             placeholder="챌린지 이름을 입력해주세요"
                             value={formData.name}
@@ -64,6 +65,7 @@ export default function Add() {
                     >
                         <Input
                             id="resolution"
+                            name="resolution"
                             type="text"
                             placeholder="스스로의 다짐을 입력해주세요"
                             value={formData.resolution}
@@ -79,6 +81,7 @@ export default function Add() {
                     >
                         <Input
                             id="dailyExpenseLimit"
+                            name="dailyExpenseLimit"
                             type="text"
                             placeholder="매일 목표로 할 지출 금액을 입력해주세요"
                             value={formData.dailyExpenseLimit}
@@ -94,6 +97,7 @@ export default function Add() {
                     >
                         <Input
                             id="challengeDuration"
+                            name="challengeDuration"
                             type="text"
                             placeholder="챌린지를 진행할 기간을 입력해주세요"
                             value={formData.challengeDuration}
