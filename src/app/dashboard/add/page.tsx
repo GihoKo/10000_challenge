@@ -11,8 +11,8 @@ export default function Add() {
     const [values, setValues] = useState<Values>({
         name: "",
         resolution: "",
-        dailyExpenseLimit: "",
-        challengeDuration: "",
+        dailySaving: "",
+        goalDate: "",
     });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -60,15 +60,15 @@ export default function Add() {
 
                 <div className="mt-2">
                     <Label
-                        htmlFor="dailyExpenseLimit"
+                        htmlFor="dailySaving"
                         text="매일 목표로 할 지출 금액을 입력해주세요"
                     >
                         <Input
-                            id="dailyExpenseLimit"
-                            name="dailyExpenseLimit"
+                            id="dailySaving"
+                            name="dailySaving"
                             type="text"
                             placeholder="매일 목표로 할 지출 금액을 입력해주세요"
-                            value={values.dailyExpenseLimit}
+                            value={values.dailySaving}
                             onChange={handleChange}
                         />
                     </Label>
@@ -76,15 +76,15 @@ export default function Add() {
 
                 <div className="mt-2">
                     <Label
-                        htmlFor="challengeDuration"
-                        text="챌린지를 진행할 기간을 입력해주세요"
+                        htmlFor="goalDate"
+                        text="챌린지 목표 날짜를 입력해주세요"
                     >
                         <Input
-                            id="challengeDuration"
-                            name="challengeDuration"
+                            id="goalDate"
+                            name="goalDate"
                             type="text"
-                            placeholder="챌린지를 진행할 기간을 입력해주세요"
-                            value={values.challengeDuration}
+                            placeholder="챌린지 목표 날짜를 입력해주세요"
+                            value={values.goalDate}
                             onChange={handleChange}
                         />
                     </Label>
