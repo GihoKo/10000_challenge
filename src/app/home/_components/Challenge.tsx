@@ -9,7 +9,7 @@ export default function Challenge({ challenge, onClick }: ChallengeProps) {
             data-id={challenge.id}
             key={challenge.id}
             onClick={onClick}
-            className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg"
+            className="flex justify-between items-center py-2 px-4 bg-blue-50 rounded-lg"
         >
             <div>
                 <div className="text-sm font-medium">{challenge.name}</div>
