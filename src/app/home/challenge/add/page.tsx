@@ -4,79 +4,11 @@ import ConfirmButton from "@/components/button/ConfirmButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
-import { useState } from "react";
-import { Values } from "./page.type";
-import supabaseClient from "@/supabase/supabaseClient";
-import { useRouter } from "next/navigation";
+import useAddPage from "./page.hook";
 
 export default function Add() {
-    const [values, setValues] = useState<Values>({
-        name: "",
-        resolution: "",
-        dailySaving: 0,
-        goalDate: "YYYY-MM-DD",
-    });
-
-    const router = useRouter();
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        addChallenge();
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({ ...values, [e.target.name]: e.target.value });
-    };
-
-    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const formattedDate = formatDate(e.target.value);
-
-        setValues({ ...values, [e.target.name]: formattedDate });
-    };
-
-    const createStartDate = () => {
-        const startDate = new Date();
-        const year = startDate.getFullYear();
-        const month = String(startDate.getMonth() + 1).padStart(2, "0");
-        const day = String(startDate.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
-    };
-
-    const addChallenge = async () => {
-        const challenge = {
-            name: values.name,
-            resolution: values.resolution,
-            daily_saving: values.dailySaving,
-            start_date: createStartDate(),
-            goal_date: values.goalDate,
-            user_id: process.env.NEXT_PUBLIC_USER_ID,
-        };
-
-        const { data, error } = await supabaseClient
-            .from("challenge")
-            .insert(challenge)
-            .select();
-
-        if (error) {
-            console.log(error);
-        }
-
-        router.push("/home");
-    };
-
-    const formatDate = (date: string) => {
-        // DATE 자료형으로 저장 ex) YYYY-MM-DD
-        const newDate = new Date(date);
-
-        const year = newDate.getFullYear();
-        const month = String(newDate.getMonth() + 1).padStart(2, "0");
-        const day = String(newDate.getDate()).padStart(2, "0");
-        const formattedDate = `${year}-${month}-${day}`;
-
-        return formattedDate;
-    };
+    const { values, handleSubmit, handleChange, handleDateChange } =
+        useAddPage();
 
     return (
         <div>
