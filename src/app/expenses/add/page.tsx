@@ -7,8 +7,8 @@ import Label from "@/components/label/label";
 import { useState } from "react";
 import supabaseClient from "@/supabase/supabaseClient";
 import { useRouter } from "next/navigation";
-import Header from "../_components/Header/Header";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
+import PageContentHeader from "@/components/Header/PageContentHeader";
 
 export interface AddExpenseValues {
     category: string;
@@ -82,7 +82,7 @@ export default function Add() {
 
     return (
         <div>
-            <Header />
+            <PageContentHeader text="지출 추가하기" />
             <div>새로운 지출을 추가할께요.</div>
             <form onSubmit={handleSubmit}>
                 <div className="mt-2">
