@@ -28,9 +28,6 @@ export default function Main() {
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
 
-    // 차트 데이터
-    const [dailyExpenses, setDailyExpenses] = useState<DailyExpense[]>([]);
-
     // 삭제 모달
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
@@ -83,30 +80,6 @@ export default function Main() {
 
         return progressBarWidth;
     }, [challenge]);
-
-    const groupExpensesByDate = useCallback(() => {
-        if (!expenses) return [];
-
-        const groupedExpenses: DailyExpense[] = [];
-
-        expenses.forEach((expense) => {
-            const date = expense.date;
-            const amount = expense.amount;
-
-            // 만약 groupedExpenses에 date가 존재하면 해당 객체에 amount를 더하기
-            if (groupedExpenses.some((item) => item.date === date)) {
-                const index = groupedExpenses.findIndex(
-                    (item) => item.date === date
-                );
-                groupedExpenses[index].amount += amount;
-            } else {
-                // 만약 groupedExpenses에 date가 없다면 해당 객체를 추가하기
-                groupedExpenses.push({ date, amount });
-            }
-        });
-
-        return groupedExpenses;
-    }, [expenses]);
 
     const getChallengeById = useCallback(async () => {
         const { data, error } = await supabaseClient
@@ -182,14 +155,12 @@ export default function Main() {
         setRemainingSaving(calculateRemainingSaving());
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
-        setDailyExpenses(groupExpensesByDate());
     }, [
         challenge,
         expenses,
         calculateRemainingSaving,
         calculateRemainingDays,
         calculateProgressBarWidth,
-        groupExpensesByDate,
     ]);
 
     if (isLoadingChallenge) {
@@ -213,10 +184,7 @@ export default function Main() {
             />
 
             <h3 className="text-xl font-bold mt-4">매일 지출</h3>
-            <DailyExpenseBarChart
-                dailyExpenses={dailyExpenses}
-                challenge={challenge}
-            />
+            <DailyExpenseBarChart challenge={challenge} expenses={expenses} />
 
             <h3 className="text-xl font-bold mt-4">카테고리 파이</h3>
             <CategoryPieChart expenses={expenses} />

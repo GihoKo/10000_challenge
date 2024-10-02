@@ -1,5 +1,3 @@
-import { ChallengeResponse } from "@/types/challenge";
-import { DailyExpense } from "@/types/chart";
 import {
     Bar,
     CartesianGrid,
@@ -12,12 +10,13 @@ import {
     YAxis,
 } from "recharts";
 import { DailyExpenseBarChartProps } from "./DailyExpenseBarChart.type";
+import useDailyExpenseBarChart from "./DailyExpenseBarChart.hook";
 
 export default function DailyExpenseBarChart({
-    dailyExpenses,
     challenge,
+    expenses,
 }: DailyExpenseBarChartProps) {
-    if (!challenge) return null;
+    const { dailyExpenses } = useDailyExpenseBarChart({ expenses });
 
     return (
         <ResponsiveContainer width="100%" height={300}>

@@ -1,7 +1,11 @@
 import { ChallengeResponse } from "@/types/challenge";
-import { DailyExpense } from "@/types/chart";
+import { ExpenseData } from "@/types/expense";
 
 export interface DailyExpenseBarChartProps {
-    dailyExpenses: DailyExpense[];
     challenge: ChallengeResponse | undefined;
+    expenses: ExpenseData[];
+}
+
+export interface UseDailyExpenseBarChartProps {
+    expenses: ExpenseData[];
 }
