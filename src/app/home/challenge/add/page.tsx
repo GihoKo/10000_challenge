@@ -4,41 +4,11 @@ import ConfirmButton from "@/components/button/ConfirmButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
-import { useState } from "react";
-import { FormData } from "./page.type";
+import useAddPage from "./page.hook";
 
 export default function Add() {
-    const [formData, setFormData] = useState<FormData>({
-        name: "",
-        resolution: "",
-        dailyExpenseLimit: "",
-        challengeDuration: "",
-    });
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        console.log("챌린지 추가");
-    };
-
-    const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, name: e.target.value });
-    };
-
-    const handleChangeResolution = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setFormData({ ...formData, resolution: e.target.value });
-    };
-
-    const handleChangeDailyExpenseLimit = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormData({ ...formData, dailyExpenseLimit: e.target.value });
-    };
-
-    const handleChangeChallengeDuration = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setFormData({ ...formData, challengeDuration: e.target.value });
-    };
+    const { values, handleSubmit, handleChange, handleDateChange } =
+        useAddPage();
 
     return (
         <div>
@@ -49,10 +19,11 @@ export default function Add() {
                     <Label htmlFor="name" text="챌린지 이름을 입력해주세요">
                         <Input
                             id="name"
+                            name="name"
                             type="text"
                             placeholder="챌린지 이름을 입력해주세요"
-                            value={formData.name}
-                            onChange={handleChangeName}
+                            value={values.name}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
@@ -64,40 +35,43 @@ export default function Add() {
                     >
                         <Input
                             id="resolution"
+                            name="resolution"
                             type="text"
                             placeholder="스스로의 다짐을 입력해주세요"
-                            value={formData.resolution}
-                            onChange={handleChangeResolution}
+                            value={values.resolution}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
 
                 <div className="mt-2">
                     <Label
-                        htmlFor="dailyExpenseLimit"
+                        htmlFor="dailySaving"
                         text="매일 목표로 할 지출 금액을 입력해주세요"
                     >
                         <Input
-                            id="dailyExpenseLimit"
+                            id="dailySaving"
+                            name="dailySaving"
                             type="text"
                             placeholder="매일 목표로 할 지출 금액을 입력해주세요"
-                            value={formData.dailyExpenseLimit}
-                            onChange={handleChangeDailyExpenseLimit}
+                            value={values.dailySaving}
+                            onChange={handleChange}
                         />
                     </Label>
                 </div>
 
                 <div className="mt-2">
                     <Label
-                        htmlFor="challengeDuration"
-                        text="챌린지를 진행할 기간을 입력해주세요"
+                        htmlFor="goalDate"
+                        text="챌린지 목표 날짜를 입력해주세요"
                     >
                         <Input
-                            id="challengeDuration"
-                            type="text"
-                            placeholder="챌린지를 진행할 기간을 입력해주세요"
-                            value={formData.challengeDuration}
-                            onChange={handleChangeChallengeDuration}
+                            id="goalDate"
+                            name="goalDate"
+                            type="date"
+                            placeholder="챌린지 목표 날짜를 입력해주세요"
+                            value={values.goalDate}
+                            onChange={handleDateChange}
                         />
                     </Label>
                 </div>
