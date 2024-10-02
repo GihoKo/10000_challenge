@@ -5,7 +5,7 @@ export default function ExpenseOfChallengeContainer({
     expenses,
 }: ExpenseOfChallengeContainerProps) {
     return (
-        <div>
+        <div className="flex flex-col gap-2">
             {expenses.map((expense) => (
                 <Expense key={expense.id} expense={expense} />
             ))}
