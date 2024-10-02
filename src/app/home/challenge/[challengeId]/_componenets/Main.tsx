@@ -1,6 +1,5 @@
 "use client";
 
-import Expense from "@/app/expenses/_components/Main/Expense";
 import NagativeButton from "@/components/button/NagativeButton";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
@@ -8,24 +7,12 @@ import { ExpenseData } from "@/types/expense";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import {
-    Bar,
-    CartesianGrid,
-    ComposedChart,
-    Legend,
-    Pie,
-    PieChart,
-    ReferenceLine,
-    ResponsiveContainer,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "recharts";
 import DeleteChallengeModal from "./DeleteChallengeModal";
 import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
 import { DailyExpense, ExpensesByCategory } from "@/types/chart";
 import CategoryPieChart from "./CategoryPieChart";
 import DailyExpenseBarChart from "./DailyExpenseBarChart";
+import MainHeader from "./MainHeader";
 
 export default function Main() {
     const { challengeId } = useParams();
@@ -245,18 +232,10 @@ export default function Main() {
 
     return (
         <main className="flex flex-col gap-2">
-            <div className="flex justify-between items-center">
-                <h3 className="text-xl font-bold">{challenge?.name}</h3>
-                <NagativeButton
-                    type="button"
-                    text="삭제"
-                    rounded="rounded-md"
-                    px="px-2"
-                    py="py-1"
-                    width="w-auto"
-                    onClick={handleDeleteModalOpen}
-                />
-            </div>
+            <MainHeader
+                challenge={challenge}
+                handleDeleteModalOpen={handleDeleteModalOpen}
+            />
 
             <div className="flex flex-col gap-2">
                 <div className="flex justify-between items-center">
