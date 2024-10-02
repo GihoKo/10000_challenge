@@ -58,14 +58,18 @@ export default function Main() {
         { name: "기타", amount: 0, fill: "#EF4444" },
     ]);
 
+    // 삭제 모달
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
     const handleDeleteChallenge = () => {
-        deleteChallenge(challenge?.id)
-            .then(() => {
-                router.push("/dashboard");
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        setIsDeleteModalOpen(true);
+        // deleteChallenge(challenge?.id)
+        //     .then(() => {
+        //         router.push("/dashboard");
+        //     })
+        //     .catch((error) => {
+        //         console.error(error);
+        //     });
     };
 
     const calculateRemainingSaving = useCallback(() => {
@@ -225,6 +229,8 @@ export default function Main() {
         calculateRemainingSaving,
         calculateRemainingDays,
         calculateProgressBarWidth,
+        groupExpensesByDate,
+        groupExpensesByCategory,
     ]);
 
     if (isLoading) {
@@ -280,7 +286,7 @@ export default function Main() {
                 </div>
                 <div className="flex flex-col gap-1">
                     <span className="text-sm font-medium">일일 목표 금액</span>
-                    <span className="text-2xl font-bold text-blue-500">
+                    <span className="text-2xl font-bold">
                         {challenge?.daily_saving}
                     </span>
                 </div>

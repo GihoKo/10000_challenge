@@ -2,7 +2,7 @@ import NavigateButtonButton from "@/components/button/NavigateButtonButton";
 import ChallengeContainer from "./_components/ChallengeContainer";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 
-export default function Dashboard() {
+export default function Home() {
     return (
         <div className="flex flex-col gap-12">
             <div>
