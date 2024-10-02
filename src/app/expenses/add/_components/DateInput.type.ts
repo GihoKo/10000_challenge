@@ -1,4 +1,4 @@
-import { Values } from "../page.type";
+import { Values } from "./Main.type";
 
 export interface DateInputProps {
     values: Values;

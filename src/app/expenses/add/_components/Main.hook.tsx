@@ -1,10 +1,10 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Values } from "./page.type";
 import formatDate from "@/utils/formatDate";
 import supabaseClient from "@/supabase/supabaseClient";
+import { Values } from "./Main.type";
 
-export default function useAddPage() {
+export default function useMain() {
     const router = useRouter();
 
     const [values, setValues] = useState<Values>({
