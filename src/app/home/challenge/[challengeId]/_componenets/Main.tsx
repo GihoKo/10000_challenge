@@ -1,6 +1,6 @@
 "use client";
+
 import Expense from "@/app/expenses/_components/Main/Expense";
-import ConfirmButton from "@/components/button/ConfirmButton";
 import NagativeButton from "@/components/button/NagativeButton";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
@@ -21,9 +21,8 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import Challenge from "../page";
-import ChallengeDeleteModal from "./DeleteChallengeModal";
 import DeleteChallengeModal from "./DeleteChallengeModal";
+import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
 
 interface DailyExpense {
     date: string;
@@ -371,10 +370,7 @@ export default function Main() {
             </ResponsiveContainer>
 
             <h3 className="text-xl font-bold mt-4">최근 지출 목록</h3>
-
-            {expenses.map((expense) => (
-                <Expense key={expense.id} expense={expense} />
-            ))}
+            {expenses && <ExpenseOfChallengeContainer expenses={expenses} />}
 
             {isDeleteModalOpen && (
                 <DeleteChallengeModal
