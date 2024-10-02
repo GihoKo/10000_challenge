@@ -1,13 +1,59 @@
 import NagativeButton from "@/components/button/NagativeButton";
 import { ChallengeInfoProps } from "./ChallengeInfo.type";
+import { useCallback, useEffect, useState } from "react";
+import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 
 export default function ChallengeInfo({
     challenge,
     handleDeleteModalOpen,
-    progressBarWidth,
-    remainingSaving,
-    remainingDays,
 }: ChallengeInfoProps) {
+    const [remainingSaving, setRemainingSaving] = useState(0);
+    const [remainingDays, setRemainingDays] = useState(0);
+    const [progressBarWidth, setProgressBarWidth] = useState(0);
+
+    const calculateRemainingSaving = useCallback(() => {
+        if (!challenge) return 0;
+        const { progressDays } = cacultateDaysOfChallenge(challenge);
+
+        const totalSaving = Number(challenge.daily_saving) * progressDays;
+        const totalExpense = 10000;
+
+        const remainingSaving = Number(totalSaving - totalExpense);
+
+        return remainingSaving;
+    }, [challenge]);
+
+    const calculateRemainingDays = useCallback(() => {
+        if (!challenge) return 0;
+        const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
+
+        const remainingDays = Number(totalDays - progressDays);
+
+        return remainingDays;
+    }, [challenge]);
+
+    const calculateProgressBarWidth = useCallback(() => {
+        if (!challenge) return 0;
+        const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
+
+        const progressBarWidth = Math.floor((progressDays / totalDays) * 100);
+
+        console.log(progressBarWidth);
+
+        return progressBarWidth;
+    }, [challenge]);
+
+    useEffect(() => {
+        setRemainingSaving(calculateRemainingSaving());
+        setRemainingDays(calculateRemainingDays());
+        setProgressBarWidth(calculateProgressBarWidth());
+    }, [
+        challenge,
+        calculateRemainingSaving,
+        calculateRemainingDays,
+        calculateProgressBarWidth,
+    ]);
+
     return (
         <div>
             <div className="flex justify-between items-center">
