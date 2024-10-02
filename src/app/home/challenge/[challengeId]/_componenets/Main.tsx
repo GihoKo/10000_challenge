@@ -1,6 +1,5 @@
 "use client";
 
-import NagativeButton from "@/components/button/NagativeButton";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
@@ -12,8 +11,7 @@ import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
 import { DailyExpense, ExpensesByCategory } from "@/types/chart";
 import CategoryPieChart from "./CategoryPieChart";
 import DailyExpenseBarChart from "./DailyExpenseBarChart";
-import MainHeader from "./MainHeader";
-import ChallengeProgressBar from "./ChallengeProgressBar";
+import ChallengeInfo from "./ChallengeInfo";
 
 export default function Main() {
     const { challengeId } = useParams();
@@ -233,43 +231,13 @@ export default function Main() {
 
     return (
         <main className="flex flex-col gap-2">
-            <MainHeader
+            <ChallengeInfo
                 challenge={challenge}
                 handleDeleteModalOpen={handleDeleteModalOpen}
+                progressBarWidth={progressBarWidth}
+                remainingSaving={remainingSaving}
+                remainingDays={remainingDays}
             />
-
-            <ChallengeProgressBar progressBarWidth={progressBarWidth} />
-
-            <div className="grid grid-cols-2 gap-2">
-                <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium">현재 남은 돈</span>
-                    <span
-                        className={`text-2xl font-bold ${
-                            remainingSaving >= 0
-                                ? "text-blue-500"
-                                : "text-red-500"
-                        }`}
-                    >
-                        {remainingSaving}
-                    </span>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium">일일 목표 금액</span>
-                    <span className="text-2xl font-bold">
-                        {challenge?.daily_saving}
-                    </span>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium">남은 일수</span>
-                    <span className="text-2xl font-bold">{remainingDays}</span>
-                </div>
-                <div className="flex flex-col gap-1">
-                    <span className="text-sm font-medium">마감일</span>
-                    <span className="text-2xl font-bold">
-                        {challenge?.goal_date}
-                    </span>
-                </div>
-            </div>
 
             <h3 className="text-xl font-bold mt-4">매일 지출</h3>
             <DailyExpenseBarChart
