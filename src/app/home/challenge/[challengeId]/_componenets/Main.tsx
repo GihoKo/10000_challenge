@@ -19,8 +19,8 @@ export default function Main() {
 
     // 챌린지
     const [challenge, setChallenge] = useState<ChallengeResponse>();
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
+    const [isLoadingChallenge, setIsLoadingChallenge] = useState(true);
+    const [isErrorChallenge, setIsErrorChallenge] = useState(false);
 
     // 지출
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
@@ -30,14 +30,6 @@ export default function Main() {
 
     // 차트 데이터
     const [dailyExpenses, setDailyExpenses] = useState<DailyExpense[]>([]);
-    const [expensesByCategory, setExpensesByCategory] = useState<
-        ExpensesByCategory[]
-    >([
-        { name: "식비", amount: 0, fill: "#3B82F6" },
-        { name: "교통비", amount: 0, fill: "#F59E0B" },
-        { name: "문화생활", amount: 0, fill: "#10B981" },
-        { name: "기타", amount: 0, fill: "#EF4444" },
-    ]);
 
     // 삭제 모달
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
@@ -116,25 +108,6 @@ export default function Main() {
         return groupedExpenses;
     }, [expenses]);
 
-    const groupExpensesByCategory = useCallback(() => {
-        if (!expenses) return [];
-
-        const groupedExpenses: ExpensesByCategory[] = [...expensesByCategory];
-
-        expenses.forEach((expense) => {
-            const category = expense.category;
-            const amount = expense.amount;
-
-            // 해당 카테고리에 amount를 더하기
-            const index = groupedExpenses.findIndex(
-                (expense) => expense.name === category
-            );
-            groupedExpenses[index].amount += amount;
-        });
-
-        return groupedExpenses;
-    }, [expenses]);
-
     const getChallengeById = useCallback(async () => {
         const { data, error } = await supabaseClient
             .from("challenge")
@@ -181,7 +154,7 @@ export default function Main() {
 
     // 데이터 가져오기
     useEffect(() => {
-        setIsLoading(true);
+        setIsLoadingChallenge(true);
 
         getChallengeById()
             .then((challenge) => {
@@ -197,11 +170,11 @@ export default function Main() {
                     });
             })
             .catch((error) => {
-                setIsError(true);
+                setIsErrorChallenge(true);
                 console.error(error);
             })
             .finally(() => {
-                setIsLoading(false);
+                setIsLoadingChallenge(false);
             });
     }, [challengeId, getChallengeById, getExpensesByChallengeDuration]);
 
@@ -210,7 +183,6 @@ export default function Main() {
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
         setDailyExpenses(groupExpensesByDate());
-        setExpensesByCategory(groupExpensesByCategory());
     }, [
         challenge,
         expenses,
@@ -218,15 +190,16 @@ export default function Main() {
         calculateRemainingDays,
         calculateProgressBarWidth,
         groupExpensesByDate,
-        groupExpensesByCategory,
     ]);
 
-    if (isLoading) {
-        return <div>데이터를 불러오는 중 입니다...</div>;
+    if (isLoadingChallenge) {
+        return <div>챌린지 데이터를 불러오는 중 입니다...</div>;
     }
 
-    if (isError) {
-        return <div>데이터 가져오기를 실패했습니다. 재시도해주세요.</div>;
+    if (isErrorChallenge) {
+        return (
+            <div>챌린지 데이터 가져오기를 실패했습니다. 재시도해주세요.</div>
+        );
     }
 
     return (
@@ -246,7 +219,7 @@ export default function Main() {
             />
 
             <h3 className="text-xl font-bold mt-4">카테고리 파이</h3>
-            <CategoryPieChart expensesByCategory={expensesByCategory} />
+            <CategoryPieChart expenses={expenses} />
 
             <h3 className="text-xl font-bold mt-4">최근 지출 목록</h3>
             {expenses && <ExpenseOfChallengeContainer expenses={expenses} />}

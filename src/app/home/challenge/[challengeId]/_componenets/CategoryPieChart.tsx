@@ -1,9 +1,10 @@
 import { Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from "recharts";
 import { CategoryPieChartProps } from "./CategoryPieChart.type";
+import useCategoryPieChart from "./CategoryPieChart.hook";
 
-export default function CategoryPieChart({
-    expensesByCategory,
-}: CategoryPieChartProps) {
+export default function CategoryPieChart({ expenses }: CategoryPieChartProps) {
+    const { expensesByCategory } = useCategoryPieChart({ expenses });
+
     return (
         <ResponsiveContainer width="100%" height={300}>
             <PieChart>

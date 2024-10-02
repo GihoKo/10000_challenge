@@ -1,5 +1,9 @@
-import { ExpensesByCategory } from "@/types/chart";
+import { ExpenseData } from "@/types/expense";
 
 export interface CategoryPieChartProps {
-    expensesByCategory: ExpensesByCategory[];
+    expenses: ExpenseData[];
+}
+
+export interface UseCategoryPieChartProps {
+    expenses: ExpenseData[];
 }
