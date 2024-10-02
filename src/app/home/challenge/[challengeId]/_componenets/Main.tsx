@@ -23,17 +23,9 @@ import {
 } from "recharts";
 import DeleteChallengeModal from "./DeleteChallengeModal";
 import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
-
-interface DailyExpense {
-    date: string;
-    amount: number;
-}
-
-interface ExpensesByCategory {
-    name: "식비" | "교통비" | "문화생활" | "기타";
-    amount: number;
-    fill: "#3B82F6" | "#F59E0B" | "#10B981" | "#EF4444";
-}
+import { DailyExpense, ExpensesByCategory } from "@/types/chart";
+import CategoryPieChart from "./CategoryPieChart";
+import DailyExpenseBarChart from "./DailyExpenseBarChart";
 
 export default function Main() {
     const { challengeId } = useParams();
@@ -313,61 +305,13 @@ export default function Main() {
             </div>
 
             <h3 className="text-xl font-bold mt-4">매일 지출</h3>
-
-            {dailyExpenses ? (
-                <ResponsiveContainer width="100%" height={300}>
-                    <ComposedChart data={dailyExpenses}>
-                        <XAxis dataKey="date" />
-                        <YAxis />
-                        <Tooltip />
-                        <Legend
-                            payload={[
-                                {
-                                    value: "지출",
-                                    type: "rect",
-                                    color: "#3B82F6",
-                                },
-                                {
-                                    value: "목표 지출",
-                                    type: "line",
-                                    color: "red",
-                                },
-                            ]}
-                        />
-                        <CartesianGrid stroke="#f5f5f5" />
-                        <Bar
-                            dataKey="amount"
-                            name="지출"
-                            barSize={20}
-                            fill="#3B82F6"
-                        />
-                        <ReferenceLine
-                            y={challenge?.daily_saving}
-                            name="목표 지출"
-                            stroke="red"
-                        />
-                    </ComposedChart>
-                </ResponsiveContainer>
-            ) : null}
+            <DailyExpenseBarChart
+                dailyExpenses={dailyExpenses}
+                challenge={challenge}
+            />
 
             <h3 className="text-xl font-bold mt-4">카테고리 파이</h3>
-
-            <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                    <Legend />
-                    <Tooltip />
-                    <Pie
-                        data={expensesByCategory}
-                        dataKey="amount"
-                        nameKey="name"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        fill="#3B82F6"
-                        label
-                    />
-                </PieChart>
-            </ResponsiveContainer>
+            <CategoryPieChart expensesByCategory={expensesByCategory} />
 
             <h3 className="text-xl font-bold mt-4">최근 지출 목록</h3>
             {expenses && <ExpenseOfChallengeContainer expenses={expenses} />}
