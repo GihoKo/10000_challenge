@@ -21,6 +21,9 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
+import Challenge from "../page";
+import ChallengeDeleteModal from "./DeleteChallengeModal";
+import DeleteChallengeModal from "./DeleteChallengeModal";
 
 interface DailyExpense {
     date: string;
@@ -374,32 +377,10 @@ export default function Main() {
             ))}
 
             {isDeleteModalOpen && (
-                // dimmed
-                <div className="fixed inset-0 flex items-center justify-center bg-black/50">
-                    <div className="w-full flex flex-col gap-2 p-4 bg-white rounded-md mx-6">
-                        <span>챌린지 삭제 하시겠습니까?</span>
-                        <div className="flex justify-end gap-2">
-                            <NagativeButton
-                                type="button"
-                                text="취소"
-                                rounded="rounded-md"
-                                px="px-2"
-                                py="py-1"
-                                width="w-auto"
-                                onClick={handleDeleteModalClose}
-                            />
-                            <ConfirmButton
-                                type="button"
-                                text="삭제"
-                                rounded="rounded-md"
-                                px="px-2"
-                                py="py-1"
-                                width="w-auto"
-                                onClick={handleDeleteChallenge}
-                            />
-                        </div>
-                    </div>
-                </div>
+                <DeleteChallengeModal
+                    onClose={handleDeleteModalClose}
+                    handleDeleteChallenge={handleDeleteChallenge}
+                />
             )}
         </main>
     );
