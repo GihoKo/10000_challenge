@@ -1,10 +1,11 @@
-import Header from "./_components/Header/Header";
-import Main from "./_components/Main/Main";
+import PageContentHeader from "@/components/Header/PageContentHeader";
+import Main from "./_components/Main";
+import Date from "./_components/Date";
 
 export default function Expenses() {
     return (
         <div>
-            <Header />
+            <PageContentHeader text="오늘의 지출" />
             <Main />
         </div>
     );
