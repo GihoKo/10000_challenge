@@ -1,5 +1,6 @@
 "use client";
 import Expense from "@/app/expenses/_components/Main/Expense";
+import ConfirmButton from "@/components/button/ConfirmButton";
 import NagativeButton from "@/components/button/NagativeButton";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ChallengeResponse } from "@/types/challenge";
@@ -61,15 +62,22 @@ export default function Main() {
     // 삭제 모달
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    const handleDeleteChallenge = () => {
+    const handleDeleteModalClose = () => {
+        setIsDeleteModalOpen(false);
+    };
+
+    const handleDeleteModalOpen = () => {
         setIsDeleteModalOpen(true);
-        // deleteChallenge(challenge?.id)
-        //     .then(() => {
-        //         router.push("/dashboard");
-        //     })
-        //     .catch((error) => {
-        //         console.error(error);
-        //     });
+    };
+
+    const handleDeleteChallenge = () => {
+        deleteChallenge(challenge?.id)
+            .then(() => {
+                router.push("/home");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const calculateRemainingSaving = useCallback(() => {
@@ -252,7 +260,7 @@ export default function Main() {
                     px="px-2"
                     py="py-1"
                     width="w-auto"
-                    onClick={handleDeleteChallenge}
+                    onClick={handleDeleteModalOpen}
                 />
             </div>
 
@@ -364,6 +372,35 @@ export default function Main() {
             {expenses.map((expense) => (
                 <Expense key={expense.id} expense={expense} />
             ))}
+
+            {isDeleteModalOpen && (
+                // dimmed
+                <div className="fixed inset-0 flex items-center justify-center bg-black/50">
+                    <div className="w-full flex flex-col gap-2 p-4 bg-white rounded-md mx-6">
+                        <span>챌린지 삭제 하시겠습니까?</span>
+                        <div className="flex justify-end gap-2">
+                            <NagativeButton
+                                type="button"
+                                text="취소"
+                                rounded="rounded-md"
+                                px="px-2"
+                                py="py-1"
+                                width="w-auto"
+                                onClick={handleDeleteModalClose}
+                            />
+                            <ConfirmButton
+                                type="button"
+                                text="삭제"
+                                rounded="rounded-md"
+                                px="px-2"
+                                py="py-1"
+                                width="w-auto"
+                                onClick={handleDeleteChallenge}
+                            />
+                        </div>
+                    </div>
+                </div>
+            )}
         </main>
     );
 }

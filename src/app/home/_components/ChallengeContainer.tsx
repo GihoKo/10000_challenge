@@ -23,7 +23,7 @@ export default function ChallengeContainer() {
     const handleChallengeClick = (e: React.MouseEvent<HTMLLIElement>) => {
         const currentChallengeId = e.currentTarget.dataset.id;
 
-        router.push(`/dashboard/challenge/${currentChallengeId}`);
+        router.push(`/home/challenge/${currentChallengeId}`);
     };
 
     useEffect(() => {

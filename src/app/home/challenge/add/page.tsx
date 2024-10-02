@@ -63,7 +63,7 @@ export default function Add() {
             console.log(error);
         }
 
-        router.push("/dashboard");
+        router.push("/home");
     };
 
     const formatDate = (date: string) => {

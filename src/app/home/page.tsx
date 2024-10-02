@@ -11,7 +11,7 @@ export default function Home() {
                 <ChallengeContainer />
 
                 <NavigateButtonButton
-                    path={"/dashboard/add"}
+                    path={"/home/challenge/add"}
                     text="추가하기"
                     mt="mt-2"
                 />

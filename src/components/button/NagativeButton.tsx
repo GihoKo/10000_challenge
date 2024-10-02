@@ -19,7 +19,7 @@ export default function NagativeButton({
 }: NagativeButtonProps) {
     return (
         <button
-            className={`${width} ${rounded} ${px} ${py} bg-red-600 flex justify-center items-center text-gray-100`}
+            className={`${width} ${rounded} ${px} ${py} bg-transparent flex justify-center items-center`}
             type={type}
             onClick={onClick}
         >
