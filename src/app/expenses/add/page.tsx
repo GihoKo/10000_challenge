@@ -9,21 +9,24 @@ import supabaseClient from "@/supabase/supabaseClient";
 import { useRouter } from "next/navigation";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
 import PageContentHeader from "@/components/Header/PageContentHeader";
+import formatDate from "@/utils/formatDate";
 
 export interface AddExpenseValues {
     category: string;
     description: string;
-    amount: string;
+    amount: number;
+    date: string;
 }
 
 export default function Add() {
+    const router = useRouter();
+
     const [values, setValues] = useState<AddExpenseValues>({
         category: "",
         description: "",
-        amount: "",
+        amount: 0,
+        date: "",
     });
-
-    const router = useRouter();
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setValues({
@@ -43,10 +46,9 @@ export default function Add() {
         e.preventDefault();
 
         createExpense()
-            .then((response) => {
-                if (response.status === 201) {
-                    router.push("/expenses");
-                }
+            .then((expense) => {
+                console.log(expense);
+                router.push("/expenses");
             })
             .catch((error) => {
                 console.error(error);
@@ -54,36 +56,29 @@ export default function Add() {
     };
 
     const createExpense = async () => {
-        const data = {
+        const expense = {
             category: values.category,
             description: values.description,
             amount: values.amount,
             user_id: process.env.NEXT_PUBLIC_USER_ID,
-            date: createNowDate(),
+            date: formatDate(values.date),
         };
 
-        const response = await supabaseClient.from("expense").insert(data);
+        const { data, error } = await supabaseClient
+            .from("expense")
+            .insert(expense);
 
-        if (response.error) {
-            throw new Error(response.error.message);
+        if (error) {
+            throw new Error(error.message);
         }
 
-        return response;
-    };
-
-    const createNowDate = () => {
-        const Now = new Date();
-        const year = Now.getFullYear();
-        const month = String(Now.getMonth() + 1).padStart(2, "0");
-        const day = String(Now.getDate()).padStart(2, "0");
-
-        return `${year}-${month}-${day}`;
+        return data;
     };
 
     return (
         <div>
             <PageContentHeader text="지출 추가하기" />
-            <div>새로운 지출을 추가할께요.</div>
+
             <form onSubmit={handleSubmit}>
                 <div className="mt-2">
                     <ExpenseCategorySelect
@@ -116,6 +111,19 @@ export default function Add() {
                             type="text"
                             placeholder="지출 금액을 입력해주세요"
                             value={values.amount}
+                            onChange={handleInputChange}
+                        />
+                    </Label>
+                </div>
+
+                <div className="mt-2">
+                    <Label htmlFor="date" text="지출 날짜를 입력해주세요.">
+                        <Input
+                            id="date"
+                            name="date"
+                            type="date"
+                            placeholder="지출 날짜를 입력해주세요"
+                            value={values.date}
                             onChange={handleInputChange}
                         />
                     </Label>
