@@ -1,4 +1,4 @@
-import NavigateButtonButton from "@/components/button/NavigateButtonButton";
+import NavigateButtonButton from "@/components/button/NavigateButton";
 import ExpenseContainer from "./ExpenseContainer";
 import Date from "./Date";
 

@@ -1,7 +1,7 @@
-import NagativeButton from "@/components/button/NagativeButton";
 import { ChallengeInfoProps } from "./ChallengeInfo.type";
 import { useCallback, useEffect, useState } from "react";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
+import DangerousButton from "@/components/button/DangerousButton";
 
 export default function ChallengeInfo({
     challenge,
@@ -59,7 +59,7 @@ export default function ChallengeInfo({
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">{challenge?.name}</h3>
 
-                <NagativeButton
+                <DangerousButton
                     type="button"
                     text="삭제"
                     rounded="rounded-md"

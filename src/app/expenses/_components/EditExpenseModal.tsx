@@ -8,6 +8,7 @@ import { useCallback, useEffect, useState } from "react";
 import close from "@/images/svg/close.svg";
 import Image from "next/image";
 import { UpdatedExpense } from "./ExpenseContainer.hook";
+import DangerousButton from "@/components/button/DangerousButton";
 
 interface EditExpenseModalProps {
     modalExpenseId: string | null;
@@ -127,7 +128,7 @@ export default function EditExpenseModal({
 
                 <div className="flex gap-2">
                     <ConfirmButton type="submit" text="수정" />
-                    <NagativeButton
+                    <DangerousButton
                         type="button"
                         text="삭제"
                         onClick={handleDeleteModalOpen}
@@ -153,7 +154,7 @@ export default function EditExpenseModal({
                         onSubmit={handleDelete}
                     >
                         <div className="text-lg">정말 삭제하시겠습니까?</div>
-                        <NagativeButton type="submit" text="삭제" />
+                        <DangerousButton type="submit" text="삭제" />
                         <button
                             type="button"
                             onClick={handleDeleteModalClose}

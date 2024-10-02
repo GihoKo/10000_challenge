@@ -18,20 +18,31 @@ export default function Main() {
     } = useMain();
 
     return (
-        <main className="flex flex-col gap-2">
+        <main className="flex flex-col gap-8">
             <ChallengeInfo
                 challenge={challenge}
                 handleDeleteModalOpen={handleDeleteModalOpen}
             />
 
-            <h3 className="text-xl font-bold mt-4">매일 지출</h3>
-            <DailyExpenseBarChart challenge={challenge} expenses={expenses} />
+            <div className="flex flex-col gap-4">
+                <h3 className="text-xl font-bold">매일 지출</h3>
+                <DailyExpenseBarChart
+                    challenge={challenge}
+                    expenses={expenses}
+                />
+            </div>
 
-            <h3 className="text-xl font-bold mt-4">카테고리 파이</h3>
-            <CategoryPieChart expenses={expenses} />
+            <div className="flex flex-col gap-4">
+                <h3 className="text-xl font-bold">카테고리 파이</h3>
+                <CategoryPieChart expenses={expenses} />
+            </div>
 
-            <h3 className="text-xl font-bold mt-4">최근 지출 목록</h3>
-            {expenses && <ExpenseOfChallengeContainer expenses={expenses} />}
+            <div className="flex flex-col gap-4">
+                <h3 className="text-xl font-bold">최근 지출 목록</h3>
+                {expenses && (
+                    <ExpenseOfChallengeContainer expenses={expenses} />
+                )}
+            </div>
 
             {isDeleteModalOpen && (
                 <DeleteChallengeModal
