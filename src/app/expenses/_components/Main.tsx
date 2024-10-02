@@ -1,9 +1,12 @@
 import NavigateButtonButton from "@/components/button/NavigateButtonButton";
 import ExpenseContainer from "./ExpenseContainer";
+import Date from "./Date";
 
 export default function Main() {
     return (
         <div>
+            <Date />
+
             <h3 className="text-lg mb-2">오늘 하루는 어땠나요?</h3>
 
             <ExpenseContainer />

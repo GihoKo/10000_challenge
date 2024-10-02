@@ -30,7 +30,9 @@ export default function Expense({ expense, onClick }: ExpenseProps) {
             </div>
             <div className="flex flex-col">
                 <span className="text-sm font-medium">{expense.amount}</span>
-                <span className="text-xs text-gray-500">{formattedDate}</span>
+                <span className="text-xs text-gray-500 text-end">
+                    {formattedDate}
+                </span>
             </div>
         </li>
     );

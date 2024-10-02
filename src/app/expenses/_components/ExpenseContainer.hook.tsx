@@ -1,3 +1,4 @@
+import { useDateStore } from "@/stores/dateStore";
 import supabaseClient from "@/supabase/supabaseClient";
 import { ExpenseData } from "@/types/expense";
 import { useEffect, useState } from "react";
@@ -9,19 +10,17 @@ export interface UpdatedExpense {
 }
 
 export default function useExpenseContainer() {
+    const { date } = useDateStore();
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalExpenseId, setModalExpenseId] = useState<string | null>(null);
 
     const getExpenses = async () => {
-        setIsLoading(true);
-
         const { data: expenses, error } = await supabaseClient
             .from("expense")
-            .select("*");
+            .select("*")
+            .eq("user_id", process.env.NEXT_PUBLIC_USER_ID)
+            .eq("date", date);
 
         if (error) {
             throw new Error(error.message);
@@ -86,22 +85,13 @@ export default function useExpenseContainer() {
     };
 
     useEffect(() => {
-        getExpenses()
-            .then((expenses) => {
-                setExpenses(expenses);
-            })
-            .catch((error) => {
-                setError(error.message);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, []);
+        getExpenses().then((expenses) => {
+            setExpenses(expenses);
+        });
+    }, [date]);
 
     return {
         expenses,
-        isLoading,
-        error,
         isModalOpen,
         modalExpenseId,
         updateExpense,

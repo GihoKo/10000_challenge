@@ -1,6 +1,5 @@
 import NavigateButtonButton from "@/components/button/NavigateButtonButton";
 import ChallengeContainer from "./_components/ChallengeContainer";
-import PageContentHeader from "@/components/Header/PageContentHeader";
 import NavigateToExpensePageButton from "./_components/NavigateToExpensePageButton";
 
 export default function Home() {
