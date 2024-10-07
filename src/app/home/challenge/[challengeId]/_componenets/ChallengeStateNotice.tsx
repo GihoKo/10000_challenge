@@ -1,30 +1,15 @@
-import { endChallenge } from "@/apis/services/challenge";
 import ConfirmButton from "@/components/button/ConfirmButton";
-import { useRouter } from "next/navigation";
-
-interface ChallengeStateNoticeProps {
-    challengeId: string | undefined;
-    remainingDays: number;
-    isEnded: boolean | undefined;
-}
+import useChallengeStateNotice from "./ChallengeStateNotice.hook";
+import { ChallengeStateNoticeProps } from "./ChallengeStateNotice.type";
 
 export default function ChallengeStateNotice({
     challengeId,
     remainingDays,
     isEnded,
 }: ChallengeStateNoticeProps) {
-    const router = useRouter();
-
-    const handleEndChallengeButtonClick = () => {
-        endChallenge({
-            challengeId,
-        }).then((response) => {
-            if (response.status === 204) {
-                console.log("챌린지가 종료되었습니다.");
-                router.push("/home");
-            }
-        });
-    };
+    const { handleEndChallengeButtonClick } = useChallengeStateNotice({
+        challengeId,
+    });
 
     if (isEnded) {
         return (
