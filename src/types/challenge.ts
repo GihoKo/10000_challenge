@@ -5,4 +5,5 @@ export interface ChallengeResponse {
     daily_saving: number;
     start_date: string;
     goal_date: string;
+    is_ended: boolean;
 }

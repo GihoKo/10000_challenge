@@ -2,6 +2,7 @@ import { ChallengeInfoProps } from "./ChallengeInfo.type";
 import { useCallback, useEffect, useState } from "react";
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import DangerousButton from "@/components/button/DangerousButton";
+import ChallengeStateNotice from "./ChallengeStateNotice";
 
 export default function ChallengeInfo({
     challenge,
@@ -55,7 +56,13 @@ export default function ChallengeInfo({
     ]);
 
     return (
-        <div>
+        <div className="flex flex-col gap-4">
+            <ChallengeStateNotice
+                challengeId={challenge?.id}
+                remainingDays={remainingDays}
+                isEnded={challenge?.is_ended}
+            />
+
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">{challenge?.name}</h3>
 

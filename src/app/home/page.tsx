@@ -1,6 +1,8 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
 import ChallengeContainer from "./_components/ChallengeContainer";
-import NavigateToExpensePageButton from "./_components/NavigateToExpensePageButton";
+import NavigateLink from "../../components/Link/NavigateLink";
+import expensesSvg from "@/images/svg/money.svg";
+import challengeSvg from "@/images/svg/challenge.svg";
 
 export default function Home() {
     return (
@@ -20,7 +22,21 @@ export default function Home() {
             <div className="flex flex-col gap-2">
                 <h2 className="text-xl font-bold">지출을 관리해볼까요?</h2>
 
-                <NavigateToExpensePageButton />
+                <NavigateLink
+                    href="/expenses"
+                    image={expensesSvg}
+                    text="지출 관리하러 가기"
+                />
+            </div>
+
+            <div className="flex flex-col gap-2">
+                <h2 className="text-xl font-bold">지난 챌린지들을 볼까요?</h2>
+
+                <NavigateLink
+                    href="/previous-challenges"
+                    image={challengeSvg}
+                    text="지난 챌린지 보러 가기"
+                />
             </div>
         </div>
     );

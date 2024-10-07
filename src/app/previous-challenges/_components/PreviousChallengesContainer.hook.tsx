@@ -1,12 +1,12 @@
-import { getIncompleteChallenges } from "@/apis/services/challenge";
+import { getCompletedChallenges } from "@/apis/services/challenge";
 import { ChallengeResponse } from "@/types/challenge";
 import { useEffect, useState } from "react";
 
-export default function useChallengeContainer() {
+export default function usePreviousChallengesContainer() {
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
 
     useEffect(() => {
-        getIncompleteChallenges()
+        getCompletedChallenges()
             .then((response) => {
                 setChallenges(response.data);
             })
@@ -15,7 +15,5 @@ export default function useChallengeContainer() {
             });
     }, []);
 
-    return {
-        challenges,
-    };
+    return { challenges };
 }
