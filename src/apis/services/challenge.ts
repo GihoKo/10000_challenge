@@ -1,10 +1,25 @@
 import supabaseClient from "@/supabase/supabaseClient";
 
+// 종료되지 않은 챌린지 목록
 export const getIncompleteChallenges = async () => {
     const response = await supabaseClient
         .from("challenge")
         .select()
         .eq("is_ended", false);
+
+    if (response.error) {
+        throw response.error;
+    }
+
+    return response;
+};
+
+// 종료된 챌린지 목록
+export const getCompletedChallenges = async () => {
+    const response = await supabaseClient
+        .from("challenge")
+        .select()
+        .eq("is_ended", true);
 
     if (response.error) {
         throw response.error;

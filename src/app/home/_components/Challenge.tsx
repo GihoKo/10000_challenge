@@ -2,15 +2,16 @@ import { ChallengeProps } from "./Challenge.type";
 import challengeSvg from "@/images/svg/challenge.svg";
 import ImageWrapper from "@/components/ImageWrapper";
 import useChallenge from "./Challenge.hook";
+import Link from "next/link";
 
-export default function Challenge({ challenge, onClick }: ChallengeProps) {
+export default function Challenge({ challenge }: ChallengeProps) {
     const { progressDays, totalDays, isEnded } = useChallenge({ challenge });
 
     return (
-        <li
+        <Link
             data-id={challenge.id}
             key={challenge.id}
-            onClick={onClick}
+            href={`/home/challenge/${challenge.id}`}
             className="flex justify-between items-center py-2 px-4 bg-blue-50 rounded-lg"
         >
             <div className="flex gap-2">
@@ -34,6 +35,6 @@ export default function Challenge({ challenge, onClick }: ChallengeProps) {
                         : `${progressDays} / ${totalDays}`}
                 </span>
             </div>
-        </li>
+        </Link>
     );
 }
