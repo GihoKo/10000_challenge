@@ -34,9 +34,9 @@ export default function useSignInForm() {
         }
 
         if (response.data) {
-            console.log(`로그인 성공: ${response.data.user?.id}`);
             router.push("/home");
         }
     };
+
     return { value, handleSignIn, handleChangeEmail, handleChangePassword };
 }

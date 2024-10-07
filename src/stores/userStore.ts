@@ -1,11 +1,11 @@
 import supabaseClient from "@/supabase/supabaseClient";
-import { User } from "@supabase/supabase-js";
+import { UserMetadata } from "@supabase/supabase-js";
 
 import { create } from "zustand";
 
 interface UserStore {
-    user: User | null;
-    setUser: (user: User | null) => void;
+    user: UserMetadata | null;
+    setUser: (user: UserMetadata | null) => void;
     getUser: () => Promise<void>;
 }
 
@@ -22,6 +22,6 @@ export const useUserStore = create<UserStore>((set) => ({
             throw new Error(error.message);
         }
 
-        set({ user: user });
+        set({ user: user?.user_metadata });
     },
 }));
