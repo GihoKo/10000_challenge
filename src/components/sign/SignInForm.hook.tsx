@@ -27,17 +27,15 @@ export default function useSignInForm() {
             password: value.password,
         };
 
-        const { data, error } = await supabaseClient.auth.signInWithPassword(
-            userData
-        );
+        const response = await supabaseClient.auth.signInWithPassword(userData);
 
-        if (error) {
-            console.log(`로그인 실패: ${error.message}`);
+        if (response.error) {
+            console.log(`로그인 실패: ${response.error.message}`);
         }
 
-        if (data) {
-            console.log(`로그인 성공: ${data.user?.id}`);
-            router.push("/dashboard");
+        if (response.data) {
+            console.log(`로그인 성공: ${response.data.user?.id}`);
+            router.push("/home");
         }
     };
     return { value, handleSignIn, handleChangeEmail, handleChangePassword };
