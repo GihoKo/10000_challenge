@@ -5,6 +5,7 @@ import ImageWrapper from "@/components/ImageWrapper";
 
 export default function Challenge({ challenge, onClick }: ChallengeProps) {
     const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
+    const isEnded = progressDays >= totalDays;
 
     return (
         <li
@@ -28,8 +29,10 @@ export default function Challenge({ challenge, onClick }: ChallengeProps) {
                 </div>
             </div>
             <div>
-                <span>
-                    {progressDays} / {totalDays}
+                <span className={`text-sm ${isEnded ? "text-green-500" : ""}`}>
+                    {isEnded
+                        ? "챌린지가 끝났어요!"
+                        : `${progressDays} / ${totalDays}`}
                 </span>
             </div>
         </li>
