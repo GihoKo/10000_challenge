@@ -1,6 +1,6 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
 import ChallengeContainer from "./_components/ChallengeContainer";
-import NavigateLink from "./_components/NavigateLink";
+import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
 
