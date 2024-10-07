@@ -1,28 +1,28 @@
-"use client";
-
-import { useRouter } from "next/navigation";
-import moneySvg from "@/images/svg/money.svg";
 import ImageWrapper from "@/components/ImageWrapper";
 import rightArrowSvg from "@/images/svg/right-arrow.svg";
-import useNavigateToExpensePageButton from "./NavigateToExpensePageButton.hook";
+import { StaticImageData } from "next/image";
+import Link from "next/link";
 
-export default function NavigateToExpensePageButton() {
-    const { handleClick } = useNavigateToExpensePageButton();
+interface NavigateLinkProps {
+    href: string;
+    image: StaticImageData;
+    text: string;
+}
 
+export default function NavigateLink({ href, image, text }: NavigateLinkProps) {
     return (
-        <button
-            type="button"
-            onClick={handleClick}
+        <Link
+            href={href}
             className="w-full rounded-lg flex justify-between px-4 py-4 bg-blue-50"
         >
             <div className="flex items-center gap-1">
                 <ImageWrapper
-                    src={moneySvg}
+                    src={image}
                     alt="돈 이미지"
                     width={24}
                     height={24}
                 />
-                <span className="text-sm font-medium">지출 관리하기</span>
+                <span className="text-sm font-medium">{text}</span>
             </div>
 
             <div>
@@ -33,6 +33,6 @@ export default function NavigateToExpensePageButton() {
                     height={24}
                 />
             </div>
-        </button>
+        </Link>
     );
 }
