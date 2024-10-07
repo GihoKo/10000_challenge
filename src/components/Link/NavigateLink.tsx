@@ -1,13 +1,7 @@
 import ImageWrapper from "@/components/ImageWrapper";
 import rightArrowSvg from "@/images/svg/right-arrow.svg";
-import { StaticImageData } from "next/image";
 import Link from "next/link";
-
-interface NavigateLinkProps {
-    href: string;
-    image: StaticImageData;
-    text: string;
-}
+import { NavigateLinkProps } from "./NavigateLink.type";
 
 export default function NavigateLink({ href, image, text }: NavigateLinkProps) {
     return (
