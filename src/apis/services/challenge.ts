@@ -1,5 +1,18 @@
 import supabaseClient from "@/supabase/supabaseClient";
 
+export const getIncompleteChallenges = async () => {
+    const response = await supabaseClient
+        .from("challenge")
+        .select()
+        .eq("is_ended", false);
+
+    if (response.error) {
+        throw response.error;
+    }
+
+    return response;
+};
+
 interface GetChallengeByIdParams {
     challengeId: string | string[];
 }

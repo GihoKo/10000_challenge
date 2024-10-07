@@ -1,4 +1,4 @@
-import supabaseClient from "@/supabase/supabaseClient";
+import { getIncompleteChallenges } from "@/apis/services/challenge";
 import { ChallengeResponse } from "@/types/challenge";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -7,16 +7,6 @@ export default function useChallengeContainer() {
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
     const router = useRouter();
 
-    const getChallenges = async () => {
-        const { data, error } = await supabaseClient.from("challenge").select();
-
-        if (error) {
-            throw error;
-        }
-
-        return data;
-    };
-
     const handleChallengeClick = (e: React.MouseEvent<HTMLLIElement>) => {
         const currentChallengeId = e.currentTarget.dataset.id;
 
@@ -24,9 +14,9 @@ export default function useChallengeContainer() {
     };
 
     useEffect(() => {
-        getChallenges()
-            .then((challenges) => {
-                setChallenges(challenges);
+        getIncompleteChallenges()
+            .then((response) => {
+                setChallenges(response.data);
             })
             .catch((error) => {
                 console.error(error);
