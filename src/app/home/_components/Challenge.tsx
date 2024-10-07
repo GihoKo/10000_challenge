@@ -1,11 +1,10 @@
 import { ChallengeProps } from "./Challenge.type";
-import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import challengeSvg from "@/images/svg/challenge.svg";
 import ImageWrapper from "@/components/ImageWrapper";
+import useChallenge from "./Challenge.hook";
 
 export default function Challenge({ challenge, onClick }: ChallengeProps) {
-    const { progressDays, totalDays } = cacultateDaysOfChallenge(challenge);
-    const isEnded = progressDays >= totalDays;
+    const { progressDays, totalDays, isEnded } = useChallenge({ challenge });
 
     return (
         <li
