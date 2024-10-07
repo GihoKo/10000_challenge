@@ -38,3 +38,22 @@ export const deleteChallenge = async ({
 
     return null;
 };
+
+interface endChallengeParams {
+    challengeId: string | undefined;
+}
+
+export const endChallenge = async ({ challengeId }: endChallengeParams) => {
+    const response = await supabaseClient
+        .from("challenge")
+        .update({
+            is_ended: true,
+        })
+        .eq("id", challengeId);
+
+    if (response.error) {
+        throw response.error;
+    }
+
+    return response;
+};
