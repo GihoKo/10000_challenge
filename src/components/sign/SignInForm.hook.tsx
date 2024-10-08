@@ -18,27 +18,5 @@ export default function useSignInForm() {
         setValue({ ...value, password: e.target.value });
     };
 
-    const handleSignIn = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const userData = {
-            email: value.email,
-            password: value.password,
-        };
-
-        const response = await fetch("/api/auth/", {
-            method: "POST",
-            body: JSON.stringify(userData),
-            headers: {
-                "Content-Type": "application/json",
-            },
-        });
-
-        if (response.status === 200) {
-            console.log("로그인 성공!");
-            router.push("/home");
-        }
-    };
-
-    return { value, handleSignIn, handleChangeEmail, handleChangePassword };
+    return { value, handleChangeEmail, handleChangePassword };
 }

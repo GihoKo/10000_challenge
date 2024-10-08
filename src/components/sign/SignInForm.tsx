@@ -1,14 +1,13 @@
 "use client";
 
-import { login } from "./actions";
+import { signIn } from "./actions";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
 import useSignInForm from "./SignInForm.hook";
 
 export default function SignInForm() {
-    const { value, handleSignIn, handleChangeEmail, handleChangePassword } =
-        useSignInForm();
+    const { value, handleChangeEmail, handleChangePassword } = useSignInForm();
 
     return (
         <form className="flex flex-col gap-6 p-6">
@@ -34,7 +33,7 @@ export default function SignInForm() {
                 </Label>
             </div>
 
-            <Button text="로그인" formAction={login} />
+            <Button text="로그인" formAction={signIn} />
         </form>
     );
 }

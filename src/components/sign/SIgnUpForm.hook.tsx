@@ -31,37 +31,11 @@ export default function useSignUpForm() {
         setValue({ ...value, passwordConfirm: e.target.value });
     };
 
-    const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        const userData = {
-            email: value.email,
-            password: value.password,
-            options: {
-                data: {
-                    user_name: value.userName,
-                },
-            },
-        };
-
-        const { data, error } = await supabaseClient.auth.signUp(userData);
-
-        if (error) {
-            console.log(`회원가입 실패: ${error.message}`);
-        }
-
-        if (data) {
-            console.log(`회원가입 성공: ${data.user?.id}`);
-            router.push("/dashboard");
-        }
-    };
-
     return {
         value,
         handleChangeEmail,
         handleChangePassword,
         handleChangePasswordConfirm,
-        handleSignUp,
         handleChangeUserName,
     };
 }

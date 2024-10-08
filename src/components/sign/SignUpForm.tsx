@@ -1,5 +1,6 @@
 "use client";
 
+import { signUp } from "./actions";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
@@ -8,7 +9,6 @@ import useSignUpForm from "./SIgnUpForm.hook";
 export default function SignUpForm() {
     const {
         value,
-        handleSignUp,
         handleChangeUserName,
         handleChangeEmail,
         handleChangePassword,
@@ -16,7 +16,7 @@ export default function SignUpForm() {
     } = useSignUpForm();
 
     return (
-        <form className="flex flex-col gap-6 p-6" onSubmit={handleSignUp}>
+        <form className="flex flex-col gap-6 p-6">
             <div className="flex flex-col gap-4">
                 <Label htmlFor="user_name" text="유저 이름">
                     <Input
@@ -59,7 +59,7 @@ export default function SignUpForm() {
                 </Label>
             </div>
 
-            <Button type="submit" text="회원가입" />
+            <Button text="회원가입" formAction={signUp} />
         </form>
     );
 }
