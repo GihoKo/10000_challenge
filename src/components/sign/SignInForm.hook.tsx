@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { SignInFormValue } from "./SignInForm.type";
 import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/client";
 
 export default function useSignInForm() {
     const [value, setValue] = useState<SignInFormValue>({
@@ -35,9 +34,10 @@ export default function useSignInForm() {
             },
         });
 
-        const data = await response.json();
-
-        console.log(data);
+        if (response.status === 200) {
+            console.log("로그인 성공!");
+            router.push("/home");
+        }
     };
 
     return { value, handleSignIn, handleChangeEmail, handleChangePassword };

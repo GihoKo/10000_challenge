@@ -1,5 +1,6 @@
 "use client";
 
+import { login } from "./actions";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
@@ -10,7 +11,7 @@ export default function SignInForm() {
         useSignInForm();
 
     return (
-        <form className="flex flex-col gap-6 p-6" onSubmit={handleSignIn}>
+        <form className="flex flex-col gap-6 p-6">
             <div className="flex flex-col gap-4">
                 <Label htmlFor="email" text="이메일">
                     <Input
@@ -33,7 +34,7 @@ export default function SignInForm() {
                 </Label>
             </div>
 
-            <Button type="submit" text="로그인" />
+            <Button text="로그인" formAction={login} />
         </form>
     );
 }
