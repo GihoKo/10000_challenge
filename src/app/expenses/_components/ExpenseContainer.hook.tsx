@@ -1,5 +1,5 @@
 import { useDateStore } from "@/stores/dateStore";
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 import { ExpenseData } from "@/types/expense";
 import { useEffect, useState } from "react";
 

@@ -1,4 +1,4 @@
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 
 // 종료되지 않은 챌린지 목록
 export const getIncompleteChallenges = async () => {
