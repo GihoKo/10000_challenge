@@ -27,15 +27,17 @@ export default function useSignInForm() {
             password: value.password,
         };
 
-        const response = await supabaseClient.auth.signInWithPassword(userData);
+        const response = await fetch("/api/auth/", {
+            method: "POST",
+            body: JSON.stringify(userData),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-        if (response.error) {
-            console.log(`로그인 실패: ${response.error.message}`);
-        }
+        const data = await response.json();
 
-        if (response.data) {
-            router.push("/home");
-        }
+        console.log(data);
     };
 
     return { value, handleSignIn, handleChangeEmail, handleChangePassword };

@@ -1,16 +1,29 @@
-import { createBrowserClient } from "@supabase/ssr";
+import { createServerClient, type CookieOptions } from "@supabase/ssr";
+import { cookies } from "next/headers";
 
-const supabaseURL = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseApiKey = process.env.NEXT_PUBLIC_SUPABASE_API_KEY;
+export function createClient() {
+    const cookieStore = cookies();
 
-if (!supabaseURL || !supabaseApiKey) {
-    throw new Error("Supabase 정보가 설정되지 않았습니다.");
+    return createServerClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_API_KEY!,
+        {
+            cookies: {
+                getAll() {
+                    return cookieStore.getAll();
+                },
+                setAll(cookiesToSet) {
+                    try {
+                        cookiesToSet.forEach(({ name, value, options }) =>
+                            cookieStore.set(name, value, options)
+                        );
+                    } catch {
+                        // The `setAll` method was called from a Server Component.
+                        // This can be ignored if you have middleware refreshing
+                        // user sessions.
+                    }
+                },
+            },
+        }
+    );
 }
-
-function createClient() {
-    return createBrowserClient(supabaseURL!, supabaseApiKey!);
-}
-
-const supabaseServerClient = createClient();
-
-export default supabaseServerClient;
