@@ -1,4 +1,4 @@
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 import createStartDate from "@/utils/createStartDate";
 import formatDate from "@/utils/formatDate";
 import { useState } from "react";

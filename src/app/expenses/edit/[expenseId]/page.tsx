@@ -2,7 +2,7 @@
 
 import ConfirmButton from "@/components/button/ConfirmButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 import { ExpenseData } from "@/types/expense";
 import { useParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";

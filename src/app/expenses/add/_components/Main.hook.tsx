@@ -1,7 +1,7 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import formatDate from "@/utils/formatDate";
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 import { Values } from "./Main.type";
 import { createExpense } from "@/apis/services/expense";
 

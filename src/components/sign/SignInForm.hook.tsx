@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SignInFormValue } from "./SignInForm.type";
 import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 
 export default function useSignInForm() {
     const [value, setValue] = useState<SignInFormValue>({

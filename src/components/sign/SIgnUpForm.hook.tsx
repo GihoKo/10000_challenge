@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { SignUpFormValue } from "./SignUpForm.type";
 import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 
 export default function useSignUpForm() {
     const [value, setValue] = useState<SignUpFormValue>({

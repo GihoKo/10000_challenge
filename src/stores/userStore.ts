@@ -1,4 +1,4 @@
-import supabaseClient from "@/supabase/supabaseClient";
+import supabaseClient from "@/supabase/client";
 import { UserMetadata } from "@supabase/supabase-js";
 
 import { create } from "zustand";
