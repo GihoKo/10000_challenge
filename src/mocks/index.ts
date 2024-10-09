@@ -37,3 +37,35 @@ export const EXPENSE_MOCKDATA: ExpenseMockData[] = [
         amount: "3,000원",
     },
 ];
+
+export interface ChallengeMock {
+    id: number;
+    name: string;
+    totalRemainingMoney: number;
+    progressDays: number;
+    totalDays: number;
+}
+
+export const CHALLENGE_MOCKDATA: ChallengeMock[] = [
+    {
+        id: 1,
+        name: "만원 챌린지",
+        totalRemainingMoney: +13000,
+        progressDays: 7,
+        totalDays: 30,
+    },
+    {
+        id: 2,
+        name: "오천원 챌린지",
+        totalRemainingMoney: -7000,
+        progressDays: 12,
+        totalDays: 30,
+    },
+    {
+        id: 3,
+        name: "일주일 챌린지",
+        totalRemainingMoney: +2000,
+        progressDays: 2,
+        totalDays: 7,
+    },
+];
