@@ -1,8 +1,9 @@
 import { ExpenseData } from "@/types/expense";
 import Expense from "./Expense";
 import { getExpensesByDate } from "@/apis/services/expense";
+import ExpenseContainerFetchErrorFallback from "./ExpenseContainerFetchErrorFallBack";
 
-export async function ExpenseContainerServerComponent() {
+export async function ExpenseContainerOnServer() {
     try {
         const expenses = await getExpensesByDate();
 
@@ -16,6 +17,6 @@ export async function ExpenseContainerServerComponent() {
             </div>
         );
     } catch (error) {
-        return <div>데이터를 불러오지 못했습니다. 새로고침해주세요...</div>;
+        return <ExpenseContainerFetchErrorFallback />;
     }
 }
