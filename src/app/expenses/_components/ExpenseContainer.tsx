@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { ExpenseContainerServerComponent } from "./ExpenseContainerServerComponent";
 
 export default function ExpenseContainer() {
