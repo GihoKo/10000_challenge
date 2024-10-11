@@ -11,10 +11,10 @@ export async function signIn(formData: FormData) {
         password: formData.get("password") as string,
     };
 
-    const { error } = await supabase.auth.signInWithPassword(data);
+    const response = await supabase.auth.signInWithPassword(data);
 
-    if (error) {
-        return console.log(error.message);
+    if (response.error) {
+        return console.log(response.error.message);
     }
 
     redirect("/home");
@@ -33,10 +33,10 @@ export async function signUp(formData: FormData) {
         },
     };
 
-    const { error } = await supabase.auth.signUp(data);
+    const response = await supabase.auth.signUp(data);
 
-    if (error) {
-        return console.log(error.message);
+    if (response.error) {
+        return console.log(response.error.message);
     }
 
     redirect("/home");
