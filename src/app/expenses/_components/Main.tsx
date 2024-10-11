@@ -1,6 +1,7 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
 import ExpenseContainer from "./ExpenseContainer";
 import Date from "./Date";
+import { Suspense } from "react";
 
 export default function Main() {
     return (
@@ -9,7 +10,9 @@ export default function Main() {
 
             <h3 className="text-lg mb-2">오늘 하루는 어땠나요?</h3>
 
-            <ExpenseContainer />
+            <Suspense fallback={<div>데이터를 불러오는 중 입니다...</div>}>
+                <ExpenseContainer />
+            </Suspense>
 
             <div className="flex justify-end mt-8">
                 <NavigateButtonButton
