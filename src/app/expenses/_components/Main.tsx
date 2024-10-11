@@ -1,7 +1,6 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
 import ExpenseContainer from "./ExpenseContainer";
 import Date from "./Date";
-import { Suspense } from "react";
 
 export default function Main() {
     return (
