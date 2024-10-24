@@ -1,5 +1,4 @@
 import ConfirmButton from "@/components/button/ConfirmButton";
-import NagativeButton from "@/components/button/NagativeButton";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
 import Input from "@/components/input/input";
 import Label from "@/components/label/label";
@@ -7,8 +6,8 @@ import supabaseClient from "@/supabase/client";
 import { useCallback, useEffect, useState } from "react";
 import close from "@/images/svg/close.svg";
 import Image from "next/image";
-import { UpdatedExpense } from "./ExpenseContainer.hook";
 import DangerousButton from "@/components/button/DangerousButton";
+import { UpdatedExpense } from "@/apis/services/expense";
 
 interface EditExpenseModalProps {
     modalExpenseId: string | null;

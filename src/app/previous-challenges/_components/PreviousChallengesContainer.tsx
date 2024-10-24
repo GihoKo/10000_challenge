@@ -1,6 +1,6 @@
 "use client";
 
-import Challenge from "@/app/home/_components/Challenge";
+import Challenge from "@/app/home/_components/Challenge/Challenge";
 import usePreviousChallengesContainer from "./PreviousChallengesContainer.hook";
 
 export default function PreviousChallengesContainer() {

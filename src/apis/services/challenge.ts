@@ -8,10 +8,10 @@ export const getIncompleteChallenges = async () => {
         .eq("is_ended", false);
 
     if (response.error) {
-        throw response.error;
+        throw new Error(response.error.message);
     }
 
-    return response;
+    return response.data;
 };
 
 // 종료된 챌린지 목록
