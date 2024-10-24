@@ -3,6 +3,7 @@ import { ExpenseData } from "@/types/expense";
 import { useState } from "react";
 import Expense from "./Expense";
 
+// 범용적으로 사용하려면 어떻게?
 export default function ExpenseContainerFetchErrorFallback() {
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [isLoading, setIsLoading] = useState(false);

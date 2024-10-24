@@ -1,8 +1,8 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
-import ChallengeContainer from "./_components/ChallengeContainer";
 import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
+import ChallengeContainerOnClient from "./_components/ChallengeContainerOnClient";
 
 export default function Home() {
     return (
@@ -10,7 +10,7 @@ export default function Home() {
             <div className="flex flex-col gap-2">
                 <h2 className="text-xl font-bold">진행중인 챌린지에요.</h2>
 
-                <ChallengeContainer />
+                <ChallengeContainerOnClient />
 
                 <NavigateButtonButton
                     path={"/home/challenge/add"}
