@@ -1,5 +1,5 @@
 import { ExpenseData } from "@/types/expense";
-import Expense from "./Expense";
+import Expense from "../Expense/Expense";
 import { getExpensesByDate } from "@/apis/services/expense";
 
 export async function ExpenseContainerOnServer() {

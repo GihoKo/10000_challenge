@@ -2,7 +2,7 @@ import NavigateButtonButton from "@/components/button/NavigateButton";
 import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
-import ChallengeContainerOnClient from "./_components/ChallengeContainerOnClient";
+import ChallengeContainerOnClient from "./_components/ChallengeContainer/ChallengeContainerOnClient";
 
 export default function Home() {
     return (

@@ -1,7 +1,7 @@
 import { getExpensesByDate } from "@/apis/services/expense";
 import { ExpenseData } from "@/types/expense";
 import { useState } from "react";
-import Expense from "./Expense";
+import Expense from "../Expense/Expense";
 
 // 범용적으로 사용하려면 어떻게?
 export default function ExpenseContainerFetchErrorFallback() {

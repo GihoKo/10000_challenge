@@ -1,6 +1,6 @@
 import { getIncompleteChallenges } from "@/apis/services/challenge";
 import { ChallengeResponse } from "@/types/challenge";
-import Challenge from "./Challenge";
+import Challenge from "../Challenge/Challenge";
 
 export async function ChallengeContainerOnServer() {
     try {

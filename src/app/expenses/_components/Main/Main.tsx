@@ -1,6 +1,6 @@
 import NavigateButtonButton from "@/components/button/NavigateButton";
-import Date from "./Date";
-import ExpenseContainerOnClient from "./ExpenseContainerOnClient";
+import Date from "../Date/Date";
+import ExpenseContainerOnClient from "../ExpenseContainer/ExpenseContainerOnClient";
 
 export default function Main() {
     return (
