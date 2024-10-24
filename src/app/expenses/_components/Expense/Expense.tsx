@@ -1,24 +1,18 @@
 import MONTH_NAMES from "@/constants/MONTH_NAMES";
 import { ExpenseProps } from "./Expense.type";
 
-export default function Expense({ expense, onClick }: ExpenseProps) {
+export default function Expense({ expense }: ExpenseProps) {
     const newDate = new Date(expense.date);
 
     const formattedDate = `${
         MONTH_NAMES[newDate.getUTCMonth()]
     } ${newDate.getUTCDate()}`;
 
-    const handleClick = () => {
-        if (!onClick) return;
-        onClick(expense.id);
-    };
-
     return (
         <li
             data-id={expense.id}
             key={expense.id}
             className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg"
-            onClick={handleClick}
         >
             <div className="flex flex-col">
                 <span className="text-sm font-medium">
