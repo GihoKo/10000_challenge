@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/navigation";
 
-interface NavigateButtonButtonProps {
+interface NavigateButtonProps {
     type?: "button";
     path: string;
     width?: string;
@@ -16,7 +16,7 @@ interface NavigateButtonButtonProps {
     text?: string;
 }
 
-export default function NavigateButtonButton({
+export default function NavigateButton({
     type = "button",
     path,
     width = "w-full",
@@ -28,7 +28,7 @@ export default function NavigateButtonButton({
     ml = "ml-0",
     mr = "mr-0",
     text = "확인",
-}: NavigateButtonButtonProps) {
+}: NavigateButtonProps) {
     const router = useRouter();
 
     const handleClick = () => {
