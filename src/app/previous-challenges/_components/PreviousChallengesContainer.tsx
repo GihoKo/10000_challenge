@@ -7,7 +7,7 @@ export default function PreviousChallengesContainer() {
     const { challenges } = usePreviousChallengesContainer();
 
     return (
-        <div>
+        <div className="flex flex-col gap-2">
             {challenges.map((challenge) => (
                 <Challenge key={challenge.id} challenge={challenge} />
             ))}
