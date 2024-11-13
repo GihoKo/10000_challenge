@@ -8,7 +8,7 @@ export async function ExpenseContainerOnServer() {
 
         if (expenses.length === 0) {
             return (
-                <div className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg">
+                <div className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg text-sm">
                     오늘은 지출이 없네요.
                 </div>
             );
