@@ -1,6 +1,7 @@
 import Header from "@/components/sign/Header";
 import Logo from "@/components/sign/Logo";
 import SignInForm from "@/components/sign/SignInForm";
+import NavigateSignUpLink from "./_components/NavigateSignUpLink";
 
 export default function SignIn() {
     return (
@@ -9,6 +10,7 @@ export default function SignIn() {
                 <Logo />
                 <Header />
                 <SignInForm />
+                <NavigateSignUpLink />
             </div>
         </div>
     );

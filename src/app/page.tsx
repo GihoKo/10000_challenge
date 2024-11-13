@@ -1,13 +1,18 @@
-import Link from "next/link";
+import NavigateButton from "@/components/button/NavigateButton";
+import ImageWrapper from "@/components/ImageWrapper";
+import logoImage from "@/images/logo.png";
 
 export default function Home() {
     return (
-        <div>
-            <Link href={"/signIn"}>Sign In</Link>
-            <Link href={"/signUp"}>Sign Up</Link>
-            <Link href={"/home"}>Home</Link>
-            <Link href={"/expenses"}>Expenses</Link>
-            <Link href={"/expenses/detail"}>Detail</Link>
+        <div className="h-screen flex flex-col gap-4 justify-center items-center">
+            <ImageWrapper
+                src={logoImage}
+                width={144}
+                height={144}
+                alt="로고 이미지"
+            />
+
+            <NavigateButton path={"/signIn"} text="시작하기" width="w-24" />
         </div>
     );
 }
