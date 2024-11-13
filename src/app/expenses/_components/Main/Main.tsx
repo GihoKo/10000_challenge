@@ -1,4 +1,4 @@
-import NavigateButtonButton from "@/components/button/NavigateButton";
+import NavigateButton from "@/components/button/NavigateButton";
 import Date from "../Date/Date";
 import ExpenseContainerOnClient from "../ExpenseContainer/ExpenseContainerOnClient";
 
@@ -12,7 +12,7 @@ export default function Main() {
             <ExpenseContainerOnClient />
 
             <div className="flex justify-end mt-8">
-                <NavigateButtonButton
+                <NavigateButton
                     type="button"
                     path="/expenses/add"
                     width="w-auto"
