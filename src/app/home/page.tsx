@@ -1,8 +1,8 @@
-import NavigateButtonButton from "@/components/button/NavigateButton";
 import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
 import ChallengeContainerOnClient from "./_components/ChallengeContainer/ChallengeContainerOnClient";
+import NavigateButton from "@/components/button/NavigateButton";
 
 export default function Home() {
     return (
@@ -12,7 +12,7 @@ export default function Home() {
 
                 <ChallengeContainerOnClient />
 
-                <NavigateButtonButton
+                <NavigateButton
                     path={"/home/challenge/add"}
                     text="추가하기"
                     mt="mt-2"

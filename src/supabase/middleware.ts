@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// 미들웨어는 로그인이 안된 경우 로그인 페이지로 이동시키게 끔만 해주기
 export async function updateSession(request: NextRequest) {
     let supabaseResponse = NextResponse.next({
         request,
