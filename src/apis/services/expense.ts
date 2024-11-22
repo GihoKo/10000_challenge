@@ -1,14 +1,14 @@
 import { Values } from "@/app/expenses/add/_components/Main.type";
-import { useDateStore } from "@/stores/dateStore";
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
-import { ExpenseData } from "@/types/expense";
 import formatDate from "@/utils/formatDate";
 
-// 해당 날짜에 해당하는 expense 가져오기
-export const getExpensesByDate = async () => {
-    const { date } = useDateStore.getState();
+interface GetExpensesByDateProps {
+    date: string;
+}
 
+// 해당 날짜에 해당하는 expense 가져오기
+export const getExpensesByDate = async ({ date }: GetExpensesByDateProps) => {
     const { data: expenses, error } = await supabaseClient
         .from("expense")
         .select("*")
