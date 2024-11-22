@@ -1,6 +1,7 @@
 import NavigateButton from "@/components/button/NavigateButton";
 import Date from "../Date/Date";
-import ExpenseContainerOnClient from "../ExpenseContainer/ExpenseContainerOnClient";
+import React from "react";
+import ExpenseContainer from "../ExpenseContainer/ExpenseContainer";
 
 export default function Main() {
     return (
@@ -9,7 +10,7 @@ export default function Main() {
 
             <h3 className="text-lg mb-2">오늘 하루는 어땠나요?</h3>
 
-            <ExpenseContainerOnClient />
+            <ExpenseContainer />
 
             <div className="flex justify-end mt-8">
                 <NavigateButton
