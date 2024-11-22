@@ -7,6 +7,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
     title: "만원 챌린지",
     description: "만원 챌린지로 소비 습관을 바꿔보세요.",
+    robots: "follow, index",
 };
 
 export default function RootLayout({
