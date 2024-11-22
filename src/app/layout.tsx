@@ -31,6 +31,22 @@ export const metadata: Metadata = {
             },
         ],
     },
+    twitter: {
+        card: "summary_large_image",
+        site: "@giho7427",
+        creator: "@giho7427",
+        title: "만원 챌린지",
+        description: "만원 챌린지로 소비 습관을 바꿔보세요.",
+        images: [
+            {
+                url: "/logo512.png",
+                alt: "로고 이미지",
+                type: "image/png",
+                width: 1200,
+                height: 630,
+            },
+        ],
+    },
 };
 
 export default function RootLayout({
