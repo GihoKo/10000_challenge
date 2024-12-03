@@ -1,15 +1,15 @@
 "use client";
 
 import Challenge from "@/app/home/_components/Challenge/Challenge";
-import usePreviousChallengesContainer from "./PreviousChallengesContainer.hook";
+import useChallengesContainer from "./ChallengesContainer.hook";
 
-export default function PreviousChallengesContainer() {
-    const { challenges } = usePreviousChallengesContainer();
+export default function ChallengesContainer() {
+    const { challenges } = useChallengesContainer();
 
     if (challenges.length === 0) {
         return (
             <div className="flex justify-between items-center py-2 px-4 bg-gray-100 rounded-lg text-sm">
-                지난 챌린지가 없네요.
+                생성했던 챌린지가 없네요.
             </div>
         );
     }

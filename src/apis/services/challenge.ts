@@ -1,5 +1,19 @@
 import supabaseClient from "@/supabase/client";
 
+// 모든 챌린지 목록
+export const getAllChallenges = async () => {
+    const response = await supabaseClient
+        .from("challenge")
+        .select()
+        .order("start_date");
+
+    if (response.error) {
+        throw new Error(response.error.message);
+    }
+
+    return response.data;
+};
+
 // 종료되지 않은 챌린지 목록
 export const getIncompleteChallenges = async () => {
     const response = await supabaseClient
