@@ -1,10 +1,10 @@
 "use client";
 
 import Challenge from "@/app/home/_components/Challenge/Challenge";
-import usePreviousChallengesContainer from "./PreviousChallengesContainer.hook";
+import useChallengesContainer from "./ChallengesContainer.hook";
 
-export default function PreviousChallengesContainer() {
-    const { challenges } = usePreviousChallengesContainer();
+export default function ChallengesContainer() {
+    const { challenges } = useChallengesContainer();
 
     if (challenges.length === 0) {
         return (

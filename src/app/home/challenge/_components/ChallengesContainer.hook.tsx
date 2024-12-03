@@ -2,7 +2,7 @@ import { getCompletedChallenges } from "@/apis/services/challenge";
 import { ChallengeResponse } from "@/types/challenge";
 import { useEffect, useState } from "react";
 
-export default function usePreviousChallengesContainer() {
+export default function useChallengesContainer() {
     const [challenges, setChallenges] = useState<ChallengeResponse[]>([]);
 
     useEffect(() => {
