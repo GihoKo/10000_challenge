@@ -30,12 +30,12 @@ export default function Home() {
             </div>
 
             <div className="flex flex-col gap-2">
-                <h2 className="text-xl font-bold">지난 챌린지들을 볼까요?</h2>
+                <h2 className="text-xl font-bold">전체 챌린지들을 볼까요?</h2>
 
                 <NavigateLink
-                    href="/home/previous-challenges"
+                    href="/home/challenge"
                     image={challengeSvg}
-                    text="지난 챌린지 보러 가기"
+                    text="전체 챌린지 보러 가기"
                 />
             </div>
         </div>

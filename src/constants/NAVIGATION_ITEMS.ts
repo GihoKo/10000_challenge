@@ -25,7 +25,7 @@ const NAVIGATION_ITEMS: NavigationItems = [
     },
     {
         name: "챌린지",
-        href: "/home/previous-challenges",
+        href: "/home/challenge",
         image: challengeSvg,
     },
     {
