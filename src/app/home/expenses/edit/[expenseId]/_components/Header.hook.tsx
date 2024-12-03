@@ -4,8 +4,6 @@ import { useParams, useRouter } from "next/navigation";
 import ExpenseDeleteModal from "./ExpenseDeleteModal";
 
 export default function useHeader() {
-    const { expenseId } = useParams();
-    const router = useRouter();
     const { setIsModalOpen } = useModalStore();
 
     const handleDelete = (
@@ -14,9 +12,6 @@ export default function useHeader() {
         e.preventDefault();
 
         setIsModalOpen(<ExpenseDeleteModal />);
-        // deleteExpense(expenseId as string).then(() => {
-        //     router.push("/home/expenses");
-        // });
     };
 
     return { handleDelete };

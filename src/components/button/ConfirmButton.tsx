@@ -6,7 +6,7 @@ interface ConfirmButtonProps {
     py?: string;
     text?: string;
     bg?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export default function ConfirmButton({
@@ -17,7 +17,7 @@ export default function ConfirmButton({
     py = "py-2",
     text = "확인",
     bg = "bg-blue-600",
-    onClick,
+    onClick = () => {},
 }: ConfirmButtonProps) {
     return (
         <button
