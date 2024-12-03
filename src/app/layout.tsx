@@ -57,7 +57,11 @@ export default function RootLayout({
     return (
         <html lang="en">
             <link rel="manifest" href="/manifest.json"></link>
-            <body className={inter.className}>{children}</body>
+            <body
+                className={`${inter.className} w-full flex justify-center bg-slate-950`}
+            >
+                <div className="w-[37.5rem] bg-white">{children}</div>
+            </body>
         </html>
     );
 }

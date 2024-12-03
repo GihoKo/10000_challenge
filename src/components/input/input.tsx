@@ -23,9 +23,7 @@ export default function Input({
             placeholder={placeholder}
             value={value}
             onChange={onChange}
-            className={`border-2 ${
-                value !== "" ? "border-blue-500" : "border-gray-300"
-            } rounded-md w-full p-4
+            className={`border-2 rounded-md w-full p-2 text-sm text-gray-600
                 focus:outline-none focus:border-blue-500 transition-all duration-300`}
         />
     );
