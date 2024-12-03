@@ -1,4 +1,4 @@
-import AnimatedPage from "@/components/animated/animatedPage";
+import AnimatedPage from "@/components/animated/AnimatedPage";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (

@@ -1,6 +1,7 @@
 "use client";
 
 import useModalStore from "@/stores/modalStore";
+import AnimatedModal from "../animated/animatedModal";
 
 export default function Modal() {
     const { isModalOpen, content } = useModalStore();
@@ -11,9 +12,11 @@ export default function Modal() {
 
     return (
         <div className="fixed inset-0 z-9998 flex justify-center items-center bg-black bg-opacity-30">
-            <div className="bg-white rounded-lg p-4 w-full max-w-[300px]">
-                {content}
-            </div>
+            <AnimatedModal>
+                <div className="bg-gray-50 rounded-lg p-4 w-full min-w-[300px]">
+                    {content}
+                </div>
+            </AnimatedModal>
         </div>
     );
 }
