@@ -76,7 +76,7 @@ export interface UpdatedExpense {
 
 // expense 수정
 export const updateExpense = async (
-    expenseId: string | null,
+    expenseId: string,
     updatedExpense: UpdatedExpense
 ) => {
     const { data, error } = await supabaseClient
