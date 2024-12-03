@@ -1,7 +1,6 @@
 import { deleteExpense } from "@/apis/services/expense";
 import useModalStore from "@/stores/modalStore";
-import { useParams } from "next/navigation";
-import { useRouter } from "next/router";
+import { useParams, useRouter } from "next/navigation";
 
 export default function useDeleteModal() {
     const { closeModal } = useModalStore();
