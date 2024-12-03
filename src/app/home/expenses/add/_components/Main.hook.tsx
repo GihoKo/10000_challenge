@@ -1,7 +1,5 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import formatDate from "@/utils/formatDate";
-import supabaseClient from "@/supabase/client";
 import { Values } from "./Main.type";
 import { createExpense } from "@/apis/services/expense";
 
@@ -35,8 +33,8 @@ export default function useMain() {
         createExpense({
             values,
         })
-            .then((expense) => {
-                router.push("/expenses");
+            .then(() => {
+                router.push("/home/expenses");
             })
             .catch((error) => {
                 console.error(error);

@@ -59,15 +59,13 @@ export const createExpense = async ({ values }: CreateExpenseParams) => {
         date: formatDate(values.date),
     };
 
-    const { data, error } = await supabaseClient
-        .from("expense")
-        .insert(expense);
+    const { error } = await supabaseClient.from("expense").insert(expense);
 
     if (error) {
         throw new Error(error.message);
     }
 
-    return data;
+    return true;
 };
 
 export interface UpdatedExpense {
