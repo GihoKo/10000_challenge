@@ -5,7 +5,7 @@ interface DangerousButtonProps {
     px?: string;
     py?: string;
     text?: string;
-    onClick?: () => void;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
 export default function DangerousButton({
@@ -15,18 +15,13 @@ export default function DangerousButton({
     px = "px-4",
     py = "py-2",
     text = "취소",
-    onClick,
+    onClick = () => {},
 }: DangerousButtonProps) {
-    const handleClick = () => {
-        if (!onClick) return;
-        onClick();
-    };
-
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} bg-red-500 flex justify-center items-center text-white`}
             type={type}
-            onClick={handleClick}
+            onClick={onClick}
         >
             {text}
         </button>

@@ -1,18 +1,30 @@
 "use client";
 
+import { deleteExpense, updateExpense } from "@/apis/services/expense";
 import ConfirmButton from "@/components/button/ConfirmButton";
+import DangerousButton from "@/components/button/DangerousButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
+import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
+import Input from "@/components/input/input";
+import Label from "@/components/label/label";
 import supabaseClient from "@/supabase/client";
 import { ExpenseData } from "@/types/expense";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 
 export default function Edit() {
     const { expenseId } = useParams();
-
-    const [expense, setExpense] = useState<ExpenseData | null>(null);
+    const router = useRouter();
+    const [expense, setExpense] = useState<ExpenseData>({
+        id: "",
+        date: "",
+        category: "",
+        description: "",
+        amount: 0,
+        user_id: "",
+    });
     const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [isError, setIsError] = useState(false);
 
     const getExpense = useCallback(async () => {
         const { data: expense, error } = await supabaseClient
@@ -27,6 +39,45 @@ export default function Edit() {
         return expense[0];
     }, [expenseId]);
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setExpense({
+            ...expense,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setExpense({
+            ...expense,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        updateExpense(expenseId as string, {
+            description: expense.description,
+            category: expense.category,
+            amount: expense.amount,
+        })
+            .then(() => {
+                router.push("/home/expenses");
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsError(true);
+            });
+    };
+
+    const handleDelete = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+        deleteExpense(expenseId as string).then(() => {
+            router.push("/home/expenses");
+        });
+    };
+
     useEffect(() => {
         setIsLoading(true);
 
@@ -35,7 +86,8 @@ export default function Edit() {
                 setExpense(expense);
             })
             .catch((error) => {
-                setError(error.message);
+                console.error(error);
+                setIsError(true);
             })
             .finally(() => {
                 setIsLoading(false);
@@ -46,17 +98,51 @@ export default function Edit() {
         return <div>데이터를 불러오는 중 입니다...</div>;
     }
 
-    if (error) {
+    if (isError) {
         return <div>데이터 가져오기를 실패했습니다. 재시도해주세요.</div>;
     }
 
     return (
         <div>
-            <PageContentHeader text="지출 수정" />
-
-            <div className="flex justify-end mt-8">
-                <ConfirmButton type="button" width="w-auto" />
+            <div className="flex justify-between items-center">
+                <PageContentHeader text="지출 수정" />
+                <DangerousButton
+                    text="삭제"
+                    onClick={handleDelete}
+                    width="w-fit"
+                />
             </div>
+
+            <form onSubmit={handleEdit} className="flex flex-col gap-4">
+                <Label text="설명" htmlFor="description">
+                    <Input
+                        id="description"
+                        name="description"
+                        type="text"
+                        placeholder="설명"
+                        value={expense.description}
+                        onChange={handleInputChange}
+                    />
+                </Label>
+
+                <ExpenseCategorySelect
+                    value={expense.category}
+                    onChange={handleSelectChange}
+                />
+
+                <Label text="금액" htmlFor="amount">
+                    <Input
+                        id="amount"
+                        name="amount"
+                        type="text"
+                        placeholder="금액"
+                        value={expense.amount}
+                        onChange={handleInputChange}
+                    />
+                </Label>
+
+                <ConfirmButton type="submit" text="수정" />
+            </form>
         </div>
     );
 }
