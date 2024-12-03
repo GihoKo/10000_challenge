@@ -1,22 +1,11 @@
 "use client";
 
-import { deleteExpense } from "@/apis/services/expense";
 import DangerousButton from "@/components/button/DangerousButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
-import { useParams, useRouter } from "next/navigation";
+import useHeader from "./Header.hook";
 
 export default function Header() {
-    const { expenseId } = useParams();
-    const router = useRouter();
-
-    const handleDelete = (
-        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-    ) => {
-        e.preventDefault();
-        deleteExpense(expenseId as string).then(() => {
-            router.push("/home/expenses");
-        });
-    };
+    const { handleDelete } = useHeader();
 
     return (
         <div className="flex justify-between items-center">
