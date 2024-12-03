@@ -1,4 +1,4 @@
-import Expense from "@/app/expenses/_components/Expense/Expense";
+import Expense from "@/app/home/expenses/_components/Expense/Expense";
 import { ExpenseOfChallengeContainerProps } from "./ExpenseOfChallengeContainer.type";
 
 export default function ExpenseOfChallengeContainer({
