@@ -15,7 +15,7 @@ export default function NavigationBar() {
                     >
                         <div
                             className="rounded-full overflow-hidden w-12 h-12 flex justify-center items-center bg-white
-                            group-hover:ring-8 group-hover:ring-blue-100 group-hover:-translate-y-6 transition-all duration-300"
+                            group-hover:ring-8 group-hover:ring-blue-100 group-hover:-translate-y-4 transition-all duration-300"
                         >
                             <ImageWrapper
                                 src={item.image}

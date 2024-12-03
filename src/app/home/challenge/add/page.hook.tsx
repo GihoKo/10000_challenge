@@ -12,7 +12,7 @@ export default function useAddPage() {
         name: "",
         resolution: "",
         dailySaving: 0,
-        goalDate: "YYYY-MM-DD",
+        goalDate: "",
     });
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {

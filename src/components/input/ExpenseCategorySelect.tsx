@@ -27,7 +27,7 @@ export default function ExpenseCategorySelect({
 
     // 이미지 반환 함수
     const returnDropDownImage = () => {
-        if (isFocusedDropDown || value !== "") {
+        if (isFocusedDropDown) {
             return FocuseddropDownArrow;
         }
         return dropDownArrow;
@@ -38,9 +38,7 @@ export default function ExpenseCategorySelect({
             <select
                 id="category"
                 name="category"
-                className={`w-full p-4 border-2 ${
-                    value !== "" ? "border-blue-500" : "border-gray-300"
-                } rounded-md focus:outline-none appearance-none focus:border-blue-500 transition-all duration-300`}
+                className={`w-full p-2 border-2 rounded-md text-sm focus:outline-none appearance-none focus:border-blue-500 transition-all duration-300`}
                 onFocus={handleFocusDropDown}
                 onBlur={handleBlurDropDown}
                 onChange={onChange}
@@ -55,7 +53,7 @@ export default function ExpenseCategorySelect({
                 <option value="기타">기타</option>
             </select>
             <Image
-                className="absolute right-2 top-10"
+                className="absolute right-1.5 top-[30px]"
                 src={returnDropDownImage()}
                 alt="드롭다운 화살표 이미지"
                 width={32}
