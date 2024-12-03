@@ -23,7 +23,7 @@ export default function Home() {
                 <h2 className="text-xl font-bold">지출을 관리해볼까요?</h2>
 
                 <NavigateLink
-                    href="/expenses"
+                    href="/home/expenses"
                     image={expensesSvg}
                     text="지출 관리하러 가기"
                 />
@@ -33,7 +33,7 @@ export default function Home() {
                 <h2 className="text-xl font-bold">지난 챌린지들을 볼까요?</h2>
 
                 <NavigateLink
-                    href="/previous-challenges"
+                    href="/home/previous-challenges"
                     image={challengeSvg}
                     text="지난 챌린지 보러 가기"
                 />

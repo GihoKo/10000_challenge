@@ -1,4 +1,4 @@
-import { Values } from "@/app/expenses/add/_components/Main.type";
+import { Values } from "@/app/home/expenses/add/_components/Main.type";
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
 import formatDate from "@/utils/formatDate";
