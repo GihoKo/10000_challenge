@@ -1,7 +1,14 @@
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
 export default function useSignInForm() {
-    const { register, control } = useForm();
+    const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<FieldValues>({
+        mode: "onBlur",
+    });
 
-    return { register, control };
+    return { register, control, handleSubmit, errors };
 }
