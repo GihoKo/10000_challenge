@@ -1,20 +1,15 @@
 "use client";
 
-import { signIn } from "./actions";
 import Button from "./Button";
 import Input from "./Input";
 import Label from "./Label";
 import { DevTool } from "@hookform/devtools";
 import useSignInForm from "./SignInForm.hook";
-import { FieldValues } from "react-hook-form";
 import InputErrorMessage from "../ErrorMessage/InputErrorMessage";
 
 export default function SignInForm() {
-    const { register, control, handleSubmit, errors } = useSignInForm();
-
-    const onSubmit = (data: FieldValues) => {
-        console.log(data);
-    };
+    const { control, errors, register, handleSubmit, onSubmit } =
+        useSignInForm();
 
     return (
         <form
@@ -42,7 +37,7 @@ export default function SignInForm() {
                 </Label>
             </div>
 
-            <Button text="로그인" formAction={signIn} />
+            <Button text="로그인" type="submit" />
             <DevTool control={control} />
         </form>
     );
