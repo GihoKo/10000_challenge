@@ -1,19 +1,19 @@
-import NagativeButton from "@/components/button/NagativeButton";
-import ModalName from "@/components/Modal/ModalName";
-import ModalDescription from "@/components/Modal/ModalDescription";
 import ConfirmButton from "@/components/button/ConfirmButton";
-import useDeleteChallengeModal from "./DeleteChallengeModal.hook";
+import NagativeButton from "@/components/button/NagativeButton";
+import useDeleteModal from "./ExpenseDeleteModal.hook";
+import ModalDescription from "@/components/Modal/ModalDescription";
+import ModalName from "@/components/Modal/ModalName";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 
-export default function DeleteChallengeModal() {
-    const { handleDelete, handleCloseModal } = useDeleteChallengeModal();
+export default function ExpenseDeleteModal() {
+    const { handleCloseModal, handleDelete } = useDeleteModal();
 
     return (
         <ModalWrapper>
-            <ModalName text="챌린지 삭제" />
+            <ModalName text="지출 삭제" />
 
-            <ModalDescription text="챌린지를 삭제하시겠습니까?" />
+            <ModalDescription text="지출을 삭제하시겠습니까?" />
 
             <ModalForm onSubmit={handleDelete}>
                 <ConfirmButton type="submit" text="삭제" bg="bg-red-600" />

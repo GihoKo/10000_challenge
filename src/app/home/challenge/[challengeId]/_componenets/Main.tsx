@@ -8,21 +8,11 @@ import ChallengeInfo from "./ChallengeInfo";
 import useMain from "./Main.hook";
 
 export default function Main() {
-    const {
-        challenge,
-        expenses,
-        isDeleteModalOpen,
-        handleDeleteModalClose,
-        handleDeleteModalOpen,
-        handleDeleteChallenge,
-    } = useMain();
+    const { challenge, expenses } = useMain();
 
     return (
         <main className="flex flex-col gap-8">
-            <ChallengeInfo
-                challenge={challenge}
-                handleDeleteModalOpen={handleDeleteModalOpen}
-            />
+            <ChallengeInfo challenge={challenge} />
 
             <div className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">매일 지출</h3>
@@ -43,13 +33,6 @@ export default function Main() {
                     <ExpenseOfChallengeContainer expenses={expenses} />
                 )}
             </div>
-
-            {isDeleteModalOpen && (
-                <DeleteChallengeModal
-                    onClose={handleDeleteModalClose}
-                    handleDeleteChallenge={handleDeleteChallenge}
-                />
-            )}
         </main>
     );
 }

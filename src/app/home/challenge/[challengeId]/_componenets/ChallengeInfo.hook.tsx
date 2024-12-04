@@ -1,11 +1,18 @@
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useCallback, useEffect, useState } from "react";
 import { UseChallengeInfoProps } from "./ChallengeInfo.type";
+import useModalStore from "@/stores/modalStore";
+import DeleteChallengeModal from "./DeleteChallengeModal";
 
 export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
     const [remainingSaving, setRemainingSaving] = useState(0);
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
+    const { setIsModalOpen } = useModalStore();
+
+    const handleDeleteChallengeModalOpen = () => {
+        setIsModalOpen(<DeleteChallengeModal />);
+    };
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -48,5 +55,10 @@ export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
         calculateProgressBarWidth,
     ]);
 
-    return { remainingSaving, remainingDays, progressBarWidth };
+    return {
+        remainingSaving,
+        remainingDays,
+        progressBarWidth,
+        handleDeleteChallengeModalOpen,
+    };
 }
