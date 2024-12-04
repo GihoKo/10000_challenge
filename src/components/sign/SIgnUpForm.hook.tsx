@@ -1,41 +1,31 @@
-import { useState } from "react";
-import { SignUpFormValue } from "./SignUpForm.type";
-import { useRouter } from "next/navigation";
-import supabaseClient from "@/supabase/client";
+import { FieldValues, useForm } from "react-hook-form";
+import { signUp } from "./actions";
 
 export default function useSignUpForm() {
-    const [value, setValue] = useState<SignUpFormValue>({
-        email: "",
-        password: "",
-        passwordConfirm: "",
-        userName: "",
+    const {
+        control,
+        formState: { errors },
+        register,
+        handleSubmit,
+    } = useForm({
+        mode: "onBlur",
     });
 
-    const router = useRouter();
+    const onSubmit = (data: FieldValues) => {
+        const formData = new FormData();
 
-    const handleChangeUserName = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, userName: e.target.value });
-    };
+        formData.append("user_name", data.user_name);
+        formData.append("email", data.email);
+        formData.append("password", data.password);
 
-    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, email: e.target.value });
-    };
-
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, password: e.target.value });
-    };
-
-    const handleChangePasswordConfirm = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        setValue({ ...value, passwordConfirm: e.target.value });
+        signUp(formData);
     };
 
     return {
-        value,
-        handleChangeEmail,
-        handleChangePassword,
-        handleChangePasswordConfirm,
-        handleChangeUserName,
+        control,
+        errors,
+        register,
+        handleSubmit,
+        onSubmit,
     };
 }

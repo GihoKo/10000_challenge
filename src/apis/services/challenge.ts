@@ -1,4 +1,5 @@
 import supabaseClient from "@/supabase/client";
+import createStartDate from "@/utils/createStartDate";
 
 // 모든 챌린지 목록
 export const getAllChallenges = async () => {
@@ -59,6 +60,38 @@ export const getChallengeById = async ({
     }
 
     return data[0];
+};
+
+interface AddChallengeParams {
+    formValues: {
+        name: string;
+        resolution: string;
+        dailySaving: number;
+        goalDate: string;
+    };
+}
+
+// 챌린지 추가
+const addChallenge = async ({ formValues }: AddChallengeParams) => {
+    const newChallenge = {
+        name: formValues.name,
+        resolution: formValues.resolution,
+        daily_saving: formValues.dailySaving,
+        start_date: createStartDate(),
+        goal_date: formValues.goalDate,
+        user_id: process.env.NEXT_PUBLIC_USER_ID,
+    };
+
+    const { error } = await supabaseClient
+        .from("challenge")
+        .insert(newChallenge)
+        .select();
+
+    if (error) {
+        console.error(error.message);
+    }
+
+    return true;
 };
 
 interface DeleteChallengeParams {

@@ -1,11 +1,11 @@
-import Form from "./_components/Form";
 import Header from "./_components/Header";
+import Main from "./_components/Main";
 
 export default function Edit() {
     return (
         <div>
             <Header />
-            <Form />
+            <Main />
         </div>
     );
 }
