@@ -3,10 +3,18 @@ import supabaseClient from "@/supabase/client";
 import { ExpenseData } from "@/types/expense";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { FieldValues, useForm } from "react-hook-form";
 
-export default function useForm() {
+export default function useMain() {
     const { expenseId } = useParams();
     const router = useRouter();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        control,
+    } = useForm();
+
     const [expense, setExpense] = useState<ExpenseData>({
         id: "",
         date: "",
@@ -31,33 +39,20 @@ export default function useForm() {
         return expense[0];
     }, [expenseId]);
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setExpense({
-            ...expense,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const onSubmit = (data: FieldValues) => {
+        const newExpense = {
+            category: data.category,
+            description: data.description,
+            amount: data.amount,
+            date: data.date,
+        };
 
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setExpense({
-            ...expense,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleEdit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        updateExpense(expenseId as string, {
-            description: expense.description,
-            category: expense.category,
-            amount: expense.amount,
-        })
+        updateExpense(expenseId as string, newExpense)
             .then(() => {
                 router.push("/home/expenses");
             })
             .catch((error) => {
                 console.error(error);
-                setIsError(true);
             });
     };
 
@@ -81,8 +76,10 @@ export default function useForm() {
         isLoading,
         isError,
         expense,
-        handleInputChange,
-        handleSelectChange,
-        handleEdit,
+        register,
+        handleSubmit,
+        onSubmit,
+        errors,
+        control,
     };
 }
