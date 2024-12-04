@@ -1,7 +1,7 @@
 "use client";
 
 import useModalStore from "@/stores/modalStore";
-import AnimatedModal from "../animated/animatedModal";
+import AnimatedModal from "../animated/AnimatedModal";
 
 export default function Modal() {
     const { isModalOpen, content } = useModalStore();
