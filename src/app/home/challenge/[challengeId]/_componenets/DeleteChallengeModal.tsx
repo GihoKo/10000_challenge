@@ -1,32 +1,11 @@
 import NagativeButton from "@/components/button/NagativeButton";
 import ModalName from "@/components/Modal/ModalName";
 import ModalDescription from "@/components/Modal/ModalDescription";
-import { deleteChallenge } from "@/apis/services/challenge";
-import { useParams, useRouter } from "next/navigation";
-import useModalStore from "@/stores/modalStore";
 import ConfirmButton from "@/components/button/ConfirmButton";
+import useDeleteChallengeModal from "./DeleteChallengeModal.hook";
 
 export default function DeleteChallengeModal() {
-    const { closeModal } = useModalStore();
-    const { challengeId } = useParams();
-    const router = useRouter();
-
-    const handleCloseModal = () => {
-        closeModal();
-    };
-
-    const handleDelete = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        deleteChallenge({ challengeId })
-            .then(() => {
-                closeModal();
-                router.push("/home/challenge");
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
+    const { handleDelete, handleCloseModal } = useDeleteChallengeModal();
 
     return (
         <div>
