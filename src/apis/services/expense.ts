@@ -1,7 +1,24 @@
-import { Values } from "@/app/home/expenses/add/_components/Main.type";
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
 import formatDate from "@/utils/formatDate";
+
+interface GetExpenseProps {
+    expenseId: string | string[];
+}
+
+// 해당 id의 expense 가져오기
+export const getExpense = async ({ expenseId }: GetExpenseProps) => {
+    const { data: expense, error } = await supabaseClient
+        .from("expense")
+        .select("*")
+        .eq("id", expenseId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return expense[0];
+};
 
 interface GetExpensesByDateProps {
     date: string;

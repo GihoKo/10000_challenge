@@ -9,24 +9,7 @@ import { DevTool } from "@hookform/devtools";
 import useMain from "./Main.hook";
 
 export default function Main() {
-    const {
-        isLoading,
-        isError,
-        expense,
-        register,
-        handleSubmit,
-        onSubmit,
-        errors,
-        control,
-    } = useMain();
-
-    if (isLoading) {
-        return <div>데이터를 불러오는 중 입니다...</div>;
-    }
-
-    if (isError) {
-        return <div>데이터 가져오기를 실패했습니다. 재시도해주세요.</div>;
-    }
+    const { register, handleSubmit, onSubmit, errors, control } = useMain();
 
     return (
         <main>

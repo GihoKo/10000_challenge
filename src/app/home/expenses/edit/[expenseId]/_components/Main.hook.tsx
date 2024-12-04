@@ -1,8 +1,6 @@
-import { updateExpense } from "@/apis/services/expense";
-import supabaseClient from "@/supabase/client";
-import { ExpenseData } from "@/types/expense";
+import { getExpense, updateExpense } from "@/apis/services/expense";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
@@ -11,33 +9,12 @@ export default function useMain() {
     const {
         register,
         handleSubmit,
+        reset, // reset은 전체를 초기화, setValue는 일부를 초기화
         formState: { errors },
         control,
-    } = useForm();
-
-    const [expense, setExpense] = useState<ExpenseData>({
-        id: "",
-        date: "",
-        category: "",
-        description: "",
-        amount: 0,
-        user_id: "",
+    } = useForm({
+        mode: "onBlur",
     });
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-
-    const getExpense = useCallback(async () => {
-        const { data: expense, error } = await supabaseClient
-            .from("expense")
-            .select("*")
-            .eq("id", expenseId);
-
-        if (error) {
-            throw new Error(error.message);
-        }
-
-        return expense[0];
-    }, [expenseId]);
 
     const onSubmit = (data: FieldValues) => {
         const newExpense = {
@@ -57,25 +34,12 @@ export default function useMain() {
     };
 
     useEffect(() => {
-        setIsLoading(true);
-
-        getExpense()
-            .then((expense) => {
-                setExpense(expense);
-            })
-            .catch((error) => {
-                console.error(error);
-                setIsError(true);
-            })
-            .finally(() => {
-                setIsLoading(false);
-            });
-    }, [expenseId, getExpense]);
+        getExpense({ expenseId }).then((expense) => {
+            reset(expense);
+        });
+    }, [expenseId, reset]);
 
     return {
-        isLoading,
-        isError,
-        expense,
         register,
         handleSubmit,
         onSubmit,
