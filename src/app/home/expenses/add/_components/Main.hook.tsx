@@ -1,38 +1,31 @@
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { Values } from "./Main.type";
 import { createExpense } from "@/apis/services/expense";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "next/navigation";
+import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
     const router = useRouter();
+    const { user } = useUserStore();
+    console.log(user);
 
-    const [values, setValues] = useState<Values>({
-        category: "",
-        description: "",
-        amount: 0,
-        date: "",
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        control,
+    } = useForm({
+        mode: "onBlur",
     });
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value,
-        });
-    };
+    const onSubmit = (data: FieldValues) => {
+        const newExpense = {
+            category: data.category,
+            description: data.description,
+            amount: data.amount,
+            date: data.date,
+        };
 
-    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValues({
-            ...values,
-            [e.target.name]: e.target.value,
-        });
-    };
-
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        createExpense({
-            values,
-        })
+        createExpense({ data: newExpense })
             .then(() => {
                 router.push("/home/expenses");
             })
@@ -41,5 +34,11 @@ export default function useMain() {
             });
     };
 
-    return { values, handleInputChange, handleCategoryChange, handleSubmit };
+    return {
+        register,
+        handleSubmit,
+        onSubmit,
+        errors,
+        control,
+    };
 }

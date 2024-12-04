@@ -47,19 +47,24 @@ export const getExpensesByChallengeDuration = async ({
 
 // 지출 생성
 interface CreateExpenseParams {
-    values: Values;
+    data: {
+        category: string;
+        description: string;
+        amount: number;
+        date: string;
+    };
 }
 
-export const createExpense = async ({ values }: CreateExpenseParams) => {
-    const expense = {
-        category: values.category,
-        description: values.description,
-        amount: values.amount,
+export const createExpense = async ({ data }: CreateExpenseParams) => {
+    const newExpense = {
+        category: data.category,
+        description: data.description,
+        amount: data.amount,
         user_id: process.env.NEXT_PUBLIC_USER_ID,
-        date: formatDate(values.date),
+        date: formatDate(data.date),
     };
 
-    const { error } = await supabaseClient.from("expense").insert(expense);
+    const { error } = await supabaseClient.from("expense").insert(newExpense);
 
     if (error) {
         throw new Error(error.message);
