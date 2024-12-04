@@ -2,7 +2,7 @@ import ConfirmButton from "@/components/button/ConfirmButton";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
 import useMain from "./Main.hook";
 import Label from "@/components/label/label";
-import ExpenseInput from "./ExpenseInput";
+import ExpenseInput from "../../../../../components/input/ExpenseInput";
 import { DevTool } from "@hookform/devtools";
 import InputErrorMessage from "@/components/ErrorMessage/InputErrorMessage";
 
