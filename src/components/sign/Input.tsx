@@ -1,3 +1,4 @@
+import EMAIL_REGEXP from "@/constants/EMAIL_REGEXP";
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
 export default function Input({
@@ -17,7 +18,7 @@ export default function Input({
                 id={id}
                 {...register(id, {
                     pattern: {
-                        value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                        value: EMAIL_REGEXP,
                         message: "올바른 이메일을 입력해주세요.",
                     },
                 })}
