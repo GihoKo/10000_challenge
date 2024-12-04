@@ -1,22 +1,7 @@
-import { useState } from "react";
-import { SignInFormValue } from "./SignInForm.type";
-import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 
 export default function useSignInForm() {
-    const [value, setValue] = useState<SignInFormValue>({
-        email: "",
-        password: "",
-    });
+    const { register, control } = useForm();
 
-    const router = useRouter();
-
-    const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, email: e.target.value });
-    };
-
-    const handleChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue({ ...value, password: e.target.value });
-    };
-
-    return { value, handleChangeEmail, handleChangePassword };
+    return { register, control };
 }
