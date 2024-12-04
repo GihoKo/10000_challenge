@@ -6,10 +6,26 @@ export default function Input({
     id,
     register,
 }: {
-    type: "email" | "password";
+    type: "text" | "email" | "password";
     id: string;
     register: UseFormRegister<FieldValues>;
 }) {
+    if (type === "text") {
+        return (
+            <input
+                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-blue-600"
+                type={type}
+                id={id}
+                {...register(id, {
+                    required: {
+                        value: true,
+                        message: "입력이 필요합니다.",
+                    },
+                })}
+            />
+        );
+    }
+
     if (type === "email") {
         return (
             <input

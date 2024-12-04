@@ -3,10 +3,10 @@ import { signIn } from "./actions";
 
 export default function useSignInForm() {
     const {
-        register,
         control,
-        handleSubmit,
         formState: { errors },
+        register,
+        handleSubmit,
     } = useForm<FieldValues>({
         mode: "onBlur",
     });
