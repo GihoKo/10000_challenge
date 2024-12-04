@@ -4,12 +4,13 @@ import ModalDescription from "@/components/Modal/ModalDescription";
 import ConfirmButton from "@/components/button/ConfirmButton";
 import useDeleteChallengeModal from "./DeleteChallengeModal.hook";
 import ModalForm from "@/components/Modal/ModalForm";
+import ModalWrapper from "@/components/Modal/ModalWrapper";
 
 export default function DeleteChallengeModal() {
     const { handleDelete, handleCloseModal } = useDeleteChallengeModal();
 
     return (
-        <div>
+        <ModalWrapper>
             <ModalName text="챌린지 삭제" />
 
             <ModalDescription text="챌린지를 삭제하시겠습니까?" />
@@ -22,6 +23,6 @@ export default function DeleteChallengeModal() {
                     onClick={handleCloseModal}
                 />
             </ModalForm>
-        </div>
+        </ModalWrapper>
     );
 }
