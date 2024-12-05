@@ -69,3 +69,27 @@ export const CHALLENGE_MOCKDATA: ChallengeMock[] = [
         totalDays: 7,
     },
 ];
+
+interface ExpenseCategoryMock {
+    id: number;
+    name: string;
+}
+
+export const expenseCategoryMocks: ExpenseCategoryMock[] = [
+    {
+        id: 1,
+        name: "식비",
+    },
+    {
+        id: 2,
+        name: "교통비",
+    },
+    {
+        id: 3,
+        name: "문화 생활",
+    },
+    {
+        id: 4,
+        name: "기타",
+    },
+];
