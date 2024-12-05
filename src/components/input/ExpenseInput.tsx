@@ -1,19 +1,18 @@
-import EMAIL_REGEXP from "@/constants/EMAIL_REGEXP";
 import { FieldValues, UseFormRegister } from "react-hook-form";
 
-export default function Input({
+export default function ExpenseInput({
     type,
     id,
     register,
 }: {
-    type: "text" | "email" | "password";
-    id: string;
+    type: "text" | "number" | "date";
+    id: "description" | "amount" | "date";
     register: UseFormRegister<FieldValues>;
 }) {
-    if (type === "text") {
+    if (id === "description") {
         return (
             <input
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-blue-600"
+                className="border border-gray-300 rounded-md w-full px-3 py-2 text-sm focus:border-blue-600"
                 type={type}
                 id={id}
                 {...register(id, {
@@ -26,32 +25,32 @@ export default function Input({
         );
     }
 
-    if (type === "email") {
+    if (id === "amount") {
         return (
             <input
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-blue-600"
+                className="border border-gray-300 rounded-md w-full px-3 py-2 text-sm focus:border-blue-600"
                 type={type}
                 id={id}
                 {...register(id, {
-                    pattern: {
-                        value: EMAIL_REGEXP,
-                        message: "올바른 이메일을 입력해주세요.",
+                    required: {
+                        value: true,
+                        message: "입력이 필요합니다.",
                     },
                 })}
             />
         );
     }
 
-    if (type === "password") {
+    if (id === "date") {
         return (
             <input
-                className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:border-blue-600"
+                className="border border-gray-300 rounded-md w-full px-3 py-2 text-sm focus:border-blue-600"
                 type={type}
                 id={id}
                 {...register(id, {
-                    minLength: {
-                        value: 8,
-                        message: "비밀번호는 8자 이상으로 설정해주세요.",
+                    required: {
+                        value: true,
+                        message: "입력이 필요합니다.",
                     },
                 })}
             />

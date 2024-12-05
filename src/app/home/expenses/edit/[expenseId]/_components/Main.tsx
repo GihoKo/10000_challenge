@@ -1,17 +1,23 @@
+"use client";
+
 import ConfirmButton from "@/components/button/ConfirmButton";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
-import useMain from "./Main.hook";
 import Label from "@/components/label/label";
-import ExpenseInput from "../../../../../components/input/ExpenseInput";
-import { DevTool } from "@hookform/devtools";
+import ExpenseInput from "../../../../../../components/input/ExpenseInput";
 import InputErrorMessage from "@/components/ErrorMessage/InputErrorMessage";
+import { DevTool } from "@hookform/devtools";
+import useMain from "./Main.hook";
 
 export default function Main() {
-    const { errors, control, register, handleSubmit, onSubmit } = useMain();
+    const { register, handleSubmit, onSubmit, errors, control } = useMain();
 
     return (
         <main>
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="flex flex-col gap-4"
+                noValidate
+            >
                 <div className="mt-2">
                     <Label
                         htmlFor="category"
@@ -72,11 +78,9 @@ export default function Main() {
                     </Label>
                 </div>
 
-                <div className="mt-10">
-                    <ConfirmButton type="submit" text="추가" />
-                </div>
-
                 <DevTool control={control} />
+
+                <ConfirmButton type="submit" text="수정" />
             </form>
         </main>
     );

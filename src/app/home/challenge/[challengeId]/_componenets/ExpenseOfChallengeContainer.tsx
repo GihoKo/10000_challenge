@@ -5,10 +5,10 @@ export default function ExpenseOfChallengeContainer({
     expenses,
 }: ExpenseOfChallengeContainerProps) {
     return (
-        <div className="flex flex-col gap-2">
+        <ul className="flex flex-col gap-2">
             {expenses.map((expense) => (
                 <Expense key={expense.id} expense={expense} />
             ))}
-        </div>
+        </ul>
     );
 }

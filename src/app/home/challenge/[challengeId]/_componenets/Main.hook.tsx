@@ -11,25 +11,6 @@ export default function useMain() {
 
     const [challenge, setChallenge] = useState<ChallengeResponse>();
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
-    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
-    const handleDeleteModalClose = () => {
-        setIsDeleteModalOpen(false);
-    };
-
-    const handleDeleteModalOpen = () => {
-        setIsDeleteModalOpen(true);
-    };
-
-    const handleDeleteChallenge = () => {
-        deleteChallenge({ challengeId })
-            .then(() => {
-                router.push("/home");
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    };
 
     useEffect(() => {
         getChallengeById({
@@ -59,9 +40,5 @@ export default function useMain() {
     return {
         challenge,
         expenses,
-        isDeleteModalOpen,
-        handleDeleteModalClose,
-        handleDeleteModalOpen,
-        handleDeleteChallenge,
     };
 }

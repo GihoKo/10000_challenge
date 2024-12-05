@@ -1,16 +1,15 @@
-import { createExpense } from "@/apis/services/expense";
-import { useUserStore } from "@/stores/userStore";
-import { useRouter } from "next/navigation";
+import { getExpense, updateExpense } from "@/apis/services/expense";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
+    const { expenseId } = useParams();
     const router = useRouter();
-    const { user } = useUserStore();
-    console.log(user);
-
     const {
         register,
         handleSubmit,
+        reset, // reset은 전체를 초기화, setValue는 일부를 초기화
         formState: { errors },
         control,
     } = useForm({
@@ -25,7 +24,7 @@ export default function useMain() {
             date: data.date,
         };
 
-        createExpense({ data: newExpense })
+        updateExpense(expenseId as string, newExpense)
             .then(() => {
                 router.push("/home/expenses");
             })
@@ -33,6 +32,12 @@ export default function useMain() {
                 console.error(error);
             });
     };
+
+    useEffect(() => {
+        getExpense({ expenseId }).then((expense) => {
+            reset(expense);
+        });
+    }, [expenseId, reset]);
 
     return {
         register,

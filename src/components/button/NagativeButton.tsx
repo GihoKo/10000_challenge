@@ -5,6 +5,7 @@ interface NagativeButtonProps {
     px?: string;
     py?: string;
     text?: string;
+    bg?: string;
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
@@ -15,11 +16,12 @@ export default function NagativeButton({
     px = "px-4",
     py = "py-2",
     text = "취소",
+    bg = "bg-transparent",
     onClick = () => {},
 }: NagativeButtonProps) {
     return (
         <button
-            className={`${width} ${rounded} ${px} ${py} bg-transparent flex justify-center items-center`}
+            className={`${width} ${rounded} ${px} ${py} ${bg} flex justify-center items-center`}
             type={type}
             onClick={onClick}
         >

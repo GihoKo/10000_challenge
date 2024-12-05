@@ -2,29 +2,32 @@
 
 import ConfirmButton from "@/components/button/ConfirmButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
-import Input from "@/components/input/input";
 import Label from "@/components/label/label";
 import useAddPage from "./page.hook";
+import { DevTool } from "@hookform/devtools";
+import ChallengeInput from "@/components/input/ChallengeInput";
+import InputErrorMessage from "@/components/ErrorMessage/InputErrorMessage";
 
 export default function Add() {
-    const { values, handleSubmit, handleChange, handleDateChange } =
-        useAddPage();
+    const { register, handleSubmit, onSubmit, errors, control } = useAddPage();
 
     return (
         <div>
             <PageContentHeader text="챌린지를 추가할께요" />
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mt-2">
                     <Label htmlFor="name" text="챌린지 이름을 입력해주세요">
-                        <Input
+                        <ChallengeInput
                             id="name"
-                            name="name"
                             type="text"
-                            placeholder="챌린지 이름을 입력해주세요"
-                            value={values.name}
-                            onChange={handleChange}
+                            register={register}
                         />
+                        {errors.name && (
+                            <InputErrorMessage
+                                message={errors.name.message as string}
+                            />
+                        )}
                     </Label>
                 </div>
 
@@ -33,14 +36,16 @@ export default function Add() {
                         htmlFor="resolution"
                         text="스스로의 다짐을 입력해주세요"
                     >
-                        <Input
+                        <ChallengeInput
                             id="resolution"
-                            name="resolution"
                             type="text"
-                            placeholder="스스로의 다짐을 입력해주세요"
-                            value={values.resolution}
-                            onChange={handleChange}
+                            register={register}
                         />
+                        {errors.resolution && (
+                            <InputErrorMessage
+                                message={errors.resolution.message as string}
+                            />
+                        )}
                     </Label>
                 </div>
 
@@ -49,14 +54,16 @@ export default function Add() {
                         htmlFor="dailySaving"
                         text="매일 목표로 할 지출 금액을 입력해주세요"
                     >
-                        <Input
+                        <ChallengeInput
                             id="dailySaving"
-                            name="dailySaving"
-                            type="text"
-                            placeholder="매일 목표로 할 지출 금액을 입력해주세요"
-                            value={values.dailySaving}
-                            onChange={handleChange}
+                            type="number"
+                            register={register}
                         />
+                        {errors.dailySaving && (
+                            <InputErrorMessage
+                                message={errors.dailySaving.message as string}
+                            />
+                        )}
                     </Label>
                 </div>
 
@@ -65,20 +72,24 @@ export default function Add() {
                         htmlFor="goalDate"
                         text="챌린지 목표 날짜를 입력해주세요"
                     >
-                        <Input
+                        <ChallengeInput
                             id="goalDate"
-                            name="goalDate"
                             type="date"
-                            placeholder="챌린지 목표 날짜를 입력해주세요"
-                            value={values.goalDate}
-                            onChange={handleDateChange}
+                            register={register}
                         />
+                        {errors.goalDate && (
+                            <InputErrorMessage
+                                message={errors.goalDate.message as string}
+                            />
+                        )}
                     </Label>
                 </div>
 
                 <div className="mt-10">
                     <ConfirmButton type="submit" text="추가" />
                 </div>
+
+                <DevTool control={control} />
             </form>
         </div>
     );

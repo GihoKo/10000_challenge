@@ -3,12 +3,13 @@ import DangerousButton from "@/components/button/DangerousButton";
 import ChallengeStateNotice from "./ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
 
-export default function ChallengeInfo({
-    challenge,
-    handleDeleteModalOpen,
-}: ChallengeInfoProps) {
-    const { remainingSaving, remainingDays, progressBarWidth } =
-        useChallengeInfo({ challenge });
+export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
+    const {
+        remainingSaving,
+        remainingDays,
+        progressBarWidth,
+        handleDeleteChallengeModalOpen,
+    } = useChallengeInfo({ challenge });
 
     return (
         <div className="flex flex-col gap-4">
@@ -28,7 +29,7 @@ export default function ChallengeInfo({
                     px="px-2"
                     py="py-1"
                     width="w-auto"
-                    onClick={handleDeleteModalOpen}
+                    onClick={handleDeleteChallengeModalOpen}
                 />
             </div>
 

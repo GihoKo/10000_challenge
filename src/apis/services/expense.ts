@@ -1,7 +1,24 @@
-import { Values } from "@/app/home/expenses/add/_components/Main.type";
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
 import formatDate from "@/utils/formatDate";
+
+interface GetExpenseProps {
+    expenseId: string | string[];
+}
+
+// 해당 id의 expense 가져오기
+export const getExpense = async ({ expenseId }: GetExpenseProps) => {
+    const { data: expense, error } = await supabaseClient
+        .from("expense")
+        .select("*")
+        .eq("id", expenseId);
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return expense[0];
+};
 
 interface GetExpensesByDateProps {
     date: string;
@@ -47,27 +64,30 @@ export const getExpensesByChallengeDuration = async ({
 
 // 지출 생성
 interface CreateExpenseParams {
-    values: Values;
+    data: {
+        category: string;
+        description: string;
+        amount: number;
+        date: string;
+    };
 }
 
-export const createExpense = async ({ values }: CreateExpenseParams) => {
-    const expense = {
-        category: values.category,
-        description: values.description,
-        amount: values.amount,
+export const createExpense = async ({ data }: CreateExpenseParams) => {
+    const newExpense = {
+        category: data.category,
+        description: data.description,
+        amount: data.amount,
         user_id: process.env.NEXT_PUBLIC_USER_ID,
-        date: formatDate(values.date),
+        date: formatDate(data.date),
     };
 
-    const { data, error } = await supabaseClient
-        .from("expense")
-        .insert(expense);
+    const { error } = await supabaseClient.from("expense").insert(newExpense);
 
     if (error) {
         throw new Error(error.message);
     }
 
-    return data;
+    return true;
 };
 
 export interface UpdatedExpense {
@@ -78,7 +98,7 @@ export interface UpdatedExpense {
 
 // expense 수정
 export const updateExpense = async (
-    expenseId: string | null,
+    expenseId: string,
     updatedExpense: UpdatedExpense
 ) => {
     const { data, error } = await supabaseClient
