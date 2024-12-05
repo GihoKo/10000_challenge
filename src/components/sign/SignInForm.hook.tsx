@@ -1,6 +1,8 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signIn } from "./actions";
 import { useRouter } from "next/navigation";
+import setUserDataInSessionStorage from "@/utils/setUserDataInSessionStorage";
+import { User } from "@supabase/supabase-js";
 
 export default function useSignInForm() {
     const router = useRouter();
@@ -21,7 +23,7 @@ export default function useSignInForm() {
 
         signIn(formData)
             .then((response) => {
-                sessionStorage.setItem("user", JSON.stringify(response?.user));
+                setUserDataInSessionStorage(response?.user as User);
                 router.push("/home");
             })
             .catch((error) => {
