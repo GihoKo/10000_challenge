@@ -1,14 +1,16 @@
 "use client";
 
 import ConfirmButton from "@/components/button/ConfirmButton";
-import ModalOpenButton from "@/components/button/ModalOpenButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import ImageWrapper from "@/components/ImageWrapper";
 import { expenseCategoryMocks } from "@/mocks";
 import deleteSvg from "@/images/svg/delete-black.svg";
 import editSvg from "@/images/svg/edit-black.svg";
+import useModalStore from "@/stores/modalStore";
+import DeleteExpenseCategoryModal from "./_components/DeleteExpenseCategoryModal";
 
 export default function ExpenseCategoryPage() {
+    const { setIsModalOpen } = useModalStore();
     const handleAddCategoryModalOpenButtonClick = () => {
         alert("추가 버튼 클릭");
     };
@@ -18,7 +20,7 @@ export default function ExpenseCategoryPage() {
     };
 
     const handleDeleteCategoryModalOpenButtonClick = () => {
-        alert("추가 버튼 클릭");
+        setIsModalOpen(<DeleteExpenseCategoryModal />);
     };
 
     return (
@@ -54,6 +56,9 @@ export default function ExpenseCategoryPage() {
                                     <button
                                         className="border border-gray-300 rounded-lg p-2 bg-white"
                                         type="button"
+                                        onClick={
+                                            handleUpdateCategoryModalOpenButtonClick
+                                        }
                                     >
                                         <ImageWrapper
                                             src={editSvg}
@@ -65,6 +70,9 @@ export default function ExpenseCategoryPage() {
                                     <button
                                         className="border border-gray-300  rounded-lg p-2 bg-white"
                                         type="button"
+                                        onClick={
+                                            handleDeleteCategoryModalOpenButtonClick
+                                        }
                                     >
                                         <ImageWrapper
                                             src={deleteSvg}
