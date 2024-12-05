@@ -2,10 +2,18 @@
 
 import DangerousButton from "@/components/button/DangerousButton";
 import { useUserStore } from "@/stores/userStore";
+import supabaseClient from "@/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function Main() {
-    const { user } = useUserStore();
-    console.log(user);
+    const { user, signOut } = useUserStore();
+    const router = useRouter();
+
+    const handleLogOutButtonClick = () => {
+        supabaseClient.auth.signOut();
+        signOut();
+        router.push("/");
+    };
 
     return (
         <main>
@@ -26,7 +34,6 @@ export default function Main() {
             <div className="flex flex-col gap-4 py-4">
                 <div className="font-bold">소비 카테고리 관리</div>
                 <div>카테고리 영역</div>
-                {/** 버튼 클릭시 모달창이 열려 Create,Delete */}
                 <div>카테고리 관리 버튼</div>
             </div>
 
@@ -38,9 +45,7 @@ export default function Main() {
                     <DangerousButton
                         text="로그아웃"
                         width="w-auto"
-                        onClick={() => {
-                            alert("로그아웃 버튼 클릭");
-                        }}
+                        onClick={handleLogOutButtonClick}
                     />
                 </div>
             </div>
