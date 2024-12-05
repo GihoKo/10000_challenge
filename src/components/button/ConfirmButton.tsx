@@ -21,7 +21,7 @@ export default function ConfirmButton({
 }: ConfirmButtonProps) {
     return (
         <button
-            className={`${width} ${rounded} ${px} ${py} ${bg} flex flex-shrink-0 justify-center items-center text-gray-100`}
+            className={`${width} ${rounded} ${px} ${py} ${bg} flex justify-center items-center text-gray-100`}
             type={type}
             onClick={onClick}
         >

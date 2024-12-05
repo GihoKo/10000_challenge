@@ -8,6 +8,7 @@ import deleteSvg from "@/images/svg/delete-black.svg";
 import editSvg from "@/images/svg/edit-black.svg";
 import useModalStore from "@/stores/modalStore";
 import DeleteExpenseCategoryModal from "./_components/DeleteExpenseCategoryModal";
+import UpdateExpenseCategoryModal from "./_components/UpdateExpenseCategoryModal";
 
 export default function ExpenseCategoryPage() {
     const { setIsModalOpen } = useModalStore();
@@ -16,7 +17,7 @@ export default function ExpenseCategoryPage() {
     };
 
     const handleUpdateCategoryModalOpenButtonClick = () => {
-        alert("추가 버튼 클릭");
+        setIsModalOpen(<UpdateExpenseCategoryModal />);
     };
 
     const handleDeleteCategoryModalOpenButtonClick = () => {
@@ -30,7 +31,7 @@ export default function ExpenseCategoryPage() {
             <main className="flex flex-col gap-4">
                 <div className="flex justify-between items-center gap-2">
                     <input
-                        className="border border-gray-300 rounded-lg p-2 w-full"
+                        className="border border-gray-300 flex-1 rounded-lg p-2"
                         type="text"
                         placeholder="새로운 카테고리 "
                     />
