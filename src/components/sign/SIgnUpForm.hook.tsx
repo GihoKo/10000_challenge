@@ -1,7 +1,11 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signUp } from "./actions";
+import { User } from "@supabase/supabase-js";
+import setUserDataInSessionStorage from "@/utils/setUserDataInSessionStorage";
+import { useRouter } from "next/navigation";
 
 export default function useSignUpForm() {
+    const router = useRouter();
     const {
         control,
         formState: { errors },
@@ -18,7 +22,14 @@ export default function useSignUpForm() {
         formData.append("email", data.email);
         formData.append("password", data.password);
 
-        signUp(formData);
+        signUp(formData)
+            .then((response) => {
+                setUserDataInSessionStorage(response?.user as User);
+                router.push("/home");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return {

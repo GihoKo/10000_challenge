@@ -41,5 +41,7 @@ export async function signUp(formData: FormData) {
         return console.log(response.error.message);
     }
 
-    redirect("/home");
+    return {
+        user: response.data.user,
+    };
 }
