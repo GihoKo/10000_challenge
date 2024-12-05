@@ -9,11 +9,13 @@ import editSvg from "@/images/svg/edit-black.svg";
 import useModalStore from "@/stores/modalStore";
 import DeleteExpenseCategoryModal from "./_components/DeleteExpenseCategoryModal";
 import UpdateExpenseCategoryModal from "./_components/UpdateExpenseCategoryModal";
+import AddExpenseCategoryModal from "./_components/AddExpenseCategoryModal";
 
 export default function ExpenseCategoryPage() {
     const { setIsModalOpen } = useModalStore();
+
     const handleAddCategoryModalOpenButtonClick = () => {
-        alert("추가 버튼 클릭");
+        setIsModalOpen(<AddExpenseCategoryModal />);
     };
 
     const handleUpdateCategoryModalOpenButtonClick = () => {
