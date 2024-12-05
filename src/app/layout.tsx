@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Modal from "@/components/Modal/Modal";
+import RenewUser from "@/components/User/RenewUser";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -62,6 +63,7 @@ export default function RootLayout({
                 className={`${inter.className} w-full flex justify-center bg-slate-950`}
             >
                 <div className="w-[37.5rem] bg-white">
+                    <RenewUser />
                     {children}
                     <Modal />
                 </div>

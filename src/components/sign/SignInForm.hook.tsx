@@ -1,11 +1,13 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signIn } from "./actions";
 import { useRouter } from "next/navigation";
-import setUserDataInSessionStorage from "@/utils/setUserDataInSessionStorage";
-import { User } from "@supabase/supabase-js";
+import { UserMetadata } from "@supabase/supabase-js";
+import { useUserStore } from "@/stores/userStore";
+import supabaseClient from "@/supabase/client";
 
 export default function useSignInForm() {
     const router = useRouter();
+    const { setUser } = useUserStore();
     const {
         control,
         formState: { errors },
@@ -23,8 +25,11 @@ export default function useSignInForm() {
 
         signIn(formData)
             .then((response) => {
-                setUserDataInSessionStorage(response?.user as User);
-                router.push("/home");
+                if (response?.success) {
+                    setUser(response.user as UserMetadata);
+                    supabaseClient.auth.setSession(response.session);
+                    router.push("/home");
+                }
             })
             .catch((error) => {
                 console.error(error);

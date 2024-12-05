@@ -1,6 +1,7 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
+import { UserMetadata } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 
 export async function signIn(formData: FormData) {
@@ -18,7 +19,9 @@ export async function signIn(formData: FormData) {
     }
 
     return {
-        user: response.data.user,
+        success: true,
+        user: response.data.user.user_metadata,
+        session: response.data.session,
     };
 }
 
@@ -42,6 +45,8 @@ export async function signUp(formData: FormData) {
     }
 
     return {
-        user: response.data.user,
+        success: true,
+        user: response.data.user?.user_metadata,
+        session: response.data.session,
     };
 }
