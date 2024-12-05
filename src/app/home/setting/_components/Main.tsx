@@ -4,6 +4,9 @@ import DangerousButton from "@/components/button/DangerousButton";
 import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
 import { useRouter } from "next/navigation";
+import rightArrowSvg from "@/images/svg/right-arrow.svg";
+import ImageWrapper from "@/components/ImageWrapper";
+import Link from "next/link";
 
 export default function Main() {
     const { user, signOut } = useUserStore();
@@ -16,8 +19,8 @@ export default function Main() {
     };
 
     return (
-        <main>
-            <div className="flex flex-col gap-4 py-4">
+        <main className="flex flex-col gap-4">
+            <div className="rounded-xl bg-blue-50 flex flex-col gap-4 p-4">
                 <div className="font-bold">유저 정보</div>
                 <div className="flex justify-between items-center">
                     <span className="text-gray-600">유저 이름</span>
@@ -29,17 +32,22 @@ export default function Main() {
                 </div>
             </div>
 
-            <div className="w-full h-1 bg-gray-200 my-2" />
-
-            <div className="flex flex-col gap-4 py-4">
-                <div className="font-bold">소비 카테고리 관리</div>
-                <div>카테고리 영역</div>
-                <div>카테고리 관리 버튼</div>
+            <div className="rounded-xl bg-blue-100 flex flex-col gap-4 p-4">
+                <Link
+                    href="/home/setting/expenseCategory"
+                    className="flex justify-between items-center"
+                >
+                    <span className="font-bold">소비 카테고리 관리</span>
+                    <ImageWrapper
+                        src={rightArrowSvg}
+                        alt="오른쪽 화살표 이미지"
+                        width={24}
+                        height={24}
+                    />
+                </Link>
             </div>
 
-            <div className="w-full h-1 bg-gray-200 my-2" />
-
-            <div className="flex flex-col gap-4 py-4">
+            <div className="rounded-xl bg-blue-50 flex flex-col gap-4 p-4">
                 <div className="font-bold">로그아웃</div>
                 <div className="flex justify-end">
                     <DangerousButton
