@@ -1,7 +1,9 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signIn } from "./actions";
+import { useRouter } from "next/navigation";
 
 export default function useSignInForm() {
+    const router = useRouter();
     const {
         control,
         formState: { errors },
@@ -17,7 +19,14 @@ export default function useSignInForm() {
         formData.append("email", data.email);
         formData.append("password", data.password);
 
-        signIn(formData);
+        signIn(formData)
+            .then((response) => {
+                sessionStorage.setItem("user", JSON.stringify(response?.user));
+                router.push("/home");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return { control, errors, register, handleSubmit, onSubmit };
