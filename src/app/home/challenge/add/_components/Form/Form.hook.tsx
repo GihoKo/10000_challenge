@@ -38,6 +38,19 @@ export default function useForm() {
         ]);
     };
 
+    const handleExpenseCategoryTagClick = (
+        e: React.MouseEvent<HTMLUListElement, MouseEvent>
+    ) => {
+        const expenseCategorytagId = Number(
+            (e.target as HTMLElement).closest<HTMLButtonElement>("li")?.dataset
+                .id
+        );
+
+        setExpenseCategoriesOfChallenge((prevItems) =>
+            prevItems.filter((item) => item.id !== expenseCategorytagId)
+        );
+    };
+
     const onSubmit = (data: FieldValues) => {
         const challenge = {
             name: data.name,
@@ -78,6 +91,7 @@ export default function useForm() {
         handleSubmit,
         onSubmit,
         handleSelectChange,
+        handleExpenseCategoryTagClick,
         errors,
         control,
         expenseCategories,

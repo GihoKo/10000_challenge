@@ -7,6 +7,7 @@ import Label from "@/components/label/label";
 import { DevTool } from "@hookform/devtools";
 import useForm from "./Form.hook";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
+import ExpenseCategoriesOfChallengeTagContainer from "./ExpenseCategoriesOfChallengeTagContainer";
 
 export default function Form() {
     const {
@@ -14,6 +15,7 @@ export default function Form() {
         handleSubmit,
         onSubmit,
         handleSelectChange,
+        handleExpenseCategoryTagClick,
         errors,
         control,
         expenseCategories,
@@ -73,16 +75,12 @@ export default function Form() {
                         handleSelectChange={handleSelectChange}
                     />
                 </Label>
-                <div className="flex gap-2 mt-2 flex-wrap">
-                    {expenseCategoriesOfChallenge.map((category) => (
-                        <span
-                            key={category.id}
-                            className="rounded-lg text-sm text-white bg-blue-500 px-2 py-1"
-                        >
-                            {category.name}
-                        </span>
-                    ))}
-                </div>
+                <ExpenseCategoriesOfChallengeTagContainer
+                    handleExpenseCategoryTagClick={
+                        handleExpenseCategoryTagClick
+                    }
+                    expenseCategoriesOfChallenge={expenseCategoriesOfChallenge}
+                />
             </div>
 
             <div className="mt-2">
