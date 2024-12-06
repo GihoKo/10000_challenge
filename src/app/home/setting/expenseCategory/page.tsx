@@ -10,12 +10,35 @@ import useModalStore from "@/stores/modalStore";
 import DeleteExpenseCategoryModal from "./_components/DeleteExpenseCategoryModal";
 import UpdateExpenseCategoryModal from "./_components/UpdateExpenseCategoryModal";
 import AddExpenseCategoryModal from "./_components/AddExpenseCategoryModal";
+import { useEffect, useRef, useState } from "react";
+import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
+
+export interface ExpenseCategory {
+    id: string;
+    name: string;
+    user_id: string;
+    created_at: string;
+}
 
 export default function ExpenseCategoryPage() {
     const { setIsModalOpen } = useModalStore();
 
+    const newExpenseCategoryInputRef = useRef<HTMLInputElement>(null);
+
+    const [expenseCategories, setExpenseCategories] = useState<
+        ExpenseCategory[]
+    >([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
+
     const handleAddCategoryModalOpenButtonClick = () => {
-        setIsModalOpen(<AddExpenseCategoryModal />);
+        if (!newExpenseCategoryInputRef.current) return;
+
+        setIsModalOpen(
+            <AddExpenseCategoryModal
+                newExpenseCategory={newExpenseCategoryInputRef.current.value}
+            />
+        );
     };
 
     const handleUpdateCategoryModalOpenButtonClick = (
@@ -23,17 +46,36 @@ export default function ExpenseCategoryPage() {
     ) => {
         const currentExpenseCategory = e.currentTarget.dataset.name;
 
-        sessionStorage.setItem(
-            "currentExpenseCategory",
-            JSON.stringify(currentExpenseCategory)
-        );
+        if (!currentExpenseCategory) return;
 
-        setIsModalOpen(<UpdateExpenseCategoryModal />);
+        setIsModalOpen(
+            <UpdateExpenseCategoryModal
+                currentExpenseCategory={currentExpenseCategory}
+            />
+        );
     };
 
     const handleDeleteCategoryModalOpenButtonClick = () => {
         setIsModalOpen(<DeleteExpenseCategoryModal />);
     };
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        getExpenseCategoryByUserId({
+            userId: process.env.NEXT_PUBLIC_USER_ID as string,
+        })
+            .then((response) => {
+                setExpenseCategories(response);
+            })
+            .catch((error) => {
+                console.error(error);
+                setIsError(true);
+            })
+            .finally(() => {
+                setIsLoading(false);
+            });
+    }, []);
 
     return (
         <div>
@@ -45,6 +87,7 @@ export default function ExpenseCategoryPage() {
                         className="border border-gray-300 flex-1 rounded-lg p-2"
                         type="text"
                         placeholder="새로운 카테고리 "
+                        ref={newExpenseCategoryInputRef}
                     />
                     <ConfirmButton
                         text="추가"
@@ -54,7 +97,7 @@ export default function ExpenseCategoryPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    {expenseCategoryMocks.map((category) => {
+                    {expenseCategories.map((category) => {
                         return (
                             <div
                                 key={category.id}

@@ -72,7 +72,7 @@ interface AddChallengeParams {
 }
 
 // 챌린지 추가
-const addChallenge = async ({ formValues }: AddChallengeParams) => {
+export const addChallenge = async ({ formValues }: AddChallengeParams) => {
     const newChallenge = {
         name: formValues.name,
         resolution: formValues.resolution,

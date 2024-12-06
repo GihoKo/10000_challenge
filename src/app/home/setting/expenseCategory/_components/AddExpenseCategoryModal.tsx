@@ -1,3 +1,4 @@
+import { addExpenseCategory } from "@/apis/services/expenseCategory";
 import ConfirmButton from "@/components/button/ConfirmButton";
 import NagativeButton from "@/components/button/NagativeButton";
 import ModalDescription from "@/components/Modal/ModalDescription";
@@ -6,16 +7,37 @@ import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 import useModalStore from "@/stores/modalStore";
 
-export default function AddExpenseCategoryModal() {
+interface AddExpenseCategoryModalProps {
+    newExpenseCategory: string;
+}
+
+export default function AddExpenseCategoryModal({
+    newExpenseCategory,
+}: AddExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
     const handleModalCloseButtonClick = () => {
         closeModal();
+        sessionStorage.removeItem("newExpenseCategory");
     };
 
     const handleAddButtonClick = () => {
-        alert("추가 버튼 클릭");
-        closeModal();
+        const userId = process.env.NEXT_PUBLIC_USER_ID as string;
+
+        if (!newExpenseCategory || !userId) return;
+
+        const formValues = {
+            name: newExpenseCategory,
+            user_id: userId,
+        };
+
+        addExpenseCategory({ formValues: formValues })
+            .then(() => {
+                closeModal();
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     return (

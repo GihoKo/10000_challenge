@@ -6,7 +6,13 @@ import ModalWrapper from "@/components/Modal/ModalWrapper";
 import useModalStore from "@/stores/modalStore";
 import { useEffect, useRef } from "react";
 
-export default function UpdateExpenseCategoryModal() {
+interface UpdateExpenseCategoryModalProps {
+    currentExpenseCategory: string;
+}
+
+export default function UpdateExpenseCategoryModal({
+    currentExpenseCategory,
+}: UpdateExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -26,17 +32,10 @@ export default function UpdateExpenseCategoryModal() {
     };
 
     useEffect(() => {
-        if (
-            sessionStorage.getItem("currentExpenseCategory") &&
-            inputRef.current
-        ) {
-            const currentExpenseCategory = JSON.parse(
-                sessionStorage.getItem("currentExpenseCategory")!
-            );
-
+        if (currentExpenseCategory && inputRef.current) {
             inputRef.current.value = currentExpenseCategory;
         }
-    }, []);
+    }, [currentExpenseCategory]);
 
     return (
         <ModalWrapper>
