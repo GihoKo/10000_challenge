@@ -71,7 +71,7 @@ export default function ExpenseCategoryPage() {
 
     const newExpenseCategoryInputRef = useRef<HTMLInputElement>(null);
 
-    const [ExpenseCategories, ExpenseCategoriesDispatch] = useReducer(
+    const [expenseCategories, expenseCategoriesDispatch] = useReducer(
         expenseCategoryReducer,
         []
     );
@@ -84,7 +84,7 @@ export default function ExpenseCategoryPage() {
         setIsModalOpen(
             <AddExpenseCategoryModal
                 newExpenseCategoryInputRef={newExpenseCategoryInputRef}
-                ExpenseCategoriesDispatch={ExpenseCategoriesDispatch}
+                expenseCategoriesDispatch={expenseCategoriesDispatch}
             />
         );
     };
@@ -105,7 +105,7 @@ export default function ExpenseCategoryPage() {
         setIsModalOpen(
             <UpdateExpenseCategoryModal
                 currentExpenseCategory={currentExpenseCategory}
-                ExpenseCategoriesDispatch={ExpenseCategoriesDispatch}
+                expenseCategoriesDispatch={expenseCategoriesDispatch}
             />
         );
     };
@@ -120,7 +120,7 @@ export default function ExpenseCategoryPage() {
         setIsModalOpen(
             <DeleteExpenseCategoryModal
                 currentExpenseCategoryId={currentExpenseCategoryId}
-                ExpenseCategoriesDispatch={ExpenseCategoriesDispatch}
+                expenseCategoriesDispatch={expenseCategoriesDispatch}
             />
         );
     };
@@ -132,7 +132,7 @@ export default function ExpenseCategoryPage() {
             userId: process.env.NEXT_PUBLIC_USER_ID as string,
         })
             .then((response) => {
-                ExpenseCategoriesDispatch({
+                expenseCategoriesDispatch({
                     type: "SET_INITIALIZE",
                     payload: response,
                 });
@@ -149,6 +149,9 @@ export default function ExpenseCategoryPage() {
     if (isLoading) return <div>소비 카테고리 목록을 불러오는 중...</div>;
 
     if (isError) return <div>오류가 발생했습니다.</div>;
+
+    if (expenseCategories.length === 0)
+        return <div>소비 카테고리가 없습니다.</div>;
 
     return (
         <div>
@@ -170,7 +173,7 @@ export default function ExpenseCategoryPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    {ExpenseCategories.map((category) => {
+                    {expenseCategories.map((category) => {
                         return (
                             <div
                                 key={category.id}

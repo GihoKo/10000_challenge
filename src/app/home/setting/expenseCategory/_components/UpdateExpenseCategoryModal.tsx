@@ -13,12 +13,12 @@ interface UpdateExpenseCategoryModalProps {
         id: number;
         name: string;
     };
-    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export default function UpdateExpenseCategoryModal({
     currentExpenseCategory,
-    ExpenseCategoriesDispatch,
+    expenseCategoriesDispatch,
 }: UpdateExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
@@ -28,7 +28,7 @@ export default function UpdateExpenseCategoryModal({
         // 낙관적 업데이트
         if (!inputRef.current) return;
 
-        ExpenseCategoriesDispatch({
+        expenseCategoriesDispatch({
             type: "UPDATE",
             payload: {
                 id: currentExpenseCategory.id,

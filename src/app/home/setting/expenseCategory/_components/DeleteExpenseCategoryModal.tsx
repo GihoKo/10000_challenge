@@ -10,12 +10,12 @@ import { deleteExpenseCategory } from "@/apis/services/expenseCategory";
 
 interface DeleteExpenseCategoryModalProps {
     currentExpenseCategoryId: number;
-    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export default function DeleteExpenseCategoryModal({
     currentExpenseCategoryId,
-    ExpenseCategoriesDispatch,
+    expenseCategoriesDispatch,
 }: DeleteExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
@@ -25,7 +25,7 @@ export default function DeleteExpenseCategoryModal({
 
     const handleDeleteButtonClick = () => {
         // 낙관적 업데이트
-        ExpenseCategoriesDispatch({
+        expenseCategoriesDispatch({
             type: "DELETE",
             payload: {
                 id: currentExpenseCategoryId,

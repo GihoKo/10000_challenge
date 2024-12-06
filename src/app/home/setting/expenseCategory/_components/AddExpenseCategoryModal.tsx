@@ -10,12 +10,12 @@ import { ExpenseCategoryAction } from "../page";
 
 interface AddExpenseCategoryModalProps {
     newExpenseCategoryInputRef: React.RefObject<HTMLInputElement>;
-    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export default function AddExpenseCategoryModal({
     newExpenseCategoryInputRef,
-    ExpenseCategoriesDispatch,
+    expenseCategoriesDispatch,
 }: AddExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
@@ -36,7 +36,7 @@ export default function AddExpenseCategoryModal({
             created_at: new Date().toISOString(),
         };
 
-        ExpenseCategoriesDispatch({
+        expenseCategoriesDispatch({
             type: "ADD",
             payload: tempExpenseCategory,
         });
