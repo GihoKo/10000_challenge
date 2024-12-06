@@ -12,7 +12,7 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
     } = useChallengeInfo({ challenge });
 
     return (
-        <div className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4">
             <ChallengeStateNotice
                 challengeId={challenge?.id}
                 remainingDays={remainingDays}
@@ -78,6 +78,6 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
                     </span>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

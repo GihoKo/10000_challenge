@@ -5,6 +5,7 @@ export default function Challenge() {
     return (
         <div>
             <Header />
+
             <Main />
         </div>
     );

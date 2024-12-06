@@ -14,25 +14,25 @@ export default function Main() {
         <main className="flex flex-col gap-8">
             <ChallengeInfo challenge={challenge} />
 
-            <div className="flex flex-col gap-4">
+            <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">매일 지출</h3>
                 <DailyExpenseBarChart
                     challenge={challenge}
                     expenses={expenses}
                 />
-            </div>
+            </section>
 
-            <div className="flex flex-col gap-4">
+            <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">카테고리 파이</h3>
                 <CategoryPieChart expenses={expenses} />
-            </div>
+            </section>
 
-            <div className="flex flex-col gap-4">
+            <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">최근 지출 목록</h3>
                 {expenses && (
                     <ExpenseOfChallengeContainer expenses={expenses} />
                 )}
-            </div>
+            </section>
         </main>
     );
 }
