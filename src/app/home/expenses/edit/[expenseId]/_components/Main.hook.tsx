@@ -34,8 +34,14 @@ export default function useMain() {
     const onSubmit = (data: FieldValues) => {
         if (!currentExpenseCategoryId) return;
 
+        const category = expenseCategories.find(
+            (category) => category.id === currentExpenseCategoryId
+        );
+
+        if (!category) return;
+
         const newExpense = {
-            category_name: data.category_name,
+            category_name: category.name,
             category_id: currentExpenseCategoryId,
             description: data.description,
             amount: data.amount,
