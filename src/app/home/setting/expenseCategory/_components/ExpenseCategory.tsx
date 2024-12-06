@@ -10,6 +10,7 @@ export default function ExpenseCategory({ category }: ExpenseCategoryProps) {
             className="flex justify-between items-center bg-gray-100 p-2 rounded-lg"
         >
             <span className="text-base">{category.name}</span>
+
             <div className="flex gap-2">
                 <button
                     data-name={category.name}
