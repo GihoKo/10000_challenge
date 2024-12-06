@@ -51,16 +51,14 @@ export default function AddExpenseCategoryModal({
             user_id: userId,
         };
 
-        addExpenseCategory({ formValues: formValues })
-            .then(() => {
-                if (!newExpenseCategoryInputRef.current) return;
-                newExpenseCategoryInputRef.current.value = "";
+        addExpenseCategory({ formValues: formValues }).catch((error) => {
+            console.error(error);
+        });
 
-                closeModal();
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        closeModal();
+
+        if (!newExpenseCategoryInputRef.current) return;
+        newExpenseCategoryInputRef.current.value = "";
     };
 
     return (

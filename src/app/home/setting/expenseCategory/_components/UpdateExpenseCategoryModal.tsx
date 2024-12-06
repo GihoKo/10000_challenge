@@ -5,20 +5,47 @@ import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 import useModalStore from "@/stores/modalStore";
 import { useEffect, useRef } from "react";
+import { ExpenseCategoryAction } from "../page";
+import { updateExpenseCategory } from "@/apis/services/expenseCategory";
 
 interface UpdateExpenseCategoryModalProps {
-    currentExpenseCategory: string;
+    currentExpenseCategory: {
+        id: number;
+        name: string;
+    };
+    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export default function UpdateExpenseCategoryModal({
     currentExpenseCategory,
+    ExpenseCategoriesDispatch,
 }: UpdateExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     const handleUpdateButtonClick = () => {
-        alert("수정 버튼 클릭");
+        // 낙관적 업데이트
+        if (!inputRef.current) return;
+
+        ExpenseCategoriesDispatch({
+            type: "UPDATE",
+            payload: {
+                id: currentExpenseCategory.id,
+                name: inputRef.current?.value,
+            },
+        });
+
+        // api 요청
+        const formValues = {
+            id: currentExpenseCategory.id,
+            name: inputRef.current.value,
+        };
+
+        updateExpenseCategory({ formValues: formValues }).catch((error) => {
+            console.error(error);
+        });
+
         closeModal();
     };
 
@@ -33,7 +60,7 @@ export default function UpdateExpenseCategoryModal({
 
     useEffect(() => {
         if (currentExpenseCategory && inputRef.current) {
-            inputRef.current.value = currentExpenseCategory;
+            inputRef.current.value = currentExpenseCategory.name;
         }
     }, [currentExpenseCategory]);
 
