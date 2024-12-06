@@ -6,33 +6,56 @@ import ModalForm from "@/components/Modal/ModalForm";
 import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 import useModalStore from "@/stores/modalStore";
+import { ExpenseCategoryAction } from "../page";
 
 interface AddExpenseCategoryModalProps {
-    newExpenseCategory: string;
+    newExpenseCategoryInputRef: React.RefObject<HTMLInputElement>;
+    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export default function AddExpenseCategoryModal({
-    newExpenseCategory,
+    newExpenseCategoryInputRef,
+    ExpenseCategoriesDispatch,
 }: AddExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
     const handleModalCloseButtonClick = () => {
         closeModal();
-        sessionStorage.removeItem("newExpenseCategory");
     };
 
     const handleAddButtonClick = () => {
-        const userId = process.env.NEXT_PUBLIC_USER_ID as string;
+        // 낙관적인 업데이트
+        if (!newExpenseCategoryInputRef.current) return;
 
-        if (!newExpenseCategory || !userId) return;
+        const newExpenseCategoryName = newExpenseCategoryInputRef.current.value;
+
+        const tempExpenseCategory = {
+            id: Date.now(),
+            name: newExpenseCategoryName,
+            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+            created_at: new Date().toISOString(),
+        };
+
+        ExpenseCategoriesDispatch({
+            type: "ADD",
+            payload: tempExpenseCategory,
+        });
+
+        // api 요청
+        const userId = process.env.NEXT_PUBLIC_USER_ID;
+
+        if (!userId) return;
 
         const formValues = {
-            name: newExpenseCategory,
+            name: newExpenseCategoryName,
             user_id: userId,
         };
 
         addExpenseCategory({ formValues: formValues })
             .then(() => {
+                if (!newExpenseCategoryInputRef.current) return;
+                newExpenseCategoryInputRef.current.value = "";
+
                 closeModal();
             })
             .catch((error) => {

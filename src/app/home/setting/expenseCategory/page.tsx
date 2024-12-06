@@ -3,31 +3,78 @@
 import ConfirmButton from "@/components/button/ConfirmButton";
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import ImageWrapper from "@/components/ImageWrapper";
-import { expenseCategoryMocks } from "@/mocks";
 import deleteSvg from "@/images/svg/delete-black.svg";
 import editSvg from "@/images/svg/edit-black.svg";
 import useModalStore from "@/stores/modalStore";
 import DeleteExpenseCategoryModal from "./_components/DeleteExpenseCategoryModal";
 import UpdateExpenseCategoryModal from "./_components/UpdateExpenseCategoryModal";
 import AddExpenseCategoryModal from "./_components/AddExpenseCategoryModal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useReducer, useRef, useState } from "react";
 import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
 
 export interface ExpenseCategory {
-    id: string;
+    id: number;
     name: string;
     user_id: string;
     created_at: string;
 }
+
+export type ExpenseCategoryAction =
+    | {
+          type: "SET_INITIALIZE";
+          payload: ExpenseCategory[];
+      }
+    | {
+          type: "ADD";
+          payload: ExpenseCategory;
+      }
+    | {
+          type: "UPDATE";
+          payload: { id: number; name: string };
+      }
+    | {
+          type: "DELETE";
+          payload: { id: number };
+      };
+
+const expenseCategoryReducer = (
+    state: ExpenseCategory[],
+    action: ExpenseCategoryAction
+) => {
+    switch (action.type) {
+        case "SET_INITIALIZE":
+            return action.payload;
+        case "ADD":
+            return [...state, action.payload];
+        case "UPDATE":
+            return state.map((category) => {
+                if (category.id === action.payload.id) {
+                    return {
+                        ...category,
+                        name: action.payload.name,
+                    };
+                }
+
+                return category;
+            });
+        case "DELETE":
+            return state.filter(
+                (category) => category.id !== action.payload.id
+            );
+        default:
+            return state;
+    }
+};
 
 export default function ExpenseCategoryPage() {
     const { setIsModalOpen } = useModalStore();
 
     const newExpenseCategoryInputRef = useRef<HTMLInputElement>(null);
 
-    const [expenseCategories, setExpenseCategories] = useState<
-        ExpenseCategory[]
-    >([]);
+    const [ExpenseCategories, ExpenseCategoriesDispatch] = useReducer(
+        expenseCategoryReducer,
+        []
+    );
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
 
@@ -36,7 +83,8 @@ export default function ExpenseCategoryPage() {
 
         setIsModalOpen(
             <AddExpenseCategoryModal
-                newExpenseCategory={newExpenseCategoryInputRef.current.value}
+                newExpenseCategoryInputRef={newExpenseCategoryInputRef}
+                ExpenseCategoriesDispatch={ExpenseCategoriesDispatch}
             />
         );
     };
@@ -66,7 +114,10 @@ export default function ExpenseCategoryPage() {
             userId: process.env.NEXT_PUBLIC_USER_ID as string,
         })
             .then((response) => {
-                setExpenseCategories(response);
+                ExpenseCategoriesDispatch({
+                    type: "SET_INITIALIZE",
+                    payload: response,
+                });
             })
             .catch((error) => {
                 console.error(error);
@@ -76,6 +127,10 @@ export default function ExpenseCategoryPage() {
                 setIsLoading(false);
             });
     }, []);
+
+    if (isLoading) return <div>소비 카테고리 목록을 불러오는 중...</div>;
+
+    if (isError) return <div>오류가 발생했습니다.</div>;
 
     return (
         <div>
@@ -97,7 +152,7 @@ export default function ExpenseCategoryPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    {expenseCategories.map((category) => {
+                    {ExpenseCategories.map((category) => {
                         return (
                             <div
                                 key={category.id}
