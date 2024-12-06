@@ -6,6 +6,7 @@ import UpdateExpenseCategoryModal from "./UpdateExpenseCategoryModal";
 import DeleteExpenseCategoryModal from "./DeleteExpenseCategoryModal";
 import { ExpenseCategory } from "./Main.type";
 import { ExpenseCategoryAction } from "@/reducers/expenseCategoryReducer";
+import NoExpenseCategory from "./NoExpenseCategory";
 
 interface ExpenseCategoryContainerProps {
     expenseCategories: ExpenseCategory[];
@@ -102,11 +103,7 @@ export default function ExpenseCategoryContainer({
                     );
                 })
             ) : (
-                <div className="rounded-lg flex items-center bg-gray-200 p-2">
-                    <span className="text-base">
-                        소비 카테고리를 추가하세요
-                    </span>
-                </div>
+                <NoExpenseCategory />
             )}
         </ul>
     );
