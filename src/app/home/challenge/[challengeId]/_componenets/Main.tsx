@@ -1,6 +1,5 @@
 "use client";
 
-import DeleteChallengeModal from "./DeleteChallengeModal";
 import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
 import CategoryPieChart from "./CategoryPieChart";
 import DailyExpenseBarChart from "./DailyExpenseBarChart";

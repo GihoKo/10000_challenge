@@ -1,4 +1,4 @@
-import { deleteChallenge, getChallengeById } from "@/apis/services/challenge";
+import { getChallengeById } from "@/apis/services/challenge";
 import { getExpensesByChallengeDuration } from "@/apis/services/expense";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
@@ -7,7 +7,6 @@ import { useEffect, useState } from "react";
 
 export default function useMain() {
     const { challengeId } = useParams();
-    const router = useRouter();
 
     const [challenge, setChallenge] = useState<ChallengeResponse>();
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
