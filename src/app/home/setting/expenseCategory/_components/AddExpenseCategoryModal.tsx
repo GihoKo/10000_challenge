@@ -1,65 +1,21 @@
-import { addExpenseCategory } from "@/apis/services/expenseCategory";
 import ConfirmButton from "@/components/button/ConfirmButton";
 import NagativeButton from "@/components/button/NagativeButton";
 import ModalDescription from "@/components/Modal/ModalDescription";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
-import useModalStore from "@/stores/modalStore";
-import { ExpenseCategoryAction } from "../page";
-
-interface AddExpenseCategoryModalProps {
-    newExpenseCategoryInputRef: React.RefObject<HTMLInputElement>;
-    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
-}
+import { AddExpenseCategoryModalProps } from "./AddExpenseCategoryModal.type";
+import useAddExpenseCategoryModal from "./AddExpenseCategoryModal.hook";
 
 export default function AddExpenseCategoryModal({
     newExpenseCategoryInputRef,
     expenseCategoriesDispatch,
 }: AddExpenseCategoryModalProps) {
-    const { closeModal } = useModalStore();
-
-    const handleModalCloseButtonClick = () => {
-        closeModal();
-    };
-
-    const handleAddButtonClick = () => {
-        // 낙관적인 업데이트
-        if (!newExpenseCategoryInputRef.current) return;
-
-        const newExpenseCategoryName = newExpenseCategoryInputRef.current.value;
-
-        const tempExpenseCategory = {
-            id: Date.now(),
-            name: newExpenseCategoryName,
-            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
-            created_at: new Date().toISOString(),
-        };
-
-        expenseCategoriesDispatch({
-            type: "ADD",
-            payload: tempExpenseCategory,
+    const { handleModalCloseButtonClick, handleAddButtonClick } =
+        useAddExpenseCategoryModal({
+            newExpenseCategoryInputRef,
+            expenseCategoriesDispatch,
         });
-
-        // api 요청
-        const userId = process.env.NEXT_PUBLIC_USER_ID;
-
-        if (!userId) return;
-
-        const formValues = {
-            name: newExpenseCategoryName,
-            user_id: userId,
-        };
-
-        addExpenseCategory({ formValues: formValues }).catch((error) => {
-            console.error(error);
-        });
-
-        closeModal();
-
-        if (!newExpenseCategoryInputRef.current) return;
-        newExpenseCategoryInputRef.current.value = "";
-    };
 
     return (
         <ModalWrapper>
