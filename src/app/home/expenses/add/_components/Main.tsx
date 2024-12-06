@@ -24,7 +24,7 @@ export default function Main() {
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <div className="mt-2">
                     <Label
-                        htmlFor="category"
+                        htmlFor="category_name"
                         text="지출 카테고리를 선택해주세요."
                     >
                         <ExpenseCategorySelect

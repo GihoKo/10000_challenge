@@ -9,7 +9,15 @@ import { DevTool } from "@hookform/devtools";
 import useMain from "./Main.hook";
 
 export default function Main() {
-    const { register, handleSubmit, onSubmit, errors, control } = useMain();
+    const {
+        register,
+        handleSubmit,
+        onSubmit,
+        handleSelectChange,
+        errors,
+        control,
+        expenseCategories,
+    } = useMain();
 
     return (
         <main>
@@ -24,8 +32,8 @@ export default function Main() {
                         text="지출 카테고리를 선택해주세요."
                     >
                         <ExpenseCategorySelect
-                            id="category"
-                            register={register}
+                            handleSelectChange={handleSelectChange}
+                            expenseCategories={expenseCategories}
                         />
                     </Label>
                 </div>

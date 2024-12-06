@@ -20,7 +20,7 @@ export default function Expense({ expense }: ExpenseProps) {
                         {expense.description}
                     </span>
                     <span className="text-xs text-gray-500">
-                        {expense.category}
+                        {expense.category_name}
                     </span>
                 </div>
                 <div className="flex flex-col">

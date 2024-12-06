@@ -3,7 +3,6 @@
 import Image from "next/image";
 import dropDownArrow from "@/images/svg/dropdown-arrow.svg";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
-import { FieldValues, UseFormRegister } from "react-hook-form";
 
 interface ExpenseCategorySelectProps {
     expenseCategories: ExpenseCategory[];

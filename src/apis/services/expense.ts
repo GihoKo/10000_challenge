@@ -93,8 +93,9 @@ export const createExpense = async ({ data }: CreateExpenseParams) => {
 };
 
 export interface UpdatedExpense {
+    category_name: string;
+    category_id: number;
     description: string;
-    category: string;
     amount: number;
 }
 
