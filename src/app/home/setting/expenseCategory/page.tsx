@@ -18,7 +18,16 @@ export default function ExpenseCategoryPage() {
         setIsModalOpen(<AddExpenseCategoryModal />);
     };
 
-    const handleUpdateCategoryModalOpenButtonClick = () => {
+    const handleUpdateCategoryModalOpenButtonClick = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        const currentExpenseCategory = e.currentTarget.dataset.name;
+
+        sessionStorage.setItem(
+            "currentExpenseCategory",
+            JSON.stringify(currentExpenseCategory)
+        );
+
         setIsModalOpen(<UpdateExpenseCategoryModal />);
     };
 
@@ -57,6 +66,7 @@ export default function ExpenseCategoryPage() {
                                 </span>
                                 <div className="flex gap-2">
                                     <button
+                                        data-name={category.name}
                                         className="border border-gray-300 rounded-lg p-2 bg-white"
                                         type="button"
                                         onClick={
