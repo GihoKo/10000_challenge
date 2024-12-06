@@ -21,10 +21,10 @@ export default function Main() {
                 />
             </section>
 
-            <section className="flex flex-col gap-4">
+            {/* <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">카테고리 파이</h3>
                 <CategoryPieChart expenses={expenses} />
-            </section>
+            </section> */}
 
             <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">최근 지출 목록</h3>

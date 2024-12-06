@@ -3,6 +3,7 @@ import { CategoryPieChartProps } from "./CategoryPieChart.type";
 import useCategoryPieChart from "./CategoryPieChart.hook";
 
 export default function CategoryPieChart({ expenses }: CategoryPieChartProps) {
+    console.log(expenses);
     const { expensesByCategory } = useCategoryPieChart({ expenses });
 
     return (
