@@ -29,7 +29,7 @@ const NAVIGATION_ITEMS: NavigationItems = [
         image: challengeSvg,
     },
     {
-        name: "세팅",
+        name: "설정",
         href: "/home/setting",
         image: settingSvg,
     },

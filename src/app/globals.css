@@ -123,7 +123,7 @@ blockquote::before,
 blockquote::after,
 q::before,
 q::after {
-    content: '';
+    content: "";
     content: none;
 }
 
@@ -134,7 +134,6 @@ table {
 
 button {
     background-color: transparent;
-    border: none;
     outline: none;
 }
 
