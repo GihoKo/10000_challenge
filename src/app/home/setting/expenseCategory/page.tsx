@@ -150,9 +150,6 @@ export default function ExpenseCategoryPage() {
 
     if (isError) return <div>오류가 발생했습니다.</div>;
 
-    if (expenseCategories.length === 0)
-        return <div>소비 카테고리가 없습니다.</div>;
-
     return (
         <div>
             <PageContentHeader text="소비 카테고리 설정" />
@@ -173,52 +170,60 @@ export default function ExpenseCategoryPage() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    {expenseCategories.map((category) => {
-                        return (
-                            <div
-                                key={category.id}
-                                className="flex justify-between items-center bg-gray-100 p-2 rounded-lg
+                    {expenseCategories.length !== 0 ? (
+                        expenseCategories.map((category) => {
+                            return (
+                                <div
+                                    key={category.id}
+                                    className="flex justify-between items-center bg-gray-100 p-2 rounded-lg
                         "
-                            >
-                                <span className="text-base">
-                                    {category.name}
-                                </span>
-                                <div className="flex gap-2">
-                                    <button
-                                        data-name={category.name}
-                                        data-id={category.id}
-                                        className="border border-gray-300 rounded-lg p-2 bg-white"
-                                        type="button"
-                                        onClick={
-                                            handleUpdateCategoryModalOpenButtonClick
-                                        }
-                                    >
-                                        <ImageWrapper
-                                            src={editSvg}
-                                            alt="수정"
-                                            width={20}
-                                            height={20}
-                                        />
-                                    </button>
-                                    <button
-                                        className="border border-gray-300  rounded-lg p-2 bg-white"
-                                        type="button"
-                                        data-id={category.id}
-                                        onClick={
-                                            handleDeleteCategoryModalOpenButtonClick
-                                        }
-                                    >
-                                        <ImageWrapper
-                                            src={deleteSvg}
-                                            alt="삭제"
-                                            width={20}
-                                            height={20}
-                                        />
-                                    </button>
+                                >
+                                    <span className="text-base">
+                                        {category.name}
+                                    </span>
+                                    <div className="flex gap-2">
+                                        <button
+                                            data-name={category.name}
+                                            data-id={category.id}
+                                            className="border border-gray-300 rounded-lg p-2 bg-white"
+                                            type="button"
+                                            onClick={
+                                                handleUpdateCategoryModalOpenButtonClick
+                                            }
+                                        >
+                                            <ImageWrapper
+                                                src={editSvg}
+                                                alt="수정"
+                                                width={20}
+                                                height={20}
+                                            />
+                                        </button>
+                                        <button
+                                            className="border border-gray-300  rounded-lg p-2 bg-white"
+                                            type="button"
+                                            data-id={category.id}
+                                            onClick={
+                                                handleDeleteCategoryModalOpenButtonClick
+                                            }
+                                        >
+                                            <ImageWrapper
+                                                src={deleteSvg}
+                                                alt="삭제"
+                                                width={20}
+                                                height={20}
+                                            />
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        );
-                    })}
+                            );
+                        })
+                    ) : (
+                        <div className="rounded-lg flex items-center bg-gray-200 p-2">
+                            <span className="text-base">
+                                소비 카테고리를 추가하세요
+                            </span>
+                        </div>
+                    )}
                 </div>
             </main>
         </div>
