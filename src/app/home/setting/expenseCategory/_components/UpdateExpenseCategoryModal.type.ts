@@ -1,4 +1,4 @@
-import { ExpenseCategoryAction } from "../page";
+import { ExpenseCategoryAction } from "@/reducers/expenseCategoryReducer";
 
 export interface UpdateExpenseCategoryModalProps {
     currentExpenseCategory: {

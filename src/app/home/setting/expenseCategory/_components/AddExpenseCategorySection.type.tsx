@@ -1,4 +1,4 @@
-import { ExpenseCategoryAction } from "./Main";
+import { ExpenseCategoryAction } from "@/reducers/expenseCategoryReducer";
 
 export interface AddExpenseCategorySectionProps {
     expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
