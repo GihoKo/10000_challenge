@@ -1,11 +1,20 @@
-"use client";
-
 import { createExpense } from "@/apis/services/expense";
+import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
     const router = useRouter();
+
+    const [expenseCategories, setExpenseCategories] = useState<
+        ExpenseCategory[]
+    >([]);
+
+    const [currentExpenseCategoryId, setCurrentExpenseCategoryId] = useState<
+        number | null
+    >(null);
 
     const {
         register,
@@ -17,8 +26,11 @@ export default function useMain() {
     });
 
     const onSubmit = (data: FieldValues) => {
+        if (!currentExpenseCategoryId) return;
+
         const newExpense = {
-            category: data.category,
+            category_name: data.category,
+            category_id: currentExpenseCategoryId,
             description: data.description,
             amount: data.amount,
             date: data.date,
@@ -33,11 +45,29 @@ export default function useMain() {
             });
     };
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCurrentExpenseCategoryId(Number(e.target.value));
+    };
+
+    useEffect(() => {
+        getExpenseCategoryByUserId({
+            userId: process.env.NEXT_PUBLIC_USER_ID as string,
+        })
+            .then((response) => {
+                setExpenseCategories(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+    }, []);
+
     return {
         register,
         handleSubmit,
         onSubmit,
+        handleSelectChange,
         errors,
         control,
+        expenseCategories,
     };
 }

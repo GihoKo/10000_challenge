@@ -1,3 +1,5 @@
+"use client";
+
 import ConfirmButton from "@/components/button/ConfirmButton";
 import ExpenseCategorySelect from "@/components/input/ExpenseCategorySelect";
 import useMain from "./Main.hook";
@@ -7,7 +9,15 @@ import { DevTool } from "@hookform/devtools";
 import InputErrorMessage from "@/components/ErrorMessage/InputErrorMessage";
 
 export default function Main() {
-    const { errors, control, register, handleSubmit, onSubmit } = useMain();
+    const {
+        errors,
+        control,
+        expenseCategories,
+        register,
+        handleSubmit,
+        onSubmit,
+        handleSelectChange,
+    } = useMain();
 
     return (
         <main>
@@ -18,8 +28,8 @@ export default function Main() {
                         text="지출 카테고리를 선택해주세요."
                     >
                         <ExpenseCategorySelect
-                            id="category"
-                            register={register}
+                            handleSelectChange={handleSelectChange}
+                            expenseCategories={expenseCategories}
                         />
                     </Label>
                 </div>

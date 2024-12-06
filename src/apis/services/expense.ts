@@ -65,7 +65,8 @@ export const getExpensesByChallengeDuration = async ({
 // 지출 생성
 interface CreateExpenseParams {
     data: {
-        category: string;
+        category_name: string;
+        category_id: number;
         description: string;
         amount: number;
         date: string;
@@ -74,7 +75,8 @@ interface CreateExpenseParams {
 
 export const createExpense = async ({ data }: CreateExpenseParams) => {
     const newExpense = {
-        category: data.category,
+        category_name: data.category_name,
+        category_id: data.category_id,
         description: data.description,
         amount: data.amount,
         user_id: process.env.NEXT_PUBLIC_USER_ID,
