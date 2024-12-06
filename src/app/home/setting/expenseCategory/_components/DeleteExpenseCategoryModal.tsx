@@ -4,45 +4,18 @@ import ModalDescription from "@/components/Modal/ModalDescription";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
-import useModalStore from "@/stores/modalStore";
-import { ExpenseCategoryAction } from "../page";
-import { deleteExpenseCategory } from "@/apis/services/expenseCategory";
-
-interface DeleteExpenseCategoryModalProps {
-    currentExpenseCategoryId: number;
-    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
-}
+import useDeleteExpenseCategoryModal from "./DeleteExpenseCategoryModal.hook";
+import { DeleteExpenseCategoryModalProps } from "./DeleteExpenseCategoryModal.type";
 
 export default function DeleteExpenseCategoryModal({
     currentExpenseCategoryId,
     expenseCategoriesDispatch,
 }: DeleteExpenseCategoryModalProps) {
-    const { closeModal } = useModalStore();
-
-    const handleModalCloseButtonClick = () => {
-        closeModal();
-    };
-
-    const handleDeleteButtonClick = () => {
-        // 낙관적 업데이트
-        expenseCategoriesDispatch({
-            type: "DELETE",
-            payload: {
-                id: currentExpenseCategoryId,
-            },
+    const { handleModalCloseButtonClick, handleDeleteButtonClick } =
+        useDeleteExpenseCategoryModal({
+            currentExpenseCategoryId,
+            expenseCategoriesDispatch,
         });
-
-        // api 요청
-        const formValues = {
-            id: currentExpenseCategoryId,
-        };
-
-        deleteExpenseCategory({ formValues: formValues }).catch((error) => {
-            console.error(error);
-        });
-
-        closeModal();
-    };
 
     return (
         <ModalWrapper>
