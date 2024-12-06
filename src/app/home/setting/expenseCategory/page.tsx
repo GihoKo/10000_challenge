@@ -1,5 +1,5 @@
 import PageContentHeader from "@/components/Header/PageContentHeader";
-import Main from "./_components/Main";
+import Main from "./_components/Main/Main";
 
 export default function ExpenseCategoryPage() {
     return (

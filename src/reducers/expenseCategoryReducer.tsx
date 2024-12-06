@@ -1,4 +1,4 @@
-import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main.type";
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 
 export type ExpenseCategoryAction =
     | {

@@ -1,5 +1,5 @@
 import useModalStore from "@/stores/modalStore";
-import AddExpenseCategoryModal from "./AddExpenseCategoryModal";
+import AddExpenseCategoryModal from "../AddExpenseCategoryModal/AddExpenseCategoryModal";
 import { useRef } from "react";
 import { UseAddExpenseCategorySectionProps } from "./AddExpenseCategorySection.type";
 

@@ -1,7 +1,7 @@
-import NoExpenseCategory from "./NoExpenseCategory";
-import ExpenseCategory from "./ExpenseCategory";
 import { ExpenseCategoryContainerProps } from "./ExpenseCategoryContainer.type";
 import useExpenseCategoryContainer from "./ExpenseCategoryContainer.hook";
+import ExpenseCategory from "../ExpenseCategory/ExpenseCategory";
+import NoExpenseCategory from "../NoExpenseCategory/NoExpenseCategory";
 
 export default function ExpenseCategoryContainer({
     expenseCategories,

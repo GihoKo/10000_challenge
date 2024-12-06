@@ -1,7 +1,8 @@
 "use client";
 
-import AddExpenseCategorySection from "./AddExpenseCategorySection";
-import ExpenseCategoryContainer from "./ExpenseCategoryContainer";
+import AddExpenseCategorySection from "../AddExpenseCategorySection/AddExpenseCategorySection";
+import ExpenseCategoryContainer from "../ExpenseCategoryContainer/ExpenseCategoryContainer";
+
 import useMain from "./Main.hook";
 
 export default function Main() {

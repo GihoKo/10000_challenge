@@ -1,7 +1,8 @@
 import useModalStore from "@/stores/modalStore";
-import UpdateExpenseCategoryModal from "./UpdateExpenseCategoryModal";
-import DeleteExpenseCategoryModal from "./DeleteExpenseCategoryModal";
+
 import { UseExpenseCategoryContainerProps } from "./ExpenseCategoryContainer.type";
+import DeleteExpenseCategoryModal from "../DeleteExpenseCategoryModal/DeleteExpenseCategoryModal";
+import UpdateExpenseCategoryModal from "../UpdateExpenseCategoryModal/UpdateExpenseCategoryModal";
 
 export default function useExpenseCategoryContainer({
     expenseCategoriesDispatch,
