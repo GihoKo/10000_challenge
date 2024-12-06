@@ -1,12 +1,11 @@
+"use client";
+
 import { createExpense } from "@/apis/services/expense";
-import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
     const router = useRouter();
-    const { user } = useUserStore();
-    console.log(user);
 
     const {
         register,
