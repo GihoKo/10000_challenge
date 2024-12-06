@@ -5,8 +5,18 @@ import ModalForm from "@/components/Modal/ModalForm";
 import ModalName from "@/components/Modal/ModalName";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
 import useModalStore from "@/stores/modalStore";
+import { ExpenseCategoryAction } from "../page";
+import { deleteExpenseCategory } from "@/apis/services/expenseCategory";
 
-export default function DeleteExpenseCategoryModal() {
+interface DeleteExpenseCategoryModalProps {
+    currentExpenseCategoryId: number;
+    ExpenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+}
+
+export default function DeleteExpenseCategoryModal({
+    currentExpenseCategoryId,
+    ExpenseCategoriesDispatch,
+}: DeleteExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
     const handleModalCloseButtonClick = () => {
@@ -14,7 +24,23 @@ export default function DeleteExpenseCategoryModal() {
     };
 
     const handleDeleteButtonClick = () => {
-        alert("삭제 버튼 클릭");
+        // 낙관적 업데이트
+        ExpenseCategoriesDispatch({
+            type: "DELETE",
+            payload: {
+                id: currentExpenseCategoryId,
+            },
+        });
+
+        // api 요청
+        const formValues = {
+            id: currentExpenseCategoryId,
+        };
+
+        deleteExpenseCategory({ formValues: formValues }).catch((error) => {
+            console.error(error);
+        });
+
         closeModal();
     };
 

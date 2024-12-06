@@ -93,12 +93,12 @@ export default function ExpenseCategoryPage() {
         e: React.MouseEvent<HTMLButtonElement, MouseEvent>
     ) => {
         const currentExpenseCategoryName = e.currentTarget.dataset.name;
-        const currentExpenseCategoryId = e.currentTarget.dataset.id;
+        const currentExpenseCategoryId = Number(e.currentTarget.dataset.id);
 
         if (!currentExpenseCategoryName || !currentExpenseCategoryId) return;
 
         const currentExpenseCategory = {
-            id: Number(currentExpenseCategoryId),
+            id: currentExpenseCategoryId,
             name: currentExpenseCategoryName,
         };
 
@@ -110,8 +110,19 @@ export default function ExpenseCategoryPage() {
         );
     };
 
-    const handleDeleteCategoryModalOpenButtonClick = () => {
-        setIsModalOpen(<DeleteExpenseCategoryModal />);
+    const handleDeleteCategoryModalOpenButtonClick = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        const currentExpenseCategoryId = Number(e.currentTarget.dataset.id);
+
+        if (!currentExpenseCategoryId) return;
+
+        setIsModalOpen(
+            <DeleteExpenseCategoryModal
+                currentExpenseCategoryId={currentExpenseCategoryId}
+                ExpenseCategoriesDispatch={ExpenseCategoriesDispatch}
+            />
+        );
     };
 
     useEffect(() => {
@@ -189,6 +200,7 @@ export default function ExpenseCategoryPage() {
                                     <button
                                         className="border border-gray-300  rounded-lg p-2 bg-white"
                                         type="button"
+                                        data-id={category.id}
                                         onClick={
                                             handleDeleteCategoryModalOpenButtonClick
                                         }

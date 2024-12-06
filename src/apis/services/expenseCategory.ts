@@ -73,3 +73,26 @@ export const updateExpenseCategory = async ({
 
     return true;
 };
+
+interface DeleteExpenseCategoryParams {
+    formValues: {
+        id: number;
+    };
+}
+
+// 소비 카테고리 삭제
+export const deleteExpenseCategory = async ({
+    formValues,
+}: DeleteExpenseCategoryParams) => {
+    const { error } = await supabaseClient
+        .from("expense_category")
+        .delete()
+        .eq("id", formValues.id)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return true;
+};
