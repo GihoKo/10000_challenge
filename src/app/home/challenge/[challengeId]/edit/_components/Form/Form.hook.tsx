@@ -1,14 +1,15 @@
-import { getChallengeById } from "@/apis/services/challenge";
+import { getChallengeById, updateChallenge } from "@/apis/services/challenge";
 import {
     getExpenseCategoryByChallengeId,
     getExpenseCategoryByUserId,
 } from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
 
 export default function useForm() {
+    const router = useRouter();
     const { challengeId } = useParams();
 
     const {
@@ -63,7 +64,16 @@ export default function useForm() {
             user_id: process.env.NEXT_PUBLIC_USER_ID as string,
         };
 
-        // EditChallenge()
+        updateChallenge({
+            challengeId: challengeId,
+            updatedChallenge: challenge,
+        })
+            .then(() => {
+                router.push(`/home/challenge/${challengeId}`);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const getAllData = useCallback(() => {

@@ -110,10 +110,42 @@ export const addChallenge = async ({
     return true;
 };
 
+interface UpdatedChallengeParams {
+    challengeId: string | string[];
+    updatedChallenge: UpdatedChallenge;
+}
+
+interface UpdatedChallenge {
+    name: string;
+    resolution: string;
+    daily_saving: number;
+    goal_date: string;
+    user_id: string;
+}
+
+// 챌린지 수정
+export const updateChallenge = async ({
+    challengeId,
+    updatedChallenge,
+}: UpdatedChallengeParams) => {
+    const { data, error } = await supabaseClient
+        .from("challenge")
+        .update(updatedChallenge)
+        .eq("id", challengeId)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
+};
+
 interface DeleteChallengeParams {
     challengeId: string | string[];
 }
 
+// 챌린지 삭제
 export const deleteChallenge = async ({
     challengeId,
 }: DeleteChallengeParams) => {
