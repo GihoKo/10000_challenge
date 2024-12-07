@@ -1,8 +1,11 @@
 import { getChallengeById } from "@/apis/services/challenge";
-import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
+import {
+    getExpenseCategoryByChallengeId,
+    getExpenseCategoryByUserId,
+} from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
 
 export default function useForm() {
@@ -63,8 +66,8 @@ export default function useForm() {
         // EditChallenge()
     };
 
-    useEffect(() => {
-        // Promise.all vs Promise.allsettled -> 둘 다 필수적이므로 Promise.all을 사용한다
+    const getAllData = useCallback(() => {
+        // Promise.all vs Promise.allsettled -> 모든 데이터가 필수적이므로 Promise.all을 사용한다
         Promise.all([
             getChallengeById({
                 challengeId: challengeId,
@@ -90,8 +93,22 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
+
+            getExpenseCategoryByChallengeId({
+                challengeId: challengeId as string,
+            })
+                .then((expenseCategories) => {
+                    setExpenseCategoriesOfChallenge(expenseCategories);
+                })
+                .catch((error) => {
+                    console.error(error);
+                }),
         ]);
     }, [challengeId, reset]);
+
+    useEffect(() => {
+        getAllData();
+    }, [challengeId, getAllData]);
 
     return {
         register,
