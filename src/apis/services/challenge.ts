@@ -132,7 +132,7 @@ export const deleteChallenge = async ({
 };
 
 interface endChallengeParams {
-    challengeId: string | undefined;
+    challengeId: string | string[];
 }
 
 export const endChallenge = async ({ challengeId }: endChallengeParams) => {

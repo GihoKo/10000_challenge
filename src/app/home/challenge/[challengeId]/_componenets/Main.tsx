@@ -1,7 +1,6 @@
 "use client";
 
 import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
-import CategoryPieChart from "./CategoryPieChart";
 import DailyExpenseBarChart from "./DailyExpenseBarChart";
 import ChallengeInfo from "./ChallengeInfo";
 import useMain from "./Main.hook";
