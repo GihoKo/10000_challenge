@@ -18,7 +18,11 @@ export default function ExpenseCategorySelect({
             <select
                 className={`w-full p-2 border-2 rounded-md text-sm focus:outline-none appearance-none focus:border-blue-500 transition-all duration-300`}
                 onChange={handleSelectChange}
+                defaultValue=""
             >
+                <option value="" disabled>
+                    지출 카테고리를 선택해주세요
+                </option>
                 {expenseCategories.map((category) => {
                     return (
                         <option key={category.id} value={category.id}>
