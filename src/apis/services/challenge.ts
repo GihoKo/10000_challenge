@@ -1,6 +1,5 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
-import createStartDate from "@/utils/createStartDate";
 
 // 모든 챌린지 목록
 export const getAllChallenges = async () => {

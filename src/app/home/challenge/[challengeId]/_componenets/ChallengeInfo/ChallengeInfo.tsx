@@ -2,6 +2,9 @@ import { ChallengeInfoProps } from "./ChallengeInfo.type";
 import DangerousButton from "@/components/button/DangerousButton";
 import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
+import NavigateLink from "@/components/Link/NavigateLink";
+import NavigateButton from "@/components/button/NavigateButton";
+import Link from "next/link";
 
 export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
     const {
@@ -21,6 +24,15 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
 
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">{challenge?.name}</h3>
+            </div>
+
+            <div className="flex justify-end items-center gap-2">
+                <Link
+                    href={`/home/challenge/${challenge?.id}/edit`}
+                    className="flex justify-center items-center gap-2 bg-blue-600 px-2 py-1 rounded-lg text-gray-100 hover:bg-blue-800 transition-colors duration-300"
+                >
+                    수정
+                </Link>
 
                 <DangerousButton
                     type="button"
