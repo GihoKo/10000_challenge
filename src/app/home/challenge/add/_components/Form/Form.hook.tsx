@@ -27,11 +27,21 @@ export default function useForm() {
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedOptionId = Number(e.target.value);
+
+        if (
+            expenseCategoriesOfChallenge.some(
+                (category) => category.id === selectedOptionId
+            )
+        ) {
+            return;
+        }
+
         const selectedOption = expenseCategories.find(
             (category) => category.id === selectedOptionId
         );
 
         if (!selectedOption) return;
+
         setExpenseCategoriesOfChallenge([
             ...expenseCategoriesOfChallenge,
             selectedOption,

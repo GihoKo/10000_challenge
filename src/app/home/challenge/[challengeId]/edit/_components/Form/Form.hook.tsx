@@ -36,11 +36,22 @@ export default function useForm() {
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const selectedOptionId = Number(e.target.value);
+
+        // 만약 이미 있는 카테고리라면 리턴한다.
+        if (
+            expenseCategoriesOfChallenge.some(
+                (category) => category.id === selectedOptionId
+            )
+        ) {
+            return;
+        }
+
         const selectedOption = expenseCategories.find(
             (category) => category.id === selectedOptionId
         );
 
         if (!selectedOption) return;
+
         setExpenseCategoriesOfChallenge([
             ...expenseCategoriesOfChallenge,
             selectedOption,

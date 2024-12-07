@@ -10,7 +10,6 @@ export default function ExpenseCategoriesOfChallengeTagContainer({
             onClick={handleExpenseCategoryTagClick}
         >
             {expenseCategoriesOfChallenge.map((category) => {
-                console.log(category);
                 return (
                     <li
                         key={category.id}
