@@ -1,5 +1,5 @@
 import useModalStore from "@/stores/modalStore";
-import { EndChallengeModal } from "./EndChallengeModal/EndChallengeModal";
+import { EndChallengeModal } from "../EndChallengeModal/EndChallengeModal";
 
 export default function useChallengeStateNotice() {
     const { setIsModalOpen } = useModalStore();

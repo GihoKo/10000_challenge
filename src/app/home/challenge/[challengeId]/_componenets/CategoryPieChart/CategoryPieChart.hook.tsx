@@ -31,11 +31,11 @@ export default function useCategoryPieChart({
         });
 
         return groupedExpenses;
-    }, [expenses]);
+    }, [expenses, expensesByCategory]);
 
     useEffect(() => {
         setExpensesByCategory(groupExpensesByCategory());
-    }, [expenses]);
+    }, [expenses, groupExpensesByCategory]);
 
     return { expensesByCategory };
 }

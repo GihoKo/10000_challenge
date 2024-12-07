@@ -1,8 +1,8 @@
 "use client";
 
-import ExpenseOfChallengeContainer from "./ExpenseOfChallengeContainer";
-import DailyExpenseBarChart from "./DailyExpenseBarChart";
-import ChallengeInfo from "./ChallengeInfo";
+import ExpenseOfChallengeContainer from "../ExpenseOfChallengeContainer/ExpenseOfChallengeContainer";
+import DailyExpenseBarChart from "../DailyExpenseBarChart/DailyExpenseBarChart";
+import ChallengeInfo from "../ChallengeInfo/ChallengeInfo";
 import useMain from "./Main.hook";
 
 export default function Main() {

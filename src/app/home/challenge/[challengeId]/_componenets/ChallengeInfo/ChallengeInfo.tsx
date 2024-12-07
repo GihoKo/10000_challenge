@@ -1,6 +1,6 @@
 import { ChallengeInfoProps } from "./ChallengeInfo.type";
 import DangerousButton from "@/components/button/DangerousButton";
-import ChallengeStateNotice from "./ChallengeStateNotice";
+import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
 
 export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {

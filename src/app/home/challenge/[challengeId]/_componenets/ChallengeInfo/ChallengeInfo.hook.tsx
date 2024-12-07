@@ -2,7 +2,7 @@ import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useCallback, useEffect, useState } from "react";
 import { UseChallengeInfoProps } from "./ChallengeInfo.type";
 import useModalStore from "@/stores/modalStore";
-import DeleteChallengeModal from "./DeleteChallengeModal";
+import DeleteChallengeModal from "../DeleteChallengeModal/DeleteChallengeModal";
 
 export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
     const [remainingSaving, setRemainingSaving] = useState(0);
