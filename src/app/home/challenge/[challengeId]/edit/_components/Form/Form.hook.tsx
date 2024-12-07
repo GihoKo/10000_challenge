@@ -1,12 +1,15 @@
 import { getChallengeById, updateChallenge } from "@/apis/services/challenge";
 import {
+    addExpenseCategoriesToChallenge,
+    deleteExpenseCategoriesToChallenge,
     getExpenseCategoryByChallengeId,
     getExpenseCategoryByUserId,
 } from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
+import { UpdatedChallenge } from "./Form.type";
 
 export default function useForm() {
     const router = useRouter();
@@ -25,6 +28,8 @@ export default function useForm() {
     const [expenseCategories, setExpenseCategories] = useState<
         ExpenseCategory[]
     >([]);
+
+    const initialExpenseCategoriesOfChallenge = useRef<ExpenseCategory[]>([]);
 
     const [expenseCategoriesOfChallenge, setExpenseCategoriesOfChallenge] =
         useState<ExpenseCategory[]>([]);
@@ -45,6 +50,12 @@ export default function useForm() {
     const handleExpenseCategoryTagClick = (
         e: React.MouseEvent<HTMLUListElement, MouseEvent>
     ) => {
+        const expenseCategoryTag = (
+            e.target as HTMLElement
+        ).closest<HTMLButtonElement>("li");
+
+        console.log(expenseCategoryTag);
+
         const expenseCategorytagId = Number(
             (e.target as HTMLElement).closest<HTMLButtonElement>("li")?.dataset
                 .id
@@ -64,16 +75,24 @@ export default function useForm() {
             user_id: process.env.NEXT_PUBLIC_USER_ID as string,
         };
 
-        updateChallenge({
-            challengeId: challengeId,
-            updatedChallenge: challenge,
-        })
-            .then(() => {
-                router.push(`/home/challenge/${challengeId}`);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const deletedExpenseCategoriesOfChallenge =
+            initialExpenseCategoriesOfChallenge.current.filter(
+                (category) => !expenseCategoriesOfChallenge.includes(category)
+            );
+
+        const addedExpenseCategoriesOfChallenge =
+            expenseCategoriesOfChallenge.filter(
+                (category) =>
+                    !initialExpenseCategoriesOfChallenge.current.includes(
+                        category
+                    )
+            );
+
+        updateChallengeWithAddAndDeleteCategory(
+            challenge,
+            addedExpenseCategoriesOfChallenge,
+            deletedExpenseCategoriesOfChallenge
+        );
     };
 
     const getAllData = useCallback(() => {
@@ -93,7 +112,6 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
-
             getExpenseCategoryByUserId({
                 userId: process.env.NEXT_PUBLIC_USER_ID as string,
             })
@@ -103,18 +121,54 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
-
             getExpenseCategoryByChallengeId({
                 challengeId: challengeId as string,
             })
                 .then((expenseCategories) => {
                     setExpenseCategoriesOfChallenge(expenseCategories);
+                    initialExpenseCategoriesOfChallenge.current =
+                        expenseCategories;
                 })
                 .catch((error) => {
                     console.error(error);
                 }),
         ]);
     }, [challengeId, reset]);
+
+    const updateChallengeWithAddAndDeleteCategory = useCallback(
+        (
+            challenge: UpdatedChallenge,
+            addedExpenseCategoriesOfChallenge: ExpenseCategory[],
+            deletedExpenseCategoriesOfChallenge: ExpenseCategory[]
+        ) => {
+            Promise.all([
+                updateChallenge({
+                    challengeId: challengeId,
+                    updatedChallenge: challenge,
+                })
+                    .then(() => {
+                        router.push(`/home/challenge/${challengeId}`);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    }),
+                addExpenseCategoriesToChallenge({
+                    data: {
+                        challengeId: challengeId,
+                        addedExpenseCategoriesOfChallenge,
+                        userId: process.env.NEXT_PUBLIC_USER_ID as string,
+                    },
+                }),
+                deleteExpenseCategoriesToChallenge({
+                    data: {
+                        challengeId: challengeId,
+                        deletedExpenseCategoriesOfChallenge,
+                    },
+                }),
+            ]);
+        },
+        [challengeId, router]
+    );
 
     useEffect(() => {
         getAllData();

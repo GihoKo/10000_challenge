@@ -27,7 +27,7 @@ interface GetExpenseCategoryByChallengeIdParams {
 
 interface GetExpenseCategoryByChallengeIdResponse {
     expense_category: {
-        expense_category_id: number;
+        id: number;
         name: string;
         user_id: string;
         created_at: string;
@@ -63,7 +63,7 @@ export const getExpenseCategoryByChallengeId = async ({
 
     const formattedData = data.map((item) => {
         return {
-            id: item.expense_category.expense_category_id,
+            id: item.expense_category.id,
             name: item.expense_category.name,
             user_id: item.expense_category.user_id,
             created_at: item.expense_category.created_at,
@@ -71,6 +71,63 @@ export const getExpenseCategoryByChallengeId = async ({
     });
 
     return formattedData;
+};
+
+interface AddExpenseCategoriesToChallengeParams {
+    data: {
+        challengeId: string | string[];
+        addedExpenseCategoriesOfChallenge: ExpenseCategory[];
+        userId: string;
+    };
+}
+
+// challenge의 카테고리 목록 추가
+export const addExpenseCategoriesToChallenge = async ({
+    data: { challengeId, addedExpenseCategoriesOfChallenge, userId },
+}: AddExpenseCategoriesToChallengeParams) => {
+    const { error } = await supabaseClient
+        .from("challenge_expense_category")
+        .insert(
+            addedExpenseCategoriesOfChallenge.map((category) => ({
+                challenge_id: String(challengeId),
+                expense_category_id: Number(category.id),
+                user_id: userId,
+            }))
+        )
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return true;
+};
+
+// challenge의 카테고리 목록 삭제
+interface DeleteExpenseCategoriesToChallengeParams {
+    data: {
+        challengeId: string | string[];
+        deletedExpenseCategoriesOfChallenge: ExpenseCategory[];
+    };
+}
+
+export const deleteExpenseCategoriesToChallenge = async ({
+    data,
+}: DeleteExpenseCategoriesToChallengeParams) => {
+    const idsToDelete = data.deletedExpenseCategoriesOfChallenge.map(
+        (category) => category.id
+    );
+
+    const { error } = await supabaseClient
+        .from("challenge_expense_category")
+        .delete()
+        .in("expense_category_id", idsToDelete)
+        .eq("challenge_id", data.challengeId)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
 };
 
 interface AddExpenseCategoryParams {
