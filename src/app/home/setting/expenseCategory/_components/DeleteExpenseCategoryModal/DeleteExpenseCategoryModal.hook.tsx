@@ -14,6 +14,8 @@ export default function useDeleteExpenseCategoryModal({
 
     const handleDeleteButtonClick = () => {
         // 낙관적 업데이트
+        if (!expenseCategoriesDispatch) return;
+
         expenseCategoriesDispatch({
             type: "DELETE",
             payload: {

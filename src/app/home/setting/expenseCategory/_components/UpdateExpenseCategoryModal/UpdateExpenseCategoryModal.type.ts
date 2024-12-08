@@ -5,7 +5,7 @@ export interface UpdateExpenseCategoryModalProps {
         id: number;
         name: string;
     };
-    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch?: React.Dispatch<ExpenseCategoryAction>;
 }
 
 export interface UseUpdateExpenseCategoryModalProps {
@@ -13,5 +13,5 @@ export interface UseUpdateExpenseCategoryModalProps {
         id: number;
         name: string;
     };
-    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch?: React.Dispatch<ExpenseCategoryAction>;
 }
