@@ -7,7 +7,11 @@ export default function ExpenseCategoriesOfChallengeTagContainer({
     return (
         <ul
             className="flex gap-2 mt-2 flex-wrap"
-            onClick={handleExpenseCategoryTagClick}
+            onClick={
+                handleExpenseCategoryTagClick
+                    ? (e) => handleExpenseCategoryTagClick(e)
+                    : undefined
+            }
         >
             {expenseCategoriesOfChallenge.map((category) => {
                 return (

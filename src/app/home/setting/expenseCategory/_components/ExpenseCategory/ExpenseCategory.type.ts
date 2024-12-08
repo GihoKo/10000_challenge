@@ -3,5 +3,5 @@ import { ExpenseCategoryAction } from "@/reducers/expenseCategoryReducer";
 
 export interface ExpenseCategoryProps {
     category: ExpenseCategoryInterface;
-    expenseCategoriesDispatch: React.Dispatch<ExpenseCategoryAction>;
+    expenseCategoriesDispatch?: React.Dispatch<ExpenseCategoryAction>;
 }
