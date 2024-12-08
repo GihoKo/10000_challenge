@@ -1,7 +1,13 @@
 import Link from "next/link";
-import { LinkToEditPageProps } from "./LinkToEditPage.type";
+import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { useParams } from "next/navigation";
 
-export default function LinkToEditPage({ challengeId }: LinkToEditPageProps) {
+export default function LinkToEditPage() {
+    const { challengeId } = useParams();
+
+    const { incrementRerenderCount } = useRerenderCountStore.getState();
+    incrementRerenderCount();
+
     return (
         <Link
             href={`/home/challenge/${challengeId}/edit`}

@@ -1,6 +1,7 @@
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import NavigateButton from "@/components/button/NavigateButton";
 import ChallengesContainer from "./_components/ChallengesContainer";
+import RerenderCountButton from "@/components/button/RerenderCountButton";
 
 export default function Challenge() {
     return (

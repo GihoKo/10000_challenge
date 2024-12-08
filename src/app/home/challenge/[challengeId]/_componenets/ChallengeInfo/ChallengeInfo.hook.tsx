@@ -9,7 +9,7 @@ export default function useChallengeInfo({
     challenge,
     expenses,
 }: UseChallengeInfoProps) {
-    const { challengeId } = useParams() as { challengeId: string };
+    const { challengeId } = useParams();
     const [expenseCategoriesOfChallenge, setExpenseCategoriesOfChallenge] =
         useState<ExpenseCategory[]>([]);
     const [remainingSaving, setRemainingSaving] = useState(0);
