@@ -3,13 +3,16 @@ import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
 import ExpenseCategoriesOfChallengeTagContainer from "../../../add/_components/Form/ExpenseCategoriesOfChallengeTagContainer";
 
-export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
+export default function ChallengeInfo({
+    challenge,
+    expenses,
+}: ChallengeInfoProps) {
     const {
         remainingSaving,
         remainingDays,
         progressBarWidth,
         expenseCategoriesOfChallenge,
-    } = useChallengeInfo({ challenge });
+    } = useChallengeInfo({ challenge, expenses });
 
     return (
         <section className="flex flex-col gap-4">

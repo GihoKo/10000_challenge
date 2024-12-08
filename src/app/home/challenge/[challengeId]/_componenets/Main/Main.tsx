@@ -12,7 +12,7 @@ export default function Main() {
 
     return (
         <main className="flex flex-col gap-8">
-            <ChallengeInfo challenge={challenge} />
+            <ChallengeInfo challenge={challenge} expenses={expenses} />
 
             <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">매일 지출</h3>

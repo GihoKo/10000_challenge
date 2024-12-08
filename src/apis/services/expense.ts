@@ -72,6 +72,7 @@ export const getExpensesByChallengeDuration = async ({
         return [];
     }
 
+    // challengeId에 해당하는 expense_category의 모든 데이터 가져오기
     const { data, error } = (await supabaseClient
         .from("challenge_expense_category")
         .select(
@@ -99,15 +100,22 @@ export const getExpensesByChallengeDuration = async ({
         throw new Error(error.message);
     }
 
-    // 지출 데이터 합치기
+    // 지출 데이터 합치기, challenge.start_date와 challenge.goal_date를 포함한 기간 사이의 데이터만 반환하기
     const expensesByCategory: ExpenseData[] = [];
 
     if (!data) return expensesByCategory;
 
-    data.forEach((category) => {
-        category.expense_category.expenses.forEach((expense) => {
-            expensesByCategory.push(expense);
-        });
+    data.forEach((challengeExpenseCategory) => {
+        challengeExpenseCategory.expense_category.expenses.forEach(
+            (expense) => {
+                if (
+                    expense.date < challenge.start_date ||
+                    expense.date > challenge.goal_date
+                )
+                    return;
+                expensesByCategory.push(expense);
+            }
+        );
     });
 
     return expensesByCategory;
