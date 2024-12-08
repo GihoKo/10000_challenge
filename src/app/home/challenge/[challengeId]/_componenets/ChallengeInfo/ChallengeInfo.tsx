@@ -1,18 +1,21 @@
 import { ChallengeInfoProps } from "./ChallengeInfo.type";
-import DangerousButton from "@/components/button/DangerousButton";
-import ChallengeStateNotice from "./ChallengeStateNotice";
+import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
+import ExpenseCategoriesOfChallengeTagContainer from "../../../add/_components/Form/ExpenseCategoriesOfChallengeTagContainer";
 
-export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
+export default function ChallengeInfo({
+    challenge,
+    expenses,
+}: ChallengeInfoProps) {
     const {
         remainingSaving,
         remainingDays,
         progressBarWidth,
-        handleDeleteChallengeModalOpen,
-    } = useChallengeInfo({ challenge });
+        expenseCategoriesOfChallenge,
+    } = useChallengeInfo({ challenge, expenses });
 
     return (
-        <div className="flex flex-col gap-4">
+        <section className="flex flex-col gap-4">
             <ChallengeStateNotice
                 challengeId={challenge?.id}
                 remainingDays={remainingDays}
@@ -21,15 +24,12 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
 
             <div className="flex justify-between items-center">
                 <h3 className="text-xl font-bold">{challenge?.name}</h3>
+            </div>
 
-                <DangerousButton
-                    type="button"
-                    text="삭제"
-                    rounded="rounded-md"
-                    px="px-2"
-                    py="py-1"
-                    width="w-auto"
-                    onClick={handleDeleteChallengeModalOpen}
+            {/* 수집 중인 지출 카테고리 목록 */}
+            <div className="flex flex-wrap gap-2">
+                <ExpenseCategoriesOfChallengeTagContainer
+                    expenseCategoriesOfChallenge={expenseCategoriesOfChallenge}
                 />
             </div>
 
@@ -78,6 +78,6 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
                     </span>
                 </div>
             </div>
-        </div>
+        </section>
     );
 }

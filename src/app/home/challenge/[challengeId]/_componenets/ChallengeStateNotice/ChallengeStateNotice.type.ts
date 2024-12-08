@@ -3,7 +3,3 @@ export interface ChallengeStateNoticeProps {
     remainingDays: number;
     isEnded: boolean | undefined;
 }
-
-export interface UseChallengeStateNoticeProps {
-    challengeId: string | undefined;
-}

@@ -5,7 +5,7 @@ interface ModalFormProps {
 
 export default function ModalForm({ children, onSubmit }: ModalFormProps) {
     return (
-        <form className="flex gap-2 mt-4" onSubmit={onSubmit}>
+        <form className="flex flex-col gap-2 mt-4" onSubmit={onSubmit}>
             {children}
         </form>
     );

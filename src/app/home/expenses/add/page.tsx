@@ -1,5 +1,3 @@
-"use client";
-
 import PageContentHeader from "@/components/Header/PageContentHeader";
 import Main from "./_components/Main";
 

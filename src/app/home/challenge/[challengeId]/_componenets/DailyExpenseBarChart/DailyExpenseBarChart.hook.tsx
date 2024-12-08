@@ -1,5 +1,4 @@
 import { DailyExpense } from "@/types/chart";
-import { ExpenseData } from "@/types/expense";
 import { useCallback, useEffect, useState } from "react";
 import { UseDailyExpenseBarChartProps } from "./DailyExpenseBarChart.type";
 
@@ -34,7 +33,7 @@ export default function useDailyExpenseBarChart({
 
     useEffect(() => {
         setDailyExpenses(groupExpensesByDate());
-    }, [expenses]);
+    }, [expenses, groupExpensesByDate]);
 
     return {
         dailyExpenses,

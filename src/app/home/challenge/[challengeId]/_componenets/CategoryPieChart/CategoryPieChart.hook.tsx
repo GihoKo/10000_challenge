@@ -20,7 +20,7 @@ export default function useCategoryPieChart({
         const groupedExpenses: ExpensesByCategory[] = [...expensesByCategory];
 
         expenses.forEach((expense) => {
-            const category = expense.category;
+            const category = expense.category_name;
             const amount = expense.amount;
 
             // 해당 카테고리에 amount를 더하기
@@ -31,11 +31,11 @@ export default function useCategoryPieChart({
         });
 
         return groupedExpenses;
-    }, [expenses]);
+    }, [expenses, expensesByCategory]);
 
     useEffect(() => {
         setExpensesByCategory(groupExpensesByCategory());
-    }, [expenses]);
+    }, [expenses, groupExpensesByCategory]);
 
     return { expensesByCategory };
 }

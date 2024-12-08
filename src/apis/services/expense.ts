@@ -1,5 +1,6 @@
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
+import { ExpenseData } from "@/types/expense";
 import formatDate from "@/utils/formatDate";
 
 interface GetExpenseProps {
@@ -44,28 +45,87 @@ interface GetExpensesByChallengeDurationParams {
     challenge: ChallengeResponse | undefined;
 }
 
+interface Expense {
+    id: string;
+    date: string;
+    description: string;
+    amount: number;
+    category_name: string;
+    category_id: number;
+    user_id: string;
+}
+
+interface ExpenseCategory {
+    id: number;
+    name: string;
+    expenses: Expense[];
+}
+
+interface ChallengeExpenseCategory {
+    expense_category: ExpenseCategory;
+}
+
 export const getExpensesByChallengeDuration = async ({
     challenge,
 }: GetExpensesByChallengeDurationParams) => {
-    const { data, error } = await supabaseClient
-        .from("expense")
-        .select()
-        .eq("user_id", process.env.NEXT_PUBLIC_USER_ID)
-        .gte("date", challenge?.start_date)
-        .lte("date", challenge?.goal_date)
-        .order("date", { ascending: false });
-
-    if (error) {
-        throw error;
+    if (!challenge) {
+        return [];
     }
 
-    return data;
+    // challengeId에 해당하는 expense_category의 모든 데이터 가져오기
+    const { data, error } = (await supabaseClient
+        .from("challenge_expense_category")
+        .select(
+            `expense_category:expense_category_id (
+                id,
+                name,
+                expenses:expense (
+                    id,
+                    date,
+                    description,
+                    amount,
+                    category_name,
+                    category_id,
+                    user_id
+                )
+            )
+            `
+        )
+        .eq("challenge_id", challenge.id)) as {
+        data: ChallengeExpenseCategory[] | null;
+        error: any;
+    };
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    // 지출 데이터 합치기, challenge.start_date와 challenge.goal_date를 포함한 기간 사이의 데이터만 반환하기
+    const expensesByCategory: ExpenseData[] = [];
+
+    if (!data) return expensesByCategory;
+
+    data.forEach((challengeExpenseCategory) => {
+        challengeExpenseCategory.expense_category.expenses.forEach(
+            (expense) => {
+                if (
+                    expense.date < challenge.start_date ||
+                    expense.date > challenge.goal_date
+                )
+                    return;
+                expensesByCategory.push(expense);
+            }
+        );
+    });
+
+    return expensesByCategory;
 };
 
 // 지출 생성
 interface CreateExpenseParams {
     data: {
-        category: string;
+        category_name: string;
+        category_id: number;
         description: string;
         amount: number;
         date: string;
@@ -74,7 +134,8 @@ interface CreateExpenseParams {
 
 export const createExpense = async ({ data }: CreateExpenseParams) => {
     const newExpense = {
-        category: data.category,
+        category_name: data.category_name,
+        category_id: data.category_id,
         description: data.description,
         amount: data.amount,
         user_id: process.env.NEXT_PUBLIC_USER_ID,
@@ -91,8 +152,9 @@ export const createExpense = async ({ data }: CreateExpenseParams) => {
 };
 
 export interface UpdatedExpense {
+    category_name: string;
+    category_id: number;
     description: string;
-    category: string;
     amount: number;
 }
 

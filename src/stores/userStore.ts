@@ -7,6 +7,7 @@ interface UserStore {
     user: UserMetadata | null;
     setUser: (user: UserMetadata | null) => void;
     getUser: () => Promise<void>;
+    signOut: () => void;
 }
 
 export const useUserStore = create<UserStore>((set) => ({
@@ -14,14 +15,29 @@ export const useUserStore = create<UserStore>((set) => ({
     setUser: (user) => set({ user }),
     getUser: async () => {
         const {
+            data: { session },
+            error: sessionError,
+        } = await supabaseClient.auth.getSession();
+
+        if (sessionError || !session) {
+            console.error("No session found:", sessionError?.message);
+            set({ user: null });
+            return;
+        }
+
+        const {
             data: { user },
-            error,
+            error: userError,
         } = await supabaseClient.auth.getUser();
 
-        if (error) {
-            throw new Error(error.message);
+        if (userError) {
+            throw new Error(userError.message);
         }
 
         set({ user: user?.user_metadata });
+    },
+    signOut: () => {
+        supabaseClient.auth.signOut();
+        set({ user: null });
     },
 }));
