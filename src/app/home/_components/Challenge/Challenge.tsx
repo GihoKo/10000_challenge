@@ -3,9 +3,12 @@ import challengeSvg from "@/images/svg/challenge.svg";
 import ImageWrapper from "@/components/ImageWrapper";
 import useChallenge from "./Challenge.hook";
 import Link from "next/link";
+import ChallengePhase from "../ChallengePhase/ChallengePhase";
 
 export default function Challenge({ challenge }: ChallengeProps) {
-    const { progressDays, totalDays, isEnded } = useChallenge({ challenge });
+    const { progressDays, totalDays } = useChallenge({ challenge });
+
+    console.log(challenge);
 
     return (
         <Link
@@ -29,11 +32,11 @@ export default function Challenge({ challenge }: ChallengeProps) {
                 </div>
             </div>
             <div>
-                <span className={`text-sm ${isEnded ? "text-green-500" : ""}`}>
-                    {isEnded
-                        ? "챌린지가 끝났어요!"
-                        : `${progressDays} / ${totalDays}`}
-                </span>
+                <ChallengePhase
+                    progressDays={progressDays}
+                    totalDays={totalDays}
+                    isEnded={challenge.is_ended}
+                />
             </div>
         </Link>
     );
