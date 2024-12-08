@@ -3,13 +3,10 @@ import useChallengeStateNotice from "./ChallengeStateNotice.hook";
 import { ChallengeStateNoticeProps } from "./ChallengeStateNotice.type";
 
 export default function ChallengeStateNotice({
-    challengeId,
     remainingDays,
     isEnded,
 }: ChallengeStateNoticeProps) {
-    const { handleEndChallengeButtonClick } = useChallengeStateNotice({
-        challengeId,
-    });
+    const { handleEndChallengeModalOpen } = useChallengeStateNotice();
 
     if (isEnded) {
         return (
@@ -30,7 +27,7 @@ export default function ChallengeStateNotice({
                 <ConfirmButton
                     type="button"
                     text="챌린지 종료하기"
-                    onClick={handleEndChallengeButtonClick}
+                    onClick={handleEndChallengeModalOpen}
                 />
             </div>
         );

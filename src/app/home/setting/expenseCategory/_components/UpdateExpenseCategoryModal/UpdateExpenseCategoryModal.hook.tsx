@@ -13,7 +13,7 @@ export default function useUpdateExpenseCategoryModal({
 
     const handleUpdateButtonClick = () => {
         // 낙관적 업데이트
-        if (!inputRef.current) return;
+        if (!inputRef.current || !expenseCategoriesDispatch) return;
 
         expenseCategoriesDispatch({
             type: "UPDATE",

@@ -6,7 +6,9 @@ export default function Challenge() {
     return (
         <div className="flex flex-col gap-4">
             <PageContentHeader text="전체 챌린지 목록이에요." />
+
             <ChallengesContainer />
+
             <NavigateButton
                 path={"/home/challenge/add"}
                 text="추가하기"

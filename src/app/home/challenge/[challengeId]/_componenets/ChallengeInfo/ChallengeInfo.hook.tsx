@@ -1,18 +1,16 @@
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useCallback, useEffect, useState } from "react";
 import { UseChallengeInfoProps } from "./ChallengeInfo.type";
-import useModalStore from "@/stores/modalStore";
-import DeleteChallengeModal from "./DeleteChallengeModal";
+import { getExpenseCategoryByChallengeId } from "@/apis/services/expenseCategory";
+import { useParams } from "next/navigation";
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 
 export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
+    const [expenseCategoriesOfChallenge, setExpenseCategoriesOfChallenge] =
+        useState<ExpenseCategory[]>([]);
     const [remainingSaving, setRemainingSaving] = useState(0);
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
-    const { setIsModalOpen } = useModalStore();
-
-    const handleDeleteChallengeModalOpen = () => {
-        setIsModalOpen(<DeleteChallengeModal />);
-    };
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -48,6 +46,12 @@ export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
         setRemainingSaving(calculateRemainingSaving());
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
+
+        getExpenseCategoryByChallengeId({ challengeId: challenge?.id }).then(
+            (response) => {
+                setExpenseCategoriesOfChallenge(response);
+            }
+        );
     }, [
         challenge,
         calculateRemainingSaving,
@@ -59,6 +63,6 @@ export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
         remainingSaving,
         remainingDays,
         progressBarWidth,
-        handleDeleteChallengeModalOpen,
+        expenseCategoriesOfChallenge,
     };
 }

@@ -1,3 +1,4 @@
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
 
 interface GetExpenseCategoryByUserIdParams {
@@ -18,6 +19,115 @@ export const getExpenseCategoryByUserId = async ({
     }
 
     return response.data;
+};
+
+interface GetExpenseCategoryByChallengeIdParams {
+    challengeId: string | undefined;
+}
+
+interface GetExpenseCategoryByChallengeIdResponse {
+    expense_category: {
+        id: number;
+        name: string;
+        user_id: string;
+        created_at: string;
+    };
+}
+
+// challenge의 카테고리 목록 조회
+export const getExpenseCategoryByChallengeId = async ({
+    challengeId,
+}: GetExpenseCategoryByChallengeIdParams) => {
+    const { data, error } = (await supabaseClient
+        .from("challenge_expense_category")
+        .select(
+            `
+                expense_category:expense_category_id (
+                    id,
+                    name,
+                    user_id,
+                    created_at
+                )
+            `
+        )
+        .eq("challenge_id", challengeId)) as {
+        data: GetExpenseCategoryByChallengeIdResponse[] | null;
+        error: any;
+    };
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    if (!data) return [];
+
+    const formattedData = data.map((item) => {
+        return {
+            id: item.expense_category.id,
+            name: item.expense_category.name,
+            user_id: item.expense_category.user_id,
+            created_at: item.expense_category.created_at,
+        };
+    });
+
+    return formattedData;
+};
+
+interface AddExpenseCategoriesToChallengeParams {
+    data: {
+        challengeId: string | string[];
+        addedExpenseCategoriesOfChallenge: ExpenseCategory[];
+        userId: string;
+    };
+}
+
+// challenge의 카테고리 목록 추가
+export const addExpenseCategoriesToChallenge = async ({
+    data: { challengeId, addedExpenseCategoriesOfChallenge, userId },
+}: AddExpenseCategoriesToChallengeParams) => {
+    const { error } = await supabaseClient
+        .from("challenge_expense_category")
+        .insert(
+            addedExpenseCategoriesOfChallenge.map((category) => ({
+                challenge_id: String(challengeId),
+                expense_category_id: Number(category.id),
+                user_id: userId,
+            }))
+        )
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return true;
+};
+
+// challenge의 카테고리 목록 삭제
+interface DeleteExpenseCategoriesToChallengeParams {
+    data: {
+        challengeId: string | string[];
+        deletedExpenseCategoriesOfChallenge: ExpenseCategory[];
+    };
+}
+
+export const deleteExpenseCategoriesToChallenge = async ({
+    data,
+}: DeleteExpenseCategoriesToChallengeParams) => {
+    const idsToDelete = data.deletedExpenseCategoriesOfChallenge.map(
+        (category) => category.id
+    );
+
+    const { error } = await supabaseClient
+        .from("challenge_expense_category")
+        .delete()
+        .in("expense_category_id", idsToDelete)
+        .eq("challenge_id", data.challengeId)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
 };
 
 interface AddExpenseCategoryParams {

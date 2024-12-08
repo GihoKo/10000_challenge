@@ -1,6 +1,8 @@
 import { getExpense, updateExpense } from "@/apis/services/expense";
+import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
@@ -16,9 +18,31 @@ export default function useMain() {
         mode: "onBlur",
     });
 
+    //expenseCategories, handleSelectChange
+    const [expenseCategories, setExpenseCategories] = useState<
+        ExpenseCategory[]
+    >([]);
+
+    const [currentExpenseCategoryId, setCurrentExpenseCategoryId] = useState<
+        number | null
+    >(null);
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setCurrentExpenseCategoryId(Number(e.target.value));
+    };
+
     const onSubmit = (data: FieldValues) => {
+        if (!currentExpenseCategoryId) return;
+
+        const category = expenseCategories.find(
+            (category) => category.id === currentExpenseCategoryId
+        );
+
+        if (!category) return;
+
         const newExpense = {
-            category: data.category,
+            category_name: category.name,
+            category_id: currentExpenseCategoryId,
             description: data.description,
             amount: data.amount,
             date: data.date,
@@ -37,13 +61,25 @@ export default function useMain() {
         getExpense({ expenseId }).then((expense) => {
             reset(expense);
         });
+
+        getExpenseCategoryByUserId({
+            userId: process.env.NEXT_PUBLIC_USER_ID as string,
+        })
+            .then((response) => {
+                setExpenseCategories(response);
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     }, [expenseId, reset]);
 
     return {
         register,
         handleSubmit,
         onSubmit,
+        handleSelectChange,
         errors,
         control,
+        expenseCategories,
     };
 }

@@ -1,5 +1,5 @@
+import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
-import createStartDate from "@/utils/createStartDate";
 
 // 모든 챌린지 목록
 export const getAllChallenges = async () => {
@@ -63,41 +63,89 @@ export const getChallengeById = async ({
 };
 
 interface AddChallengeParams {
-    formValues: {
+    challenge: {
         name: string;
         resolution: string;
-        dailySaving: number;
-        goalDate: string;
+        daily_saving: number;
+        goal_date: string;
+        user_id: string;
+        start_date: string;
     };
+    expenseCategoriesOfChallenge: ExpenseCategory[];
 }
 
-// 챌린지 추가
-export const addChallenge = async ({ formValues }: AddChallengeParams) => {
-    const newChallenge = {
-        name: formValues.name,
-        resolution: formValues.resolution,
-        daily_saving: formValues.dailySaving,
-        start_date: createStartDate(),
-        goal_date: formValues.goalDate,
-        user_id: process.env.NEXT_PUBLIC_USER_ID,
-    };
-
-    const { error } = await supabaseClient
+// 챌린지 추가 및 챌린치의 지출 카테고리 추가
+export const addChallenge = async ({
+    challenge,
+    expenseCategoriesOfChallenge,
+}: AddChallengeParams) => {
+    const { data: challengeData, error } = await supabaseClient
         .from("challenge")
-        .insert(newChallenge)
-        .select();
+        .insert(challenge)
+        .select("id")
+        .single();
 
     if (error) {
         console.error(error.message);
     }
 
+    if (!challengeData) return;
+    const challengeId = challengeData.id;
+
+    const connectionData = expenseCategoriesOfChallenge.map((category) => ({
+        challenge_id: String(challengeId),
+        expense_category_id: Number(category.id),
+        user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+    }));
+
+    const { error: connectionError } = await supabaseClient
+        .from("challenge_expense_category")
+        .insert(connectionData)
+        .select();
+
+    if (connectionError) {
+        console.error(connectionError.message);
+    }
+
     return true;
+};
+
+interface UpdatedChallengeParams {
+    challengeId: string | string[];
+    updatedChallenge: UpdatedChallenge;
+}
+
+interface UpdatedChallenge {
+    name: string;
+    resolution: string;
+    daily_saving: number;
+    goal_date: string;
+    user_id: string;
+}
+
+// 챌린지 수정
+export const updateChallenge = async ({
+    challengeId,
+    updatedChallenge,
+}: UpdatedChallengeParams) => {
+    const { data, error } = await supabaseClient
+        .from("challenge")
+        .update(updatedChallenge)
+        .eq("id", challengeId)
+        .select();
+
+    if (error) {
+        throw new Error(error.message);
+    }
+
+    return data;
 };
 
 interface DeleteChallengeParams {
     challengeId: string | string[];
 }
 
+// 챌린지 삭제
 export const deleteChallenge = async ({
     challengeId,
 }: DeleteChallengeParams) => {
@@ -115,7 +163,7 @@ export const deleteChallenge = async ({
 };
 
 interface endChallengeParams {
-    challengeId: string | undefined;
+    challengeId: string | string[];
 }
 
 export const endChallenge = async ({ challengeId }: endChallengeParams) => {
