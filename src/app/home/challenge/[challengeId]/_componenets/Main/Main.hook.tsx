@@ -1,6 +1,6 @@
 import { getChallengeById } from "@/apis/services/challenge";
 import { getExpensesByChallengeDuration } from "@/apis/services/expense";
-import useModalStore from "@/stores/modalStore";
+// import useModalStore from "@/stores/modalStore";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
 import { useParams, useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ import { useModal } from "@/contexts/ModalContext";
 
 export default function useMain() {
     const { challengeId } = useParams();
-    // const setIsModalOpen = useModalStore((state) => state.setIsModalOpen);
+    // const setIsModalOpen = useModalStore.getState().setIsModalOpen;
     const { setIsModalOpen, setContent } = useModal();
 
     const [challenge, setChallenge] = useState<ChallengeResponse>();

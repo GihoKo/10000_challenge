@@ -1,8 +1,12 @@
 import MONTH_NAMES from "@/constants/MONTH_NAMES";
 import { ExpenseProps } from "./Expense.type";
 import Link from "next/link";
+import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function Expense({ expense }: ExpenseProps) {
+    const { incrementRerenderCount } = useRerenderCountStore.getState();
+    incrementRerenderCount();
+
     const newDate = new Date(expense.date);
 
     const formattedDate = `${
