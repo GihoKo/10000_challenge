@@ -1,12 +1,16 @@
 import ConfirmButton from "@/components/button/ConfirmButton";
 import useChallengeStateNotice from "./ChallengeStateNotice.hook";
 import { ChallengeStateNoticeProps } from "./ChallengeStateNotice.type";
+import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function ChallengeStateNotice({
     remainingDays,
     isEnded,
 }: ChallengeStateNoticeProps) {
     const { handleEndChallengeModalOpen } = useChallengeStateNotice();
+
+    const { incrementRerenderCount } = useRerenderCountStore.getState();
+    incrementRerenderCount();
 
     if (isEnded) {
         return (

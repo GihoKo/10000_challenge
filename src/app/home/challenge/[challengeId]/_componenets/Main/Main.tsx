@@ -6,9 +6,13 @@ import ChallengeInfo from "../ChallengeInfo/ChallengeInfo";
 import useMain from "./Main.hook";
 import LinkToEditPage from "../LinkToEditPage/LinkToEditPage";
 import DangerousButton from "@/components/button/DangerousButton";
+import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function Main() {
     const { challenge, expenses, handleDeleteChallengeModalOpen } = useMain();
+
+    const { incrementRerenderCount } = useRerenderCountStore.getState();
+    incrementRerenderCount();
 
     return (
         <main className="flex flex-col gap-8">
@@ -37,7 +41,7 @@ export default function Main() {
             <section className="flex flex-col gap-4">
                 <h3 className="text-xl font-bold">챌린지 관리</h3>
                 <div className="flex flex-col gap-2">
-                    <LinkToEditPage challengeId={challenge?.id} />
+                    <LinkToEditPage />
 
                     <DangerousButton
                         type="button"

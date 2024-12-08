@@ -3,8 +3,8 @@ import useModalStore from "@/stores/modalStore";
 import { useParams, useRouter } from "next/navigation";
 
 export default function useDeleteChallengeModal() {
-    const { closeModal } = useModalStore();
     const { challengeId } = useParams();
+    const { closeModal } = useModalStore();
     const router = useRouter();
 
     const handleCloseModal = () => {

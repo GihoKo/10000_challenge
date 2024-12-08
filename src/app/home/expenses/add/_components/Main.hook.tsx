@@ -42,13 +42,13 @@ export default function useMain() {
             date: data.date,
         };
 
-        // const arr = Array(450).fill(0);
-
-        // const apiCalls = arr.map(() => {
-        //     return createExpense({ data: newExpense });
-        // });
-
-        // Promise.all(apiCalls);
+        createExpense({ data: newExpense })
+            .then(() => {
+                router.push("/home/expenses");
+            })
+            .catch((error) => {
+                console.error(error);
+            });
     };
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
