@@ -1,7 +1,10 @@
+// "use client";
+
 import Expense from "../Expense/Expense";
 import { ExpenseData } from "@/types/expense";
 import { getExpensesByDate } from "@/apis/services/expense";
 import { useDateStore } from "@/stores/dateStore";
+// import { useEffect, useState } from "react";
 
 // SSR + streaming을 이용하기
 export default async function ExpenseContainer() {
