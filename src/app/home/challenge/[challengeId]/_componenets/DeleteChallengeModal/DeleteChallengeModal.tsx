@@ -5,9 +5,12 @@ import ConfirmButton from "@/components/button/ConfirmButton";
 import useDeleteChallengeModal from "./DeleteChallengeModal.hook";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
+// import { useModal } from "@/contexts/ModalContext";
 
 export default function DeleteChallengeModal() {
     const { handleDelete, handleCloseModal } = useDeleteChallengeModal();
+
+    // const { closeModal } = useModal();
 
     return (
         <ModalWrapper>

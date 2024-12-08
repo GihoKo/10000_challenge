@@ -42,6 +42,13 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
             }}
         >
             {children}
+            {isModalOpen && (
+                <div className="fixed inset-0 z-9998 flex justify-center items-center bg-black bg-opacity-30">
+                    <div className="bg-gray-50 rounded-lg p-4 min-w-[300px]">
+                        {content}
+                    </div>
+                </div>
+            )}
         </ModalContext.Provider>
     );
 };
