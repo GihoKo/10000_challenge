@@ -1,24 +1,16 @@
 import { cacultateDaysOfChallenge } from "@/utils/calculateDaysOfChallenge";
 import { useCallback, useEffect, useState } from "react";
 import { UseChallengeInfoProps } from "./ChallengeInfo.type";
-import useModalStore from "@/stores/modalStore";
-import DeleteChallengeModal from "../DeleteChallengeModal/DeleteChallengeModal";
 import { getExpenseCategoryByChallengeId } from "@/apis/services/expenseCategory";
 import { useParams } from "next/navigation";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 
 export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
-    const { challengeId } = useParams() as { challengeId: string };
     const [expenseCategoriesOfChallenge, setExpenseCategoriesOfChallenge] =
         useState<ExpenseCategory[]>([]);
     const [remainingSaving, setRemainingSaving] = useState(0);
     const [remainingDays, setRemainingDays] = useState(0);
     const [progressBarWidth, setProgressBarWidth] = useState(0);
-    const { setIsModalOpen } = useModalStore();
-
-    const handleDeleteChallengeModalOpen = () => {
-        setIsModalOpen(<DeleteChallengeModal />);
-    };
 
     const calculateRemainingSaving = useCallback(() => {
         if (!challenge) return 0;
@@ -55,15 +47,16 @@ export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
         setRemainingDays(calculateRemainingDays());
         setProgressBarWidth(calculateProgressBarWidth());
 
-        getExpenseCategoryByChallengeId({ challengeId }).then((response) => {
-            setExpenseCategoriesOfChallenge(response);
-        });
+        getExpenseCategoryByChallengeId({ challengeId: challenge?.id }).then(
+            (response) => {
+                setExpenseCategoriesOfChallenge(response);
+            }
+        );
     }, [
         challenge,
         calculateRemainingSaving,
         calculateRemainingDays,
         calculateProgressBarWidth,
-        challengeId,
     ]);
 
     return {
@@ -71,6 +64,5 @@ export default function useChallengeInfo({ challenge }: UseChallengeInfoProps) {
         remainingDays,
         progressBarWidth,
         expenseCategoriesOfChallenge,
-        handleDeleteChallengeModalOpen,
     };
 }

@@ -22,7 +22,7 @@ export const getExpenseCategoryByUserId = async ({
 };
 
 interface GetExpenseCategoryByChallengeIdParams {
-    challengeId: string;
+    challengeId: string | undefined;
 }
 
 interface GetExpenseCategoryByChallengeIdResponse {

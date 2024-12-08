@@ -1,9 +1,6 @@
 import { ChallengeInfoProps } from "./ChallengeInfo.type";
-import DangerousButton from "@/components/button/DangerousButton";
 import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
-import Link from "next/link";
-import ExpenseCategoryContainer from "@/app/home/setting/expenseCategory/_components/ExpenseCategoryContainer/ExpenseCategoryContainer";
 import ExpenseCategoriesOfChallengeTagContainer from "../../../add/_components/Form/ExpenseCategoriesOfChallengeTagContainer";
 
 export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
@@ -12,7 +9,6 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
         remainingDays,
         progressBarWidth,
         expenseCategoriesOfChallenge,
-        handleDeleteChallengeModalOpen,
     } = useChallengeInfo({ challenge });
 
     return (
@@ -27,34 +23,11 @@ export default function ChallengeInfo({ challenge }: ChallengeInfoProps) {
                 <h3 className="text-xl font-bold">{challenge?.name}</h3>
             </div>
 
-            <div className="flex justify-between items-center">
-                {/* 수집 중인 지출 카테고리 목록 */}
-                <div className="flex gap-2">
-                    <ExpenseCategoriesOfChallengeTagContainer
-                        expenseCategoriesOfChallenge={
-                            expenseCategoriesOfChallenge
-                        }
-                    />
-                </div>
-
-                <div className="flex gap-2">
-                    <Link
-                        href={`/home/challenge/${challenge?.id}/edit`}
-                        className="flex justify-center items-center gap-2 bg-blue-600 px-2 py-1 rounded-lg text-gray-100 hover:bg-blue-800 transition-colors duration-300"
-                    >
-                        수정 페이지 이동
-                    </Link>
-
-                    <DangerousButton
-                        type="button"
-                        text="삭제"
-                        rounded="rounded-md"
-                        px="px-2"
-                        py="py-1"
-                        width="w-auto"
-                        onClick={handleDeleteChallengeModalOpen}
-                    />
-                </div>
+            {/* 수집 중인 지출 카테고리 목록 */}
+            <div className="flex flex-wrap gap-2">
+                <ExpenseCategoriesOfChallengeTagContainer
+                    expenseCategoriesOfChallenge={expenseCategoriesOfChallenge}
+                />
             </div>
 
             <div className="flex flex-col gap-2">
