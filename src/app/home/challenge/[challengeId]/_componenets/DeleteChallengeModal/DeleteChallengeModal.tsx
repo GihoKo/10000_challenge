@@ -5,12 +5,12 @@ import ConfirmButton from "@/components/button/ConfirmButton";
 import useDeleteChallengeModal from "./DeleteChallengeModal.hook";
 import ModalForm from "@/components/Modal/ModalForm";
 import ModalWrapper from "@/components/Modal/ModalWrapper";
-// import { useModal } from "@/contexts/ModalContext";
+import { useModal } from "@/contexts/ModalContext";
 
 export default function DeleteChallengeModal() {
     const { handleDelete, handleCloseModal } = useDeleteChallengeModal();
 
-    // const { closeModal } = useModal();
+    const { closeModal } = useModal();
 
     return (
         <ModalWrapper>
@@ -23,7 +23,7 @@ export default function DeleteChallengeModal() {
                 <NagativeButton
                     type="button"
                     text="취소"
-                    onClick={handleCloseModal}
+                    onClick={closeModal}
                 />
             </ModalForm>
         </ModalWrapper>

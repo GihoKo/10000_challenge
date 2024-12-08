@@ -10,6 +10,8 @@ import DangerousButton from "@/components/button/DangerousButton";
 export default function Main() {
     const { challenge, expenses, handleDeleteChallengeModalOpen } = useMain();
 
+    console.log("리렌더링 확인");
+
     return (
         <main className="flex flex-col gap-8">
             <ChallengeInfo challenge={challenge} expenses={expenses} />
