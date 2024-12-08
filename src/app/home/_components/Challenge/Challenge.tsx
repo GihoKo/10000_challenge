@@ -8,8 +8,6 @@ import ChallengePhase from "../ChallengePhase/ChallengePhase";
 export default function Challenge({ challenge }: ChallengeProps) {
     const { progressDays, totalDays } = useChallenge({ challenge });
 
-    console.log(challenge);
-
     return (
         <Link
             data-id={challenge.id}
@@ -25,8 +23,10 @@ export default function Challenge({ challenge }: ChallengeProps) {
                     height={24}
                 />
                 <div>
-                    <div className="text-sm font-medium">{challenge.name}</div>
-                    <div className={`text-xs text-gray-500`}>
+                    <div className="text-sm font-medium max-w-36 overflow-hidden text-ellipsis whitespace-nowrap">
+                        {challenge.name}
+                    </div>
+                    <div className="text-xs text-gray-500 max-w-36 overflow-hidden text-ellipsis whitespace-nowrap">
                         {challenge.resolution}
                     </div>
                 </div>
