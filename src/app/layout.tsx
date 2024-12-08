@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Modal from "@/components/Modal/Modal";
 import RenewUser from "@/components/User/RenewUser";
+import ContextProvider from "@/contexts/ContextProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -64,7 +65,7 @@ export default function RootLayout({
             >
                 <div className="w-[37.5rem] bg-white">
                     <RenewUser />
-                    {children}
+                    <ContextProvider>{children}</ContextProvider>
                     <Modal />
                 </div>
             </body>
