@@ -1,14 +1,16 @@
 import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { memo, useEffect, useRef } from "react";
 
 interface LabelProps {
     htmlFor: string;
     text: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
-export default function Label({ htmlFor, text, children }: LabelProps) {
+function Label({ htmlFor, text, children }: LabelProps) {
     const incrementRerenderCount =
         useRerenderCountStore.getState().incrementRerenderCount;
+
     incrementRerenderCount();
 
     return (
@@ -21,3 +23,7 @@ export default function Label({ htmlFor, text, children }: LabelProps) {
         </label>
     );
 }
+
+const memoizedLabel = memo(Label);
+
+export default memoizedLabel;

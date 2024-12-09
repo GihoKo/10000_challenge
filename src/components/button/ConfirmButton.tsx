@@ -1,4 +1,5 @@
 import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { memo } from "react";
 
 interface ConfirmButtonProps {
     type?: "button" | "submit";
@@ -11,7 +12,7 @@ interface ConfirmButtonProps {
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-export default function ConfirmButton({
+function ConfirmButton({
     type = "button",
     width = "w-full",
     rounded = "rounded-lg",
@@ -35,3 +36,7 @@ export default function ConfirmButton({
         </button>
     );
 }
+
+const memoizedConfirmButton = memo(ConfirmButton);
+
+export default memoizedConfirmButton;
