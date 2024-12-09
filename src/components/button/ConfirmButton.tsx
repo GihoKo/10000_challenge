@@ -1,3 +1,5 @@
+import useRerenderCountStore from "@/stores/rerenderCountStore";
+
 interface ConfirmButtonProps {
     type?: "button" | "submit";
     width?: string;
@@ -19,6 +21,10 @@ export default function ConfirmButton({
     bg = "bg-blue-600",
     onClick = () => {},
 }: ConfirmButtonProps) {
+    const incrementRerenderCount =
+        useRerenderCountStore.getState().incrementRerenderCount;
+    incrementRerenderCount();
+
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} ${bg} flex justify-center items-center text-gray-100`}
