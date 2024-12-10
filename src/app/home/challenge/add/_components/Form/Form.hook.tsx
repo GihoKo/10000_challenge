@@ -1,6 +1,7 @@
 import { addChallenge } from "@/apis/services/challenge";
 import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
+import { useUser } from "@/contexts/UserContext";
 import createStartDate from "@/utils/createStartDate";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -8,6 +9,7 @@ import { FieldValues, useForm as useFormHook } from "react-hook-form";
 
 export default function useForm() {
     const router = useRouter();
+    const { user } = useUser();
 
     const {
         register,
@@ -68,11 +70,13 @@ export default function useForm() {
             daily_saving: data.dailySaving,
             start_date: createStartDate(),
             goal_date: data.goalDate,
+            user_id: user?.id,
         };
 
         addChallenge({
             challenge: challenge,
             expenseCategoriesOfChallenge: expenseCategoriesOfChallenge,
+            userId: user?.id,
         })
             .then(() => {
                 router.push("/home/challenge");
@@ -83,7 +87,9 @@ export default function useForm() {
     };
 
     useEffect(() => {
-        getExpenseCategoryByUserId()
+        getExpenseCategoryByUserId({
+            userId: user?.id,
+        })
             .then((response) => {
                 console.log(response);
                 setExpenseCategories(response);
@@ -91,7 +97,7 @@ export default function useForm() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [user]);
 
     return {
         register,

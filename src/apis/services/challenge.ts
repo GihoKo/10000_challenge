@@ -85,7 +85,7 @@ interface AddChallengeParams {
         start_date: string;
     };
     expenseCategoriesOfChallenge: ExpenseCategory[];
-    userId: string;
+    userId: string | undefined;
 }
 
 // 챌린지 추가 및 챌린치의 지출 카테고리 추가
