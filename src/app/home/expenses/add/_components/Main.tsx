@@ -26,45 +26,42 @@ export default function Main() {
                     <Label
                         htmlFor="category_name"
                         text="지출 카테고리를 선택해주세요."
-                    >
-                        <ExpenseCategorySelect
-                            handleSelectChange={handleSelectChange}
-                            expenseCategories={expenseCategories}
-                        />
-                    </Label>
+                    />
+                    <ExpenseCategorySelect
+                        handleSelectChange={handleSelectChange}
+                        expenseCategories={expenseCategories}
+                    />
                 </div>
 
                 <div className="mt-2">
                     <Label
                         htmlFor="description"
                         text="지출 설명을 입력해주세요."
-                    >
-                        <ExpenseInput
-                            id="description"
-                            type="text"
-                            register={register}
+                    />
+                    <ExpenseInput
+                        id="description"
+                        type="text"
+                        register={register}
+                    />
+                    {errors.description && (
+                        <InputErrorMessage
+                            message={errors.description.message as string}
                         />
-                        {errors.description && (
-                            <InputErrorMessage
-                                message={errors.description.message as string}
-                            />
-                        )}
-                    </Label>
+                    )}
                 </div>
 
                 <div className="mt-2">
-                    <Label htmlFor="amount" text="금액을 입력해주세요.">
-                        <ExpenseInput
-                            id="amount"
-                            type="number"
-                            register={register}
+                    <Label htmlFor="amount" text="금액을 입력해주세요." />
+                    <ExpenseInput
+                        id="amount"
+                        type="number"
+                        register={register}
+                    />
+                    {errors.amount && (
+                        <InputErrorMessage
+                            message={errors.amount.message as string}
                         />
-                        {errors.amount && (
-                            <InputErrorMessage
-                                message={errors.amount.message as string}
-                            />
-                        )}
-                    </Label>
+                    )}
                 </div>
 
                 <div className="mt-2">

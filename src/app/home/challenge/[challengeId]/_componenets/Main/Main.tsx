@@ -6,13 +6,9 @@ import ChallengeInfo from "../ChallengeInfo/ChallengeInfo";
 import useMain from "./Main.hook";
 import LinkToEditPage from "../LinkToEditPage/LinkToEditPage";
 import DangerousButton from "@/components/button/DangerousButton";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function Main() {
     const { challenge, expenses, handleDeleteChallengeModalOpen } = useMain();
-
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
 
     return (
         <main className="flex flex-col gap-8">
