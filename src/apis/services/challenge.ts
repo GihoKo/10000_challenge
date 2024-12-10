@@ -1,11 +1,18 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
 
+interface GetAllChallengesByUserIdProps {
+    userId: string | undefined;
+}
+
 // 모든 챌린지 목록
-export const getAllChallenges = async () => {
+export const getAllChallengesByUserId = async ({
+    userId,
+}: GetAllChallengesByUserIdProps) => {
     const response = await supabaseClient
         .from("challenge")
         .select()
+        .eq("user_id", userId)
         .order("start_date");
 
     if (response.error) {
