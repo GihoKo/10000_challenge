@@ -1,7 +1,7 @@
 import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
-import NavigateButton from "@/components/button/NavigateButton";
+import DefaultNavigateLink from "@/components/Link/DefaultNavigateLink";
 import { ChallengeContainerOnServer } from "./_components/ChallengeContainer/ChallengeContainerOnServer";
 import { Suspense } from "react";
 import PageTransition from "@/components/animated/PageTransition";
@@ -19,8 +19,8 @@ export default function Home() {
                         <ChallengeContainerOnServer />
                     </Suspense>
 
-                    <NavigateButton
-                        path={"/home/challenge/add"}
+                    <DefaultNavigateLink
+                        href={"/home/challenge/add"}
                         text="추가하기"
                         mt="mt-2"
                     />

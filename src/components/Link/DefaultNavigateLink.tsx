@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface LinkToSignInProps {
-    path: string;
+    href: string;
     width?: string;
     rounded?: string;
     px?: string;
@@ -13,8 +13,8 @@ interface LinkToSignInProps {
     text?: string;
 }
 
-export default function LinkToSignIn({
-    path,
+export default function DefaultNavigateLink({
+    href,
     width = "w-full",
     rounded = "rounded-lg",
     px = "px-4",
@@ -30,7 +30,7 @@ export default function LinkToSignIn({
             className={`${width} ${rounded} ${px} ${py} ${mt} ${mb} ${ml} ${mr} bg-blue-600 flex justify-center items-center text-gray-100
                 hover:bg-blue-800 transition-colors duration-300 
                 `}
-            href={path}
+            href={href}
         >
             {text}
         </Link>

@@ -1,5 +1,5 @@
 import PageContentHeader from "@/components/Header/PageContentHeader";
-import NavigateButton from "@/components/button/NavigateButton";
+import DefaultNavigateLink from "@/components/Link/DefaultNavigateLink";
 import ChallengesContainer from "./_components/ChallengesContainer";
 import { Suspense } from "react";
 import PageTransition from "@/components/animated/PageTransition";
@@ -13,8 +13,8 @@ export default function Challenge() {
                 <ChallengesContainer />
             </Suspense>
 
-            <NavigateButton
-                path={"/home/challenge/add"}
+            <DefaultNavigateLink
+                href={"/home/challenge/add"}
                 text="추가하기"
                 mt="mt-8"
             />
