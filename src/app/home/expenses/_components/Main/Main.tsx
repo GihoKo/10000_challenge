@@ -1,5 +1,3 @@
-"use client";
-
 import Date from "../Date/Date";
 import React, { Suspense } from "react";
 import ExpenseContainer from "../ExpenseContainer/ExpenseContainer";

@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import MONTH_NAMES from "@/constants/MONTH_NAMES";
 import { ExpenseProps } from "./Expense.type";

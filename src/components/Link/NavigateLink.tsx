@@ -1,5 +1,3 @@
-"use client";
-
 import ImageWrapper from "@/components/ImageWrapper";
 import rightArrowSvg from "@/images/svg/right-arrow.svg";
 import Link from "next/link";
