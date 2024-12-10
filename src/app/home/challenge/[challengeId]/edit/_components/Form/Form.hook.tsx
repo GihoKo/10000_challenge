@@ -10,11 +10,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
 import { UpdatedChallenge } from "./Form.type";
-import { useUserStore } from "@/stores/userStore";
+import { useUser } from "@/contexts/UserContext";
 
 export default function useForm() {
     const router = useRouter();
     const { challengeId } = useParams();
+    const { user } = useUser();
 
     const {
         register,
@@ -79,8 +80,6 @@ export default function useForm() {
     };
 
     const onSubmit = (data: FieldValues) => {
-        const user = useUserStore.getState().user;
-
         const challenge = {
             name: data.name,
             resolution: data.resolution,
@@ -126,7 +125,7 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
-            getExpenseCategoryByUserId()
+            getExpenseCategoryByUserId({ userId: user?.id })
                 .then((response) => {
                     setExpenseCategories(response);
                 })
@@ -145,7 +144,7 @@ export default function useForm() {
                     console.error(error);
                 }),
         ]);
-    }, [challengeId, reset]);
+    }, [challengeId, reset, user]);
 
     const updateChallengeWithAddAndDeleteCategory = useCallback(
         (
@@ -165,10 +164,9 @@ export default function useForm() {
                         console.error(error);
                     }),
                 addExpenseCategoriesToChallenge({
-                    data: {
-                        challengeId: challengeId,
-                        addedExpenseCategoriesOfChallenge,
-                    },
+                    challengeId: challengeId,
+                    addedExpenseCategoriesOfChallenge,
+                    userId: user?.id,
                 }),
                 deleteExpenseCategoriesToChallenge({
                     data: {
@@ -178,7 +176,7 @@ export default function useForm() {
                 }),
             ]);
         },
-        [challengeId, router]
+        [challengeId, router, user]
     );
 
     useEffect(() => {

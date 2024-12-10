@@ -23,7 +23,7 @@ export const getExpense = async ({ expenseId }: GetExpenseProps) => {
 
 interface GetExpensesByDateProps {
     date: string;
-    userId: string;
+    userId: string | undefined;
 }
 
 // 해당 날짜에 해당하는 expense 가져오기

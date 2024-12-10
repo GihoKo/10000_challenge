@@ -76,7 +76,7 @@ export const getExpenseCategoryByChallengeId = async ({
 interface AddExpenseCategoriesToChallengeParams {
     challengeId: string | string[];
     addedExpenseCategoriesOfChallenge: ExpenseCategory[];
-    userId: string;
+    userId: string | undefined;
 }
 
 // challenge의 카테고리 목록 추가
