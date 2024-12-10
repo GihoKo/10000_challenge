@@ -12,7 +12,7 @@ interface ConfirmButtonProps {
     onClick?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 }
 
-function ConfirmButton({
+export default function ConfirmButton({
     type = "button",
     width = "w-full",
     rounded = "rounded-lg",
@@ -22,10 +22,6 @@ function ConfirmButton({
     bg = "bg-blue-600",
     onClick = () => {},
 }: ConfirmButtonProps) {
-    const incrementRerenderCount =
-        useRerenderCountStore.getState().incrementRerenderCount;
-    incrementRerenderCount();
-
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} ${bg} flex justify-center items-center text-gray-100`}
@@ -36,7 +32,3 @@ function ConfirmButton({
         </button>
     );
 }
-
-const memoizedConfirmButton = memo(ConfirmButton);
-
-export default memoizedConfirmButton;

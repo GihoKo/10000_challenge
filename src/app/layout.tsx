@@ -3,8 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Modal from "@/components/Modal/Modal";
 import RenewUser from "@/components/User/RenewUser";
-import ContextProvider from "@/contexts/ContextProvider";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,9 +56,6 @@ export default function RootLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
-
     return (
         <html lang="en">
             <link rel="manifest" href="/manifest.json"></link>
@@ -69,7 +64,6 @@ export default function RootLayout({
             >
                 <div className="w-[37.5rem] bg-white">
                     <RenewUser />
-                    {/* <ContextProvider>{children}</ContextProvider> */}
                     {children}
                     <Modal />
                 </div>

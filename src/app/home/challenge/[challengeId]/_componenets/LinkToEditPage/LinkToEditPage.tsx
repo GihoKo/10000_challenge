@@ -5,9 +5,6 @@ import { useParams } from "next/navigation";
 export default function LinkToEditPage() {
     const { challengeId } = useParams();
 
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
-
     return (
         <Link
             href={`/home/challenge/${challengeId}/edit`}

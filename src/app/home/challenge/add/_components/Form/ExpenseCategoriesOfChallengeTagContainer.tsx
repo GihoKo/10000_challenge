@@ -1,13 +1,9 @@
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 import { ExpenseCategoriesOfChallengeTagContainerProps } from "./ExpenseCategoriesOfChallengeTagContainer.type";
 
 export default function ExpenseCategoriesOfChallengeTagContainer({
     handleExpenseCategoryTagClick,
     expenseCategoriesOfChallenge,
 }: ExpenseCategoriesOfChallengeTagContainerProps) {
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
-
     return (
         <ul
             className="flex gap-2 mt-2 flex-wrap"
