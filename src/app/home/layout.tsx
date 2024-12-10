@@ -1,4 +1,3 @@
-import AnimatedPage from "@/components/animated/AnimatedPage";
 import NavigationBar from "./_components/NavigationBar/NavigationBar";
 
 export default async function Layout({
@@ -8,9 +7,7 @@ export default async function Layout({
 }) {
     return (
         <div>
-            <div className="flex flex-col pt-8 px-4 pb-60">
-                <AnimatedPage>{children}</AnimatedPage>
-            </div>
+            <div className="flex flex-col pt-8 px-4 pb-60">{children}</div>
             <NavigationBar />
         </div>
     );
