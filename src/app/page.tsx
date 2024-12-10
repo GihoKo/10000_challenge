@@ -1,4 +1,4 @@
-import NavigateButton from "@/components/button/NavigateButton";
+import LinkToSignIn from "@/components/button/NavigateButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import logoImage from "@/images/logo.png";
 
@@ -12,7 +12,7 @@ export default function Home() {
                 alt="로고 이미지"
             />
 
-            <NavigateButton path={"/signIn"} text="시작하기" width="w-24" />
+            <LinkToSignIn path={"/signIn"} text="시작하기" width="w-24" />
         </div>
     );
 }

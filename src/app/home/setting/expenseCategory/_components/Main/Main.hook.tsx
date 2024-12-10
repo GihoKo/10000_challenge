@@ -32,5 +32,5 @@ export default function useMain() {
             });
     }, [user]);
 
-    return { expenseCategories, expenseCategoriesDispatch, isLoading, isError };
+    return { expenseCategories, isError, expenseCategoriesDispatch };
 }
