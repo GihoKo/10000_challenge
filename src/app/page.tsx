@@ -1,12 +1,8 @@
 import NavigateButton from "@/components/button/NavigateButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import logoImage from "@/images/logo.png";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function Home() {
-    // const { incrementRerenderCount } = useRerenderCountStore.getState();
-
-    // incrementRerenderCount();
     return (
         <div className="h-screen flex flex-col gap-4 justify-center items-center">
             <ImageWrapper

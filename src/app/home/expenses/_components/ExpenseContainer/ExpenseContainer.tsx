@@ -5,18 +5,21 @@ import { ExpenseData } from "@/types/expense";
 import { getExpensesByDate } from "@/apis/services/expense";
 import { useDateStore } from "@/stores/dateStore";
 import { useEffect, useState } from "react";
+import { useUser } from "@/contexts/UserContext";
 
 // CSR
 export default function ExpenseContainer() {
+    const { date } = useDateStore();
+    const { user } = useUser();
+
     const [expenses, setExpenses] = useState<ExpenseData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-    const { date } = useDateStore();
 
     useEffect(() => {
         setIsLoading(true);
 
-        getExpensesByDate({ date })
+        getExpensesByDate({ date, userId: user?.id })
             .then((response) => {
                 if (response) {
                     setExpenses(response);
@@ -28,7 +31,7 @@ export default function ExpenseContainer() {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [date]);
+    }, [date, user]);
 
     if (isLoading) {
         return <div>데이터를 불러오는 중 입니다.</div>;

@@ -3,5 +3,5 @@ export interface UpdatedChallenge {
     resolution: string;
     daily_saving: number;
     goal_date: string;
-    user_id: string;
+    user_id: string | undefined;
 }

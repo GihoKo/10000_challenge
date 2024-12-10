@@ -1,3 +1,6 @@
+import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { memo } from "react";
+
 interface ConfirmButtonProps {
     type?: "button" | "submit";
     width?: string;

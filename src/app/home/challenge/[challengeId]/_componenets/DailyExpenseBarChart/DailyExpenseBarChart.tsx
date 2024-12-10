@@ -11,15 +11,11 @@ import {
 } from "recharts";
 import { DailyExpenseBarChartProps } from "./DailyExpenseBarChart.type";
 import useDailyExpenseBarChart from "./DailyExpenseBarChart.hook";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function DailyExpenseBarChart({
     challenge,
     expenses,
 }: DailyExpenseBarChartProps) {
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
-
     const { dailyExpenses } = useDailyExpenseBarChart({ expenses });
 
     return (

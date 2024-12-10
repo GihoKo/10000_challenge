@@ -7,6 +7,7 @@ import ExpenseInput from "../../../../../../components/input/ExpenseInput";
 import InputErrorMessage from "@/components/ErrorMessage/InputErrorMessage";
 import { DevTool } from "@hookform/devtools";
 import useMain from "./Main.hook";
+import DangerousButton from "@/components/button/DangerousButton";
 
 export default function Main() {
     const {
@@ -14,6 +15,7 @@ export default function Main() {
         handleSubmit,
         onSubmit,
         handleSelectChange,
+        handleDeleteButtonClick,
         errors,
         control,
         expenseCategories,
@@ -89,6 +91,11 @@ export default function Main() {
                 <DevTool control={control} />
 
                 <ConfirmButton type="submit" text="수정" />
+                <DangerousButton
+                    text="삭제"
+                    onClick={handleDeleteButtonClick}
+                    width="w-full"
+                />
             </form>
         </main>
     );

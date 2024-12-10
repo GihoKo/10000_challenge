@@ -2,7 +2,6 @@ import { ChallengeInfoProps } from "./ChallengeInfo.type";
 import ChallengeStateNotice from "../ChallengeStateNotice/ChallengeStateNotice";
 import useChallengeInfo from "./ChallengeInfo.hook";
 import ExpenseCategoriesOfChallengeTagContainer from "../../../add/_components/Form/ExpenseCategoriesOfChallengeTagContainer";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function ChallengeInfo({
     challenge,
@@ -14,9 +13,6 @@ export default function ChallengeInfo({
         progressBarWidth,
         expenseCategoriesOfChallenge,
     } = useChallengeInfo({ challenge, expenses });
-
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
 
     return (
         <section className="flex flex-col gap-4">

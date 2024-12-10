@@ -1,11 +1,18 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
 
+interface GetAllChallengesByUserIdProps {
+    userId: string | undefined;
+}
+
 // 모든 챌린지 목록
-export const getAllChallenges = async () => {
+export const getAllChallengesByUserId = async ({
+    userId,
+}: GetAllChallengesByUserIdProps) => {
     const response = await supabaseClient
         .from("challenge")
         .select()
+        .eq("user_id", userId)
         .order("start_date");
 
     if (response.error) {
@@ -15,12 +22,19 @@ export const getAllChallenges = async () => {
     return response.data;
 };
 
+interface GetIncompleteChallengesByUserId {
+    userId: string | undefined;
+}
+
 // 종료되지 않은 챌린지 목록
-export const getIncompleteChallenges = async () => {
+export const getIncompleteChallengesByUserId = async ({
+    userId,
+}: GetIncompleteChallengesByUserId) => {
     const response = await supabaseClient
         .from("challenge")
         .select()
-        .eq("is_ended", false);
+        .eq("is_ended", false)
+        .eq("user_id", userId);
 
     if (response.error) {
         throw new Error(response.error.message);
@@ -68,16 +82,17 @@ interface AddChallengeParams {
         resolution: string;
         daily_saving: number;
         goal_date: string;
-        user_id: string;
         start_date: string;
     };
     expenseCategoriesOfChallenge: ExpenseCategory[];
+    userId: string | undefined;
 }
 
 // 챌린지 추가 및 챌린치의 지출 카테고리 추가
 export const addChallenge = async ({
     challenge,
     expenseCategoriesOfChallenge,
+    userId,
 }: AddChallengeParams) => {
     const { data: challengeData, error } = await supabaseClient
         .from("challenge")
@@ -95,7 +110,7 @@ export const addChallenge = async ({
     const connectionData = expenseCategoriesOfChallenge.map((category) => ({
         challenge_id: String(challengeId),
         expense_category_id: Number(category.id),
-        user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+        user_id: userId,
     }));
 
     const { error: connectionError } = await supabaseClient
@@ -120,7 +135,7 @@ interface UpdatedChallenge {
     resolution: string;
     daily_saving: number;
     goal_date: string;
-    user_id: string;
+    user_id: string | undefined;
 }
 
 // 챌린지 수정

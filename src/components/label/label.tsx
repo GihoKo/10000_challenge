@@ -1,7 +1,10 @@
+import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { memo, useEffect, useRef } from "react";
+
 interface LabelProps {
     htmlFor: string;
     text: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
 }
 
 export default function Label({ htmlFor, text, children }: LabelProps) {

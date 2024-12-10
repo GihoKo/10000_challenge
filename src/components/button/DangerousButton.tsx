@@ -19,9 +19,6 @@ export default function DangerousButton({
     text = "취소",
     onClick = () => {},
 }: DangerousButtonProps) {
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
-
     return (
         <button
             className={`${width} ${rounded} ${px} ${py} bg-red-500 flex justify-center items-center text-white`}

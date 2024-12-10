@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Modal from "@/components/Modal/Modal";
-import RenewUser from "@/components/User/RenewUser";
-import ContextProvider from "@/contexts/ContextProvider";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
+import { createClient } from "@/supabase/server";
+import { UserProvider } from "@/contexts/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -53,13 +52,14 @@ export const metadata: Metadata = {
     },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { incrementRerenderCount } = useRerenderCountStore.getState();
-    incrementRerenderCount();
+    const supabase = createClient();
+
+    const { data } = await supabase.auth.getUser();
 
     return (
         <html lang="en">
@@ -68,10 +68,10 @@ export default function RootLayout({
                 className={`${inter.className} w-full flex justify-center bg-slate-950`}
             >
                 <div className="w-[37.5rem] bg-white">
-                    <RenewUser />
-                    {/* <ContextProvider>{children}</ContextProvider> */}
-                    {children}
-                    <Modal />
+                    <UserProvider userData={data.user?.user_metadata}>
+                        {children}
+                        <Modal />
+                    </UserProvider>
                 </div>
             </body>
         </html>
