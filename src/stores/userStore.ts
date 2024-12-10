@@ -3,9 +3,11 @@ import { UserMetadata } from "@supabase/supabase-js";
 
 import { create } from "zustand";
 
-interface UserStore {
-    user: UserMetadata | null;
-    setUser: (user: UserMetadata | null) => void;
+export type User = UserMetadata | null;
+
+export interface UserStore {
+    user: User;
+    setUser: (user: User) => void;
     getUser: () => Promise<void>;
     signOut: () => void;
 }

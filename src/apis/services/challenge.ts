@@ -1,4 +1,5 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
+import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
 
 // 모든 챌린지 목록
@@ -68,7 +69,6 @@ interface AddChallengeParams {
         resolution: string;
         daily_saving: number;
         goal_date: string;
-        user_id: string;
         start_date: string;
     };
     expenseCategoriesOfChallenge: ExpenseCategory[];
@@ -92,10 +92,12 @@ export const addChallenge = async ({
     if (!challengeData) return;
     const challengeId = challengeData.id;
 
+    const user = useUserStore.getState().user;
+
     const connectionData = expenseCategoriesOfChallenge.map((category) => ({
         challenge_id: String(challengeId),
         expense_category_id: Number(category.id),
-        user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+        user_id: user?.id,
     }));
 
     const { error: connectionError } = await supabaseClient

@@ -1,18 +1,16 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
+import { User, useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
-
-interface GetExpenseCategoryByUserIdParams {
-    userId: string;
-}
+import { UserMetadata } from "@supabase/supabase-js";
 
 // 소비 카테고리 목록 조회
-export const getExpenseCategoryByUserId = async ({
-    userId,
-}: GetExpenseCategoryByUserIdParams) => {
+export const getExpenseCategoryByUserId = async () => {
+    const user = useUserStore.getState().user;
+
     const response = await supabaseClient
         .from("expense_category")
         .select()
-        .eq("user_id", userId);
+        .eq("user_id", user?.id);
 
     if (response.error) {
         throw new Error(response.error.message);
@@ -77,21 +75,22 @@ interface AddExpenseCategoriesToChallengeParams {
     data: {
         challengeId: string | string[];
         addedExpenseCategoriesOfChallenge: ExpenseCategory[];
-        userId: string;
     };
 }
 
 // challenge의 카테고리 목록 추가
 export const addExpenseCategoriesToChallenge = async ({
-    data: { challengeId, addedExpenseCategoriesOfChallenge, userId },
+    data: { challengeId, addedExpenseCategoriesOfChallenge },
 }: AddExpenseCategoriesToChallengeParams) => {
+    const user = useUserStore.getState().user;
+
     const { error } = await supabaseClient
         .from("challenge_expense_category")
         .insert(
             addedExpenseCategoriesOfChallenge.map((category) => ({
                 challenge_id: String(challengeId),
                 expense_category_id: Number(category.id),
-                user_id: userId,
+                user_id: user?.id,
             }))
         )
         .select();
@@ -133,7 +132,6 @@ export const deleteExpenseCategoriesToChallenge = async ({
 interface AddExpenseCategoryParams {
     formValues: {
         name: string;
-        user_id: string;
     };
 }
 
@@ -141,9 +139,11 @@ interface AddExpenseCategoryParams {
 export const addExpenseCategory = async ({
     formValues,
 }: AddExpenseCategoryParams) => {
+    const user = useUserStore.getState().user;
+
     const newExpenseCategory = {
         name: formValues.name,
-        user_id: formValues.user_id,
+        user_id: user?.id,
     };
 
     const { error } = await supabaseClient
