@@ -1,13 +1,18 @@
 import { getExpense, updateExpense } from "@/apis/services/expense";
 import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
+import { useUser } from "@/contexts/UserContext";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
+import ExpenseDeleteModal from "./ExpenseDeleteModal";
+import useModalStore from "@/stores/modalStore";
 
 export default function useMain() {
     const { expenseId } = useParams();
     const router = useRouter();
+    const { setIsModalOpen } = useModalStore();
+    const { user } = useUser();
     const {
         register,
         handleSubmit,
@@ -57,13 +62,21 @@ export default function useMain() {
             });
     };
 
+    const handleDeleteButtonClick = (
+        e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    ) => {
+        e.preventDefault();
+
+        setIsModalOpen(<ExpenseDeleteModal />);
+    };
+
     useEffect(() => {
         getExpense({ expenseId }).then((expense) => {
             reset(expense);
         });
 
         getExpenseCategoryByUserId({
-            userId: process.env.NEXT_PUBLIC_USER_ID as string,
+            userId: user?.id,
         })
             .then((response) => {
                 setExpenseCategories(response);
@@ -71,13 +84,14 @@ export default function useMain() {
             .catch((error) => {
                 console.error(error);
             });
-    }, [expenseId, reset]);
+    }, [expenseId, user, reset]);
 
     return {
         register,
         handleSubmit,
         onSubmit,
         handleSelectChange,
+        handleDeleteButtonClick,
         errors,
         control,
         expenseCategories,

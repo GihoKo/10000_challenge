@@ -10,10 +10,12 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
 import { UpdatedChallenge } from "./Form.type";
+import { useUser } from "@/contexts/UserContext";
 
 export default function useForm() {
     const router = useRouter();
     const { challengeId } = useParams();
+    const { user } = useUser();
 
     const {
         register,
@@ -83,7 +85,7 @@ export default function useForm() {
             resolution: data.resolution,
             daily_saving: data.dailySaving,
             goal_date: data.goalDate,
-            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+            user_id: user?.id,
         };
 
         const deletedExpenseCategoriesOfChallenge =
@@ -123,9 +125,7 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
-            getExpenseCategoryByUserId({
-                userId: process.env.NEXT_PUBLIC_USER_ID as string,
-            })
+            getExpenseCategoryByUserId({ userId: user?.id })
                 .then((response) => {
                     setExpenseCategories(response);
                 })
@@ -144,7 +144,7 @@ export default function useForm() {
                     console.error(error);
                 }),
         ]);
-    }, [challengeId, reset]);
+    }, [challengeId, reset, user]);
 
     const updateChallengeWithAddAndDeleteCategory = useCallback(
         (
@@ -164,11 +164,9 @@ export default function useForm() {
                         console.error(error);
                     }),
                 addExpenseCategoriesToChallenge({
-                    data: {
-                        challengeId: challengeId,
-                        addedExpenseCategoriesOfChallenge,
-                        userId: process.env.NEXT_PUBLIC_USER_ID as string,
-                    },
+                    challengeId: challengeId,
+                    addedExpenseCategoriesOfChallenge,
+                    userId: user?.id,
                 }),
                 deleteExpenseCategoriesToChallenge({
                     data: {
@@ -178,7 +176,7 @@ export default function useForm() {
                 }),
             ]);
         },
-        [challengeId, router]
+        [challengeId, router, user]
     );
 
     useEffect(() => {

@@ -1,12 +1,14 @@
 import { createExpense } from "@/apis/services/expense";
 import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
+import { useUser } from "@/contexts/UserContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 
 export default function useMain() {
     const router = useRouter();
+    const { user } = useUser();
 
     const [expenseCategories, setExpenseCategories] = useState<
         ExpenseCategory[]
@@ -39,6 +41,7 @@ export default function useMain() {
             category_id: currentExpenseCategoryId,
             description: data.description,
             amount: data.amount,
+            user_id: user?.id,
             date: data.date,
         };
 
@@ -57,7 +60,7 @@ export default function useMain() {
 
     useEffect(() => {
         getExpenseCategoryByUserId({
-            userId: process.env.NEXT_PUBLIC_USER_ID as string,
+            userId: user?.id,
         })
             .then((response) => {
                 setExpenseCategories(response);
@@ -65,7 +68,7 @@ export default function useMain() {
             .catch((error) => {
                 console.error(error);
             });
-    }, []);
+    }, [user]);
 
     return {
         register,

@@ -1,7 +1,6 @@
 import NavigateButton from "@/components/button/NavigateButton";
 import ImageWrapper from "@/components/ImageWrapper";
 import logoImage from "@/images/logo.png";
-import useRerenderCountStore from "@/stores/rerenderCountStore";
 
 export default function Home() {
     return (

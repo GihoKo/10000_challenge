@@ -1,6 +1,7 @@
 import { addExpenseCategory } from "@/apis/services/expenseCategory";
 import useModalStore from "@/stores/modalStore";
 import { UseAddExpenseCategoryModalProps } from "./AddExpenseCategoryModal.type";
+import { useUser } from "@/contexts/UserContext";
 
 export default function useAddExpenseCategoryModal({
     newExpenseCategoryInputRef,
@@ -8,8 +9,16 @@ export default function useAddExpenseCategoryModal({
 }: UseAddExpenseCategoryModalProps) {
     const { closeModal } = useModalStore();
 
+    const { user } = useUser();
+
     const handleModalCloseButtonClick = () => {
         closeModal();
+    };
+
+    const clearInput = () => {
+        if (!newExpenseCategoryInputRef.current) return;
+
+        newExpenseCategoryInputRef.current.value = "";
     };
 
     const handleAddButtonClick = () => {
@@ -21,7 +30,7 @@ export default function useAddExpenseCategoryModal({
         const tempExpenseCategory = {
             id: Date.now(),
             name: newExpenseCategoryName,
-            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+            user_id: user?.id,
             created_at: new Date().toISOString(),
         };
 
@@ -30,24 +39,16 @@ export default function useAddExpenseCategoryModal({
             payload: tempExpenseCategory,
         });
 
-        // api 요청
-        const userId = process.env.NEXT_PUBLIC_USER_ID;
-
-        if (!userId) return;
-
-        const formValues = {
+        // 서버에 카테고리 추가
+        addExpenseCategory({
             name: newExpenseCategoryName,
-            user_id: userId,
-        };
-
-        addExpenseCategory({ formValues: formValues }).catch((error) => {
+            userId: user?.id,
+        }).catch((error) => {
             console.error(error);
         });
 
         closeModal();
-
-        if (!newExpenseCategoryInputRef.current) return;
-        newExpenseCategoryInputRef.current.value = "";
+        clearInput();
     };
 
     return {
