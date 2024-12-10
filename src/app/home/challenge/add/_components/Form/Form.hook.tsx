@@ -68,7 +68,6 @@ export default function useForm() {
             daily_saving: data.dailySaving,
             start_date: createStartDate(),
             goal_date: data.goalDate,
-            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
         };
 
         addChallenge({
@@ -84,9 +83,7 @@ export default function useForm() {
     };
 
     useEffect(() => {
-        getExpenseCategoryByUserId({
-            userId: process.env.NEXT_PUBLIC_USER_ID as string,
-        })
+        getExpenseCategoryByUserId()
             .then((response) => {
                 console.log(response);
                 setExpenseCategories(response);

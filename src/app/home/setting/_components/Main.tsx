@@ -1,20 +1,19 @@
 "use client";
 
 import DangerousButton from "@/components/button/DangerousButton";
-import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
 import { useRouter } from "next/navigation";
 import rightArrowSvg from "@/images/svg/right-arrow.svg";
 import ImageWrapper from "@/components/ImageWrapper";
 import Link from "next/link";
+import { useUser } from "@/contexts/UserContext";
 
 export default function Main() {
-    const { user, signOut } = useUserStore();
     const router = useRouter();
+    const user = useUser();
 
     const handleLogOutButtonClick = () => {
         supabaseClient.auth.signOut();
-        signOut();
         router.push("/");
     };
 

@@ -1,16 +1,17 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
-import { User, useUserStore } from "@/stores/userStore";
+import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
-import { UserMetadata } from "@supabase/supabase-js";
 
 // 소비 카테고리 목록 조회
-export const getExpenseCategoryByUserId = async () => {
-    const user = useUserStore.getState().user;
-
+export const getExpenseCategoryByUserId = async ({
+    userId,
+}: {
+    userId: string;
+}) => {
     const response = await supabaseClient
         .from("expense_category")
         .select()
-        .eq("user_id", user?.id);
+        .eq("user_id", userId);
 
     if (response.error) {
         throw new Error(response.error.message);

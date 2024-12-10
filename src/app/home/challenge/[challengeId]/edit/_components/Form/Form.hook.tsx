@@ -10,6 +10,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FieldValues, useForm as useFormHook } from "react-hook-form";
 import { UpdatedChallenge } from "./Form.type";
+import { useUserStore } from "@/stores/userStore";
 
 export default function useForm() {
     const router = useRouter();
@@ -78,12 +79,14 @@ export default function useForm() {
     };
 
     const onSubmit = (data: FieldValues) => {
+        const user = useUserStore.getState().user;
+
         const challenge = {
             name: data.name,
             resolution: data.resolution,
             daily_saving: data.dailySaving,
             goal_date: data.goalDate,
-            user_id: process.env.NEXT_PUBLIC_USER_ID as string,
+            user_id: user?.id,
         };
 
         const deletedExpenseCategoriesOfChallenge =
@@ -123,9 +126,7 @@ export default function useForm() {
                 .catch((error) => {
                     console.error(error);
                 }),
-            getExpenseCategoryByUserId({
-                userId: process.env.NEXT_PUBLIC_USER_ID as string,
-            })
+            getExpenseCategoryByUserId()
                 .then((response) => {
                     setExpenseCategories(response);
                 })
@@ -167,7 +168,6 @@ export default function useForm() {
                     data: {
                         challengeId: challengeId,
                         addedExpenseCategoriesOfChallenge,
-                        userId: process.env.NEXT_PUBLIC_USER_ID as string,
                     },
                 }),
                 deleteExpenseCategoriesToChallenge({

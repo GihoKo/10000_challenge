@@ -28,7 +28,6 @@ export default function useSignUpForm() {
             .then((response) => {
                 if (response?.success) {
                     setUser(response.user as UserMetadata);
-                    supabaseClient.auth.setSession(response.session as Session);
                     router.push("/home");
                 }
             })

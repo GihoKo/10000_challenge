@@ -56,9 +56,7 @@ export default function useMain() {
     };
 
     useEffect(() => {
-        getExpenseCategoryByUserId({
-            userId: process.env.NEXT_PUBLIC_USER_ID as string,
-        })
+        getExpenseCategoryByUserId()
             .then((response) => {
                 setExpenseCategories(response);
             })
