@@ -6,10 +6,7 @@ import ExpenseCategoryContainer from "../ExpenseCategoryContainer/ExpenseCategor
 import useMain from "./Main.hook";
 
 export default function Main() {
-    const { expenseCategories, expenseCategoriesDispatch, isLoading, isError } =
-        useMain();
-
-    if (isLoading) return <div>소비 카테고리 목록을 불러오는 중...</div>;
+    const { expenseCategories, isError, expenseCategoriesDispatch } = useMain();
 
     if (isError) return <div>오류가 발생했습니다.</div>;
 
