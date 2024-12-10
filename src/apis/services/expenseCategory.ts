@@ -132,7 +132,7 @@ export const deleteExpenseCategoriesToChallenge = async ({
 
 interface AddExpenseCategoryParams {
     name: string;
-    userId: string;
+    userId: string | undefined;
 }
 
 // 소비 카테고리 추가
@@ -184,19 +184,17 @@ export const updateExpenseCategory = async ({
 };
 
 interface DeleteExpenseCategoryParams {
-    formValues: {
-        id: number;
-    };
+    expenseCategoryId: number;
 }
 
 // 소비 카테고리 삭제
 export const deleteExpenseCategory = async ({
-    formValues,
+    expenseCategoryId,
 }: DeleteExpenseCategoryParams) => {
     const { error } = await supabaseClient
         .from("expense_category")
         .delete()
-        .eq("id", formValues.id)
+        .eq("id", expenseCategoryId)
         .select();
 
     if (error) {

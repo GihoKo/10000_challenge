@@ -24,11 +24,10 @@ export default function useDeleteExpenseCategoryModal({
         });
 
         // api 요청
-        const formValues = {
-            id: currentExpenseCategoryId,
-        };
 
-        deleteExpenseCategory({ formValues: formValues }).catch((error) => {
+        deleteExpenseCategory({
+            expenseCategoryId: currentExpenseCategoryId,
+        }).catch((error) => {
             console.error(error);
         });
 

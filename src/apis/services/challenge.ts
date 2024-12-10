@@ -15,14 +15,14 @@ export const getAllChallenges = async () => {
     return response.data;
 };
 
-interface GetIncompleteChallengesParams {
+interface GetIncompleteChallengesByUserId {
     userId: string | undefined;
 }
 
 // 종료되지 않은 챌린지 목록
-export const getIncompleteChallenges = async ({
+export const getIncompleteChallengesByUserId = async ({
     userId,
-}: GetIncompleteChallengesParams) => {
+}: GetIncompleteChallengesByUserId) => {
     const response = await supabaseClient
         .from("challenge")
         .select()

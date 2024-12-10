@@ -1,7 +1,7 @@
-import { getIncompleteChallenges } from "@/apis/services/challenge";
 import { ChallengeResponse } from "@/types/challenge";
 import Challenge from "../Challenge/Challenge";
 import { createClient } from "@/supabase/server";
+import { getIncompleteChallengesByUserId } from "@/apis/services/challenge";
 
 export async function ChallengeContainerOnServer() {
     const supabase = createClient();
@@ -9,7 +9,7 @@ export async function ChallengeContainerOnServer() {
     const { data } = await supabase.auth.getUser();
 
     try {
-        const challenges = await getIncompleteChallenges({
+        const challenges = await getIncompleteChallengesByUserId({
             userId: data.user?.id,
         });
 
