@@ -1,7 +1,8 @@
-import NavigateButton from "@/components/button/NavigateButton";
+import NavigateButton from "@/components/Link/DefaultNavigateLink";
 import Date from "../Date/Date";
 import React, { Suspense } from "react";
 import ExpenseContainer from "../ExpenseContainer/ExpenseContainer";
+import DefaultNavigateLink from "@/components/Link/DefaultNavigateLink";
 
 export default function Main() {
     return (
@@ -15,9 +16,8 @@ export default function Main() {
             </Suspense>
 
             <div className="flex justify-end mt-8">
-                <NavigateButton
-                    type="button"
-                    path="/home/expenses/add"
+                <DefaultNavigateLink
+                    href="/home/expenses/add"
                     width="w-auto"
                     text="추가"
                 />
