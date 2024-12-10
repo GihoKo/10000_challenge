@@ -1,4 +1,3 @@
-import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
 import { ChallengeResponse } from "@/types/challenge";
 import { ExpenseData } from "@/types/expense";
@@ -24,16 +23,18 @@ export const getExpense = async ({ expenseId }: GetExpenseProps) => {
 
 interface GetExpensesByDateProps {
     date: string;
+    userId: string;
 }
 
 // 해당 날짜에 해당하는 expense 가져오기
-export const getExpensesByDate = async ({ date }: GetExpensesByDateProps) => {
-    const user = useUserStore.getState().user;
-
+export const getExpensesByDate = async ({
+    date,
+    userId,
+}: GetExpensesByDateProps) => {
     const { data: expenses, error } = await supabaseClient
         .from("expense")
         .select("*")
-        .eq("user_id", user?.id)
+        .eq("user_id", userId)
         .eq("date", date);
 
     if (error) {
@@ -131,19 +132,18 @@ interface CreateExpenseParams {
         category_id: number;
         description: string;
         amount: number;
+        user_id: string;
         date: string;
     };
 }
 
 export const createExpense = async ({ data }: CreateExpenseParams) => {
-    const user = useUserStore.getState().user;
-
     const newExpense = {
         category_name: data.category_name,
         category_id: data.category_id,
         description: data.description,
         amount: data.amount,
-        user_id: user?.id,
+        user_id: data.user_id,
         date: formatDate(data.date),
     };
 

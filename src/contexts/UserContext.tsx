@@ -1,23 +1,43 @@
 "use client";
 
 import { UserMetadata } from "@supabase/supabase-js";
-import { createContext, useContext } from "react";
+import { createContext, useContext, useState } from "react";
 
-export type User = UserMetadata | null | undefined;
+export interface User {
+    id: string;
+    email: string;
+    user_name: string;
+}
 
-const UserContext = createContext<User>({
+interface UserContextProps {
+    user: User | null;
+    setUser: (user: User) => void;
+}
+
+const UserContext = createContext<UserContextProps>({
     user: null,
+    setUser: () => {},
 });
+
+interface UserProviderProps {
+    children: React.ReactNode;
+    userData: UserMetadata | undefined;
+}
+
+export const UserProvider = ({ children, userData }: UserProviderProps) => {
+    const [user, setUser] = useState<User>({
+        id: userData?.sub,
+        email: userData?.email,
+        user_name: userData?.user_name,
+    });
+
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
 
 export const useUser = () => {
     return useContext(UserContext);
-};
-
-interface UserContextProps {
-    children: React.ReactNode;
-    user: User | undefined;
-}
-
-export const UserProvider = ({ children, user }: UserContextProps) => {
-    return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };

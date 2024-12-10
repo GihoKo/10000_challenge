@@ -1,7 +1,5 @@
 import AnimatedPage from "@/components/animated/animatedPage";
 import NavigationBar from "./_components/NavigationBar/NavigationBar";
-import { createClient } from "@/supabase/server";
-import { useUserStore } from "@/stores/userStore";
 
 export default async function Layout({
     children,

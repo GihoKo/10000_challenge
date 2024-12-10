@@ -1,5 +1,4 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
-import { useUserStore } from "@/stores/userStore";
 import supabaseClient from "@/supabase/client";
 
 // 모든 챌린지 목록
@@ -16,12 +15,19 @@ export const getAllChallenges = async () => {
     return response.data;
 };
 
+interface GetIncompleteChallengesParams {
+    userId: string | undefined;
+}
+
 // 종료되지 않은 챌린지 목록
-export const getIncompleteChallenges = async () => {
+export const getIncompleteChallenges = async ({
+    userId,
+}: GetIncompleteChallengesParams) => {
     const response = await supabaseClient
         .from("challenge")
         .select()
-        .eq("is_ended", false);
+        .eq("is_ended", false)
+        .eq("user_id", userId);
 
     if (response.error) {
         throw new Error(response.error.message);
@@ -72,12 +78,14 @@ interface AddChallengeParams {
         start_date: string;
     };
     expenseCategoriesOfChallenge: ExpenseCategory[];
+    userId: string;
 }
 
 // 챌린지 추가 및 챌린치의 지출 카테고리 추가
 export const addChallenge = async ({
     challenge,
     expenseCategoriesOfChallenge,
+    userId,
 }: AddChallengeParams) => {
     const { data: challengeData, error } = await supabaseClient
         .from("challenge")
@@ -92,12 +100,10 @@ export const addChallenge = async ({
     if (!challengeData) return;
     const challengeId = challengeData.id;
 
-    const user = useUserStore.getState().user;
-
     const connectionData = expenseCategoriesOfChallenge.map((category) => ({
         challenge_id: String(challengeId),
         expense_category_id: Number(category.id),
-        user_id: user?.id,
+        user_id: userId,
     }));
 
     const { error: connectionError } = await supabaseClient

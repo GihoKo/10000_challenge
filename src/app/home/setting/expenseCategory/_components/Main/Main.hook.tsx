@@ -1,10 +1,10 @@
 import { getExpenseCategoryByUserId } from "@/apis/services/expenseCategory";
+import { useUser } from "@/contexts/UserContext";
 import expenseCategoryReducer from "@/reducers/expenseCategoryReducer";
-import { useUserStore } from "@/stores/userStore";
 import { useEffect, useReducer, useState } from "react";
 
 export default function useMain() {
-    const { user } = useUserStore();
+    const { user } = useUser();
 
     const [isLoading, setIsLoading] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -14,8 +14,6 @@ export default function useMain() {
     );
 
     useEffect(() => {
-        console.log("user", user);
-
         setIsLoading(true);
 
         getExpenseCategoryByUserId({ userId: user?.id })

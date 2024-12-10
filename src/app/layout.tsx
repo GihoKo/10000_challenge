@@ -68,7 +68,7 @@ export default async function RootLayout({
                 className={`${inter.className} w-full flex justify-center bg-slate-950`}
             >
                 <div className="w-[37.5rem] bg-white">
-                    <UserProvider user={data.user?.user_metadata}>
+                    <UserProvider userData={data.user?.user_metadata}>
                         {children}
                         <Modal />
                     </UserProvider>

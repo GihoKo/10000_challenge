@@ -1,13 +1,9 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signUp } from "./actions";
-import { Session, UserMetadata } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { useUserStore } from "@/stores/userStore";
-import supabaseClient from "@/supabase/client";
 
 export default function useSignUpForm() {
     const router = useRouter();
-    const { setUser } = useUserStore();
     const {
         control,
         formState: { errors },
@@ -27,7 +23,6 @@ export default function useSignUpForm() {
         signUp(formData)
             .then((response) => {
                 if (response?.success) {
-                    setUser(response.user as UserMetadata);
                     router.push("/home");
                 }
             })
