@@ -132,7 +132,7 @@ interface CreateExpenseParams {
         category_id: number;
         description: string;
         amount: number;
-        user_id: string;
+        user_id: string | undefined;
         date: string;
     };
 }
