@@ -14,10 +14,14 @@ export default function Home() {
                     <h2 className="text-xl font-bold">진행중인 챌린지에요.</h2>
 
                     <Suspense
-                        fallback={<div>데이터를 불러오는 중 입니다...</div>}
+                        fallback={
+                            <div>진행 중인 챌린지를 불러오는 중 입니다</div>
+                        }
                     >
                         <ChallengeContainerOnServer />
                     </Suspense>
+
+                    <input type="text" />
 
                     <DefaultNavigateLink
                         href={"/home/challenge/add"}

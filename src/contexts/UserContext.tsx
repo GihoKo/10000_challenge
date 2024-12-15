@@ -11,7 +11,7 @@ export interface User {
 
 interface UserContextProps {
     user: User | null;
-    setUser: (user: User) => void;
+    setUser: (user: User | null) => void;
 }
 
 const UserContext = createContext<UserContextProps>({
@@ -25,10 +25,14 @@ interface UserProviderProps {
 }
 
 export const UserProvider = ({ children, userData }: UserProviderProps) => {
-    const [user, setUser] = useState<User>({
-        id: userData?.sub,
-        email: userData?.email,
-        user_name: userData?.user_name,
+    const [user, setUser] = useState<User | null>(() => {
+        return userData
+            ? {
+                  id: userData?.sub,
+                  email: userData?.email,
+                  user_name: userData?.user_name,
+              }
+            : null;
     });
 
     return (
