@@ -24,7 +24,6 @@ export default function DeleteChallengeModal() {
                     onClick={handleCloseModal}
                 />
             </ModalForm>
-            <RerenderCountButton />
         </ModalWrapper>
     );
 }

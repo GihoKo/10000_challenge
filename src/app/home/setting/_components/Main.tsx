@@ -10,10 +10,11 @@ import { useUser } from "@/contexts/UserContext";
 
 export default function Main() {
     const router = useRouter();
-    const { user } = useUser();
+    const { user, setUser } = useUser();
 
     const handleLogOutButtonClick = () => {
         supabaseClient.auth.signOut();
+        setUser(null);
         router.push("/");
     };
 
