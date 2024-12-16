@@ -2,26 +2,34 @@ import NavigateLink from "../../components/Link/NavigateLink";
 import expensesSvg from "@/images/svg/money.svg";
 import challengeSvg from "@/images/svg/challenge.svg";
 import DefaultNavigateLink from "@/components/Link/DefaultNavigateLink";
-import { ChallengeContainerOnServer } from "./_components/ChallengeContainer/ChallengeContainerOnServer";
-import { Suspense } from "react";
 import PageTransition from "@/components/animated/PageTransition";
+import { createClient } from "@/supabase/server";
+import { getIncompleteChallengesByUserId } from "@/apis/services/challenge";
+import Challenge from "./_components/Challenge/Challenge";
 
-export default function Home() {
+export default async function Home() {
+    const supabase = createClient();
+
+    const { data } = await supabase.auth.getUser();
+
+    const inCompletedChallenges = await getIncompleteChallengesByUserId({
+        userId: data.user?.id,
+    });
+
     return (
         <PageTransition direction="up">
             <div className="flex flex-col gap-12">
                 <div className="flex flex-col gap-2">
                     <h2 className="text-xl font-bold">진행중인 챌린지에요.</h2>
 
-                    <Suspense
-                        fallback={
-                            <div>진행 중인 챌린지를 불러오는 중 입니다</div>
-                        }
-                    >
-                        <ChallengeContainerOnServer />
-                    </Suspense>
-
-                    <input type="text" />
+                    <div className="flex flex-col gap-2">
+                        {inCompletedChallenges.map((challenge) => (
+                            <Challenge
+                                key={challenge.id}
+                                challenge={challenge}
+                            />
+                        ))}
+                    </div>
 
                     <DefaultNavigateLink
                         href={"/home/challenge/add"}
