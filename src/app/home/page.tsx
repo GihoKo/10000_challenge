@@ -36,6 +36,7 @@ export default function Home() {
                     <NavigateLink
                         href="/home/expenses"
                         image={expensesSvg}
+                        alt="지출 관리하러 가기 이미지"
                         text="지출 관리하러 가기"
                     />
                 </div>
@@ -48,6 +49,7 @@ export default function Home() {
                     <NavigateLink
                         href="/home/challenge"
                         image={challengeSvg}
+                        alt="전체 챌린지 보러 가기 이미지"
                         text="전체 챌린지 보러 가기"
                     />
                 </div>
