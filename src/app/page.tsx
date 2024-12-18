@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 export default function Home() {
     const apiCallTest = async () => {
-        const response = await fetch("http://localhost:3000/api/text", {
+        const response = await fetch("http://localhost:3000/api/test", {
             method: "GET",
         });
         const data = await response.json();
