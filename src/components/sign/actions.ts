@@ -1,8 +1,6 @@
 "use server";
 
 import { createClient } from "@/supabase/server";
-import { UserMetadata } from "@supabase/supabase-js";
-import { redirect } from "next/navigation";
 
 export async function signIn(formData: FormData) {
     const supabase = createClient();
@@ -26,27 +24,40 @@ export async function signIn(formData: FormData) {
 }
 
 export async function signUp(formData: FormData) {
-    const supabase = createClient();
-
-    const data = {
+    const newUser = {
         email: formData.get("email") as string,
         password: formData.get("password") as string,
-        options: {
-            data: {
-                user_name: formData.get("user_name") as string,
+        user_name: formData.get("user_name") as string,
+    };
+
+    try {
+        const response = await fetch("http://localhost:3000/api/signUp", {
+            method: "POST",
+            body: JSON.stringify(newUser),
+        });
+
+        const responseData = await response.json();
+
+        if (responseData.error) {
+            return {
+                success: false,
+                message: responseData.message,
+            };
+        }
+
+        return {
+            success: true,
+            user: {
+                id: responseData.data.id,
+                email: responseData.data.email,
+                user_name: responseData.data.user_name,
             },
-        },
-    };
-
-    const response = await supabase.auth.signUp(data);
-
-    if (response.error) {
-        return console.log(response.error.message);
+        };
+    } catch (error) {
+        console.error(error);
+        return {
+            success: false,
+            message: "회원가입에 실패했습니다.",
+        };
     }
-
-    return {
-        success: true,
-        user: response.data.user?.user_metadata,
-        session: response.data.session,
-    };
 }

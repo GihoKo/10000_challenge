@@ -1,7 +1,7 @@
 import { FieldValues, useForm } from "react-hook-form";
 import { signUp } from "./actions";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/contexts/UserContext";
+import { User, useUser } from "@/contexts/UserContext";
 
 export default function useSignUpForm() {
     const router = useRouter();
@@ -24,12 +24,10 @@ export default function useSignUpForm() {
 
         signUp(formData)
             .then((response) => {
+                console.log(response);
+
                 if (response?.success) {
-                    setUser({
-                        id: response.user?.sub,
-                        email: response.user?.email,
-                        user_name: response.user?.user_name,
-                    });
+                    setUser(response.user as User);
 
                     router.push("/home");
                 }
