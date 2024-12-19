@@ -1,26 +1,52 @@
 "use server";
 
-import { createClient } from "@/supabase/server";
+import generateToken from "@/utils/generateToken";
+import { cookies } from "next/headers";
 
 export async function signIn(formData: FormData) {
-    const supabase = createClient();
+    try {
+        const user = {
+            email: formData.get("email") as string,
+            password: formData.get("password") as string,
+        };
 
-    const data = {
-        email: formData.get("email") as string,
-        password: formData.get("password") as string,
-    };
+        const response = await fetch("http://localhost:3000/api/signIn", {
+            method: "POST",
+            body: JSON.stringify(user),
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
 
-    const response = await supabase.auth.signInWithPassword(data);
+        const responseData = await response.json();
 
-    if (response.error) {
-        return console.log(response.error.message);
+        if (responseData.errorMessage) {
+            return responseData;
+        }
+
+        // 토큰 생성
+        const token = generateToken(responseData.data, 3600);
+
+        // 생성된 토큰을 쿠키에 저장한다.
+        cookies().set("token", token, {
+            maxAge: 3600,
+        });
+
+        // 로그인 성공시
+        return {
+            status: responseData.status,
+            user: {
+                id: responseData.data.id,
+                email: responseData.data.email,
+                user_name: responseData.data.user_name,
+            },
+        };
+    } catch (error) {
+        return {
+            status: 500,
+            message: "로그인에 실패했습니다.",
+        };
     }
-
-    return {
-        success: true,
-        user: response.data.user.user_metadata,
-        session: response.data.session,
-    };
 }
 
 export async function signUp(formData: FormData) {
@@ -34,19 +60,33 @@ export async function signUp(formData: FormData) {
         const response = await fetch("http://localhost:3000/api/signUp", {
             method: "POST",
             body: JSON.stringify(newUser),
+            headers: {
+                "Content-Type": "application/json",
+            },
         });
 
         const responseData = await response.json();
 
+        if (responseData.errorMessage) {
+            return responseData;
+        }
+
+        // 토큰 생성
+        const token = generateToken(responseData.data, 3600);
+
+        // 생성된 토큰을 쿠키에 저장한다.
+        cookies().set("token", token, {
+            maxAge: 3600,
+        });
+
         if (responseData.error) {
             return {
-                success: false,
                 message: responseData.message,
             };
         }
 
         return {
-            success: true,
+            status: responseData.status,
             user: {
                 id: responseData.data.id,
                 email: responseData.data.email,
@@ -54,9 +94,8 @@ export async function signUp(formData: FormData) {
             },
         };
     } catch (error) {
-        console.error(error);
         return {
-            success: false,
+            status: 500,
             message: "회원가입에 실패했습니다.",
         };
     }

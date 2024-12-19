@@ -15,26 +15,28 @@ export default function useSignUpForm() {
         mode: "onBlur",
     });
 
-    const onSubmit = (data: FieldValues) => {
+    const onSubmit = async (data: FieldValues) => {
         const formData = new FormData();
 
         formData.append("user_name", data.user_name);
         formData.append("email", data.email);
         formData.append("password", data.password);
 
-        signUp(formData)
-            .then((response) => {
-                console.log(response);
+        try {
+            const response = await signUp(formData);
 
-                if (response?.success) {
-                    setUser(response.user as User);
+            if (response.errorMessage) {
+                throw new Error(response.errorMessage);
+            }
 
-                    router.push("/home");
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+            if (response.status === 200) {
+                setUser(response.user as User);
+
+                router.push("/home");
+            }
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return {
