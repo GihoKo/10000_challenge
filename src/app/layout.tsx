@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Modal from "@/components/Modal/Modal";
-import { createClient } from "@/supabase/server";
 import { UserProvider } from "@/contexts/UserContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -52,15 +51,11 @@ export const metadata: Metadata = {
     },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const supabase = createClient();
-
-    const { data } = await supabase.auth.getUser();
-
     return (
         <html lang="en">
             <link rel="manifest" href="/manifest.json"></link>
@@ -68,7 +63,7 @@ export default async function RootLayout({
                 className={`${inter.className} w-full flex justify-center bg-slate-950`}
             >
                 <div className="w-[37.5rem] bg-white">
-                    <UserProvider userData={data.user?.user_metadata}>
+                    <UserProvider>
                         {children}
                         <Modal />
                     </UserProvider>

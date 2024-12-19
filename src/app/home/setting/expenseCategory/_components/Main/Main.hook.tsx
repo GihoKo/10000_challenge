@@ -24,7 +24,9 @@ export default function useMain() {
                 });
             })
             .catch((error) => {
-                console.error(error);
+                expenseCategoriesDispatch({
+                    type: "SET_ERROR",
+                });
                 setIsError(true);
             })
             .finally(() => {

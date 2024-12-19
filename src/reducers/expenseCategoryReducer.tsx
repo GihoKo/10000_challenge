@@ -16,6 +16,9 @@ export type ExpenseCategoryAction =
     | {
           type: "DELETE";
           payload: { id: number };
+      }
+    | {
+          type: "SET_ERROR";
       };
 
 const expenseCategoryReducer = (
@@ -42,6 +45,8 @@ const expenseCategoryReducer = (
             return state.filter(
                 (category) => category.id !== action.payload.id
             );
+        case "SET_ERROR":
+            return [];
         default:
             return state;
     }

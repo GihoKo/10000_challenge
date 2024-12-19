@@ -1,6 +1,12 @@
 import { ExpenseCategory } from "@/app/home/setting/expenseCategory/_components/Main/Main.type";
 import supabaseClient from "@/supabase/client";
 
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
+if (!API_URL) {
+    throw new Error("NEXT_PUBLIC_API_URL 환경변수가 설정되지 않았습니다.");
+}
+
 interface GetExpenseCategoryByUserIdParams {
     userId: string | undefined;
 }
@@ -9,16 +15,35 @@ interface GetExpenseCategoryByUserIdParams {
 export const getExpenseCategoryByUserId = async ({
     userId,
 }: GetExpenseCategoryByUserIdParams) => {
-    const response = await supabaseClient
-        .from("expense_category")
-        .select()
-        .eq("user_id", userId);
+    // const response = await supabaseClient
+    //     .from("expense_category")
+    //     .select()
+    //     .eq("user_id", userId);
+    try {
+        console.log(userId);
 
-    if (response.error) {
-        throw new Error(response.error.message);
+        const response = await fetch(`${API_URL}/expenseCategory`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                userId: userId,
+            }),
+        });
+
+        const responseData = await response.json();
+
+        console.log(responseData);
+
+        if (responseData.errorMessage) {
+            throw new Error(responseData.errorMessage);
+        }
+
+        return responseData.data;
+    } catch (error) {
+        console.log(error);
     }
-
-    return response.data;
 };
 
 interface GetExpenseCategoryByChallengeIdParams {
