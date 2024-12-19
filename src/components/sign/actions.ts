@@ -100,3 +100,32 @@ export async function signUp(formData: FormData) {
         };
     }
 }
+
+export async function signOut() {
+    try {
+        const tokenCookie = cookies().get("token");
+
+        if (!tokenCookie) {
+            return {
+                status: 400,
+                message: "이미 로그아웃되었습니다.",
+            };
+        }
+
+        cookies().delete("token");
+
+        if (cookies().get("token")) {
+            throw new Error("로그아웃에 실패했습니다.");
+        }
+
+        return {
+            status: 200,
+            message: "로그아웃에 성공했습니다.",
+        };
+    } catch (error) {
+        return {
+            status: 500,
+            message: "로그아웃에 실패했습니다.",
+        };
+    }
+}
