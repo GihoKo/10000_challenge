@@ -26,7 +26,7 @@ const UserSchema = new Schema(
 UserSchema.pre("save", async function (next) {
     const user = this;
 
-    // 비밀번호가 수정되지 않았으면 다음 단계로 넘어감
+    // 사용자가 생성되거나 비밀번호 수정일 때만 해싱처리
     if (!user.isModified("password")) return next();
 
     try {

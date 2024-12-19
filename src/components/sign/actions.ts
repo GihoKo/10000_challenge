@@ -10,7 +10,7 @@ export async function signIn(formData: FormData) {
             password: formData.get("password") as string,
         };
 
-        const response = await fetch("http://localhost:3000/api/signIn", {
+        const response = await fetch("http://localhost:3000/api/auth/signIn", {
             method: "POST",
             body: JSON.stringify(user),
             headers: {
@@ -57,7 +57,7 @@ export async function signUp(formData: FormData) {
     };
 
     try {
-        const response = await fetch("http://localhost:3000/api/signUp", {
+        const response = await fetch("http://localhost:3000/api/auth/signUp", {
             method: "POST",
             body: JSON.stringify(newUser),
             headers: {
