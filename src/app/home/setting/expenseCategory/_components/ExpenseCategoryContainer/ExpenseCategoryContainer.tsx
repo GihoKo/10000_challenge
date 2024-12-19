@@ -19,7 +19,7 @@ export default function ExpenseCategoryContainer({
                 expenseCategories.map((category) => {
                     return (
                         <ExpenseCategory
-                            key={category.id}
+                            key={category._id}
                             category={category}
                             expenseCategoriesDispatch={
                                 expenseCategoriesDispatch

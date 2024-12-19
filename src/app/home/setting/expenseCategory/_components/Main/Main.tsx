@@ -6,9 +6,7 @@ import ExpenseCategoryContainer from "../ExpenseCategoryContainer/ExpenseCategor
 import useMain from "./Main.hook";
 
 export default function Main() {
-    const { expenseCategories, isError, expenseCategoriesDispatch } = useMain();
-
-    if (isError) return <div>오류가 발생했습니다.</div>;
+    const { expenseCategories, expenseCategoriesDispatch } = useMain();
 
     return (
         <main className="flex flex-col gap-4">

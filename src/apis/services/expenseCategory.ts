@@ -15,26 +15,23 @@ interface GetExpenseCategoryByUserIdParams {
 export const getExpenseCategoryByUserId = async ({
     userId,
 }: GetExpenseCategoryByUserIdParams) => {
-    // const response = await supabaseClient
-    //     .from("expense_category")
-    //     .select()
-    //     .eq("user_id", userId);
-    try {
-        console.log(userId);
+    if (!userId) {
+        throw new Error("로그인 정보가 없습니다.");
+    }
 
-        const response = await fetch(`${API_URL}/expenseCategory`, {
-            method: "GET",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                userId: userId,
-            }),
-        });
+    try {
+        const response = await fetch(
+            `${API_URL}/expenseCategory?userId=${userId}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                credentials: "include",
+            }
+        );
 
         const responseData = await response.json();
-
-        console.log(responseData);
 
         if (responseData.errorMessage) {
             throw new Error(responseData.errorMessage);
@@ -115,7 +112,7 @@ export const addExpenseCategoriesToChallenge = async ({
         .insert(
             addedExpenseCategoriesOfChallenge.map((category) => ({
                 challenge_id: String(challengeId),
-                expense_category_id: Number(category.id),
+                expense_category_id: Number(category._id),
                 user_id: userId,
             }))
         )
@@ -140,7 +137,7 @@ export const deleteExpenseCategoriesToChallenge = async ({
     data,
 }: DeleteExpenseCategoriesToChallengeParams) => {
     const idsToDelete = data.deletedExpenseCategoriesOfChallenge.map(
-        (category) => category.id
+        (category) => category._id
     );
 
     const { error } = await supabaseClient
@@ -165,21 +162,37 @@ export const addExpenseCategory = async ({
     name,
     userId,
 }: AddExpenseCategoryParams) => {
-    const newExpenseCategory = {
-        name: name,
-        user_id: userId,
-    };
-
-    const { error } = await supabaseClient
-        .from("expense_category")
-        .insert(newExpenseCategory)
-        .select();
-
-    if (error) {
-        throw new Error(error.message);
+    if (!name || !userId) {
+        throw new Error(
+            "카테고리 이름이 없거나 로그인이 이루어지지 않았습니다."
+        );
     }
 
-    return true;
+    try {
+        const newExpenseCategory = {
+            name: name,
+            user_id: userId,
+        };
+
+        const response = await fetch(`/api/expenseCategory`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(newExpenseCategory),
+        });
+
+        const responseData = await response.json();
+
+        if (responseData.errorMessage) {
+            throw new Error(responseData.errorMessage);
+        }
+
+        return responseData.data;
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 interface UpdateExpenseCategoryParams {

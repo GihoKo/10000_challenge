@@ -22,6 +22,7 @@ export default function useMain() {
                     type: "SET_INITIALIZE",
                     payload: response,
                 });
+                console.log(response);
             })
             .catch((error) => {
                 expenseCategoriesDispatch({
@@ -34,5 +35,5 @@ export default function useMain() {
             });
     }, [user]);
 
-    return { expenseCategories, isError, expenseCategoriesDispatch };
+    return { expenseCategories, expenseCategoriesDispatch };
 }
